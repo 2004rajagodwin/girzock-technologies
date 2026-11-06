@@ -1,0 +1,11 @@
+# Copy to the private folder as .htaccess (girzock-private/.htaccess).
+# A second layer of protection: the folder must still stay outside the public web root.
+# Nginx ignores this file, so on Nginx keeping the folder outside the web root is essential.
+Options -Indexes
+<IfModule authz_core_module>
+    Require all denied
+</IfModule>
+<IfModule !authz_core_module>
+    Order allow,deny
+    Deny from all
+</IfModule>

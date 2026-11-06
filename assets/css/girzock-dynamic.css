@@ -1,0 +1,109 @@
+/* Additions for components that did not exist on the static site: detail pages, pagination,
+   blog search and form results. Nothing here restyles an existing component. */
+.gz-inherit-link { color: inherit; text-decoration: none; }
+.gz-inherit-link:hover { text-decoration: underline; }
+.page-banner9 .gz-detail-title { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.15; overflow-wrap: anywhere; }
+.gz-article-image { display: block; width: 100%; height: auto; border-radius: 20px; margin-bottom: 24px; }
+.gz-article-meta { font-size: 14px; opacity: .8; margin-bottom: 20px; }
+.gz-article-tags { margin-top: 24px; }
+.gz-rich-text { margin-bottom: 20px; }
+.gz-rich-text img { max-width: 100%; height: auto; }
+.gz-rich-text ul, .gz-rich-text ol { padding-left: 20px; margin-bottom: 16px; }
+.gz-share { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 24px; }
+.gz-share .social-icon { margin: 0; }
+
+.gz-blog-toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 40px; }
+.gz-blog-toolbar .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.gz-blog-toolbar .tag-list a[aria-current="page"] { font-weight: 700; text-decoration: underline; }
+.gz-blog-search { display: flex; align-items: center; border: 1px solid rgba(128, 128, 128, .4); border-radius: 50px; overflow: hidden; min-width: 240px; }
+.gz-blog-search input { flex: 1; min-width: 0; border: 0; background: transparent; color: inherit; padding: 10px 18px; outline: none; }
+.gz-blog-search button { border: 0; background: transparent; color: inherit; padding: 10px 18px; cursor: pointer; }
+.gz-blog-search:focus-within { border-color: currentColor; }
+.gz-search-page { max-width: 560px; margin-bottom: 32px; }
+.gz-result { height: calc(100% - 24px); margin-bottom: 24px; }
+.gz-result .sub-title { display: block; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; opacity: .75; }
+.gz-empty { margin: 16px 0 32px; }
+
+.gz-pagination { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 32px; }
+.gz-pagination a, .gz-pagination .current { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; height: 44px; padding: 0 12px; border-radius: 50%; border: 1px solid rgba(128, 128, 128, .4); color: inherit; text-decoration: none; }
+.gz-pagination .current { font-weight: 700; border-color: currentColor; }
+
+.gz-job-facts { list-style: none; padding: 0; margin: 0 0 24px; }
+.gz-job-facts li { margin-bottom: 6px; }
+.gz-apply-form .custom-form label { display: block; font-size: 14px; margin: 12px 0 6px; }
+.gz-apply-form .custom-form input[type="file"] { padding: 10px; }
+.gz-apply-form .custom-form input[readonly] { opacity: .75; }
+.gz-field-error { display: block; color: #d92d20; font-size: 13px; margin: 4px 0 8px; }
+.gz-alert { padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(128, 128, 128, .4); margin-bottom: 16px; }
+.gz-alert-success { border-color: #12a150; color: #0e8a44; }
+.gz-alert-error { border-color: #d92d20; color: #d92d20; }
+.girzock-form-status.is-error, .girzock-form-status.is-success { font-weight: 600; }
+.girzock-form-status.is-error { color: #d92d20; }
+.girzock-form-status.is-success { color: #12a150; }
+.custom-form .girzock-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* Previous and next article. */
+.gz-post-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.gz-post-nav-item { display: flex; align-items: center; gap: 16px; padding: 16px; border: 1px solid rgba(128, 128, 128, .3); border-radius: 20px; color: inherit; text-decoration: none; }
+.gz-post-nav-item:hover { border-color: currentColor; }
+.gz-post-nav-next { grid-column: 2; flex-direction: row-reverse; text-align: right; }
+.gz-post-nav-item img { width: 96px; height: 72px; flex: none; object-fit: cover; border-radius: 12px; }
+.gz-post-nav-item small { display: block; font-size: 13px; opacity: .75; margin-bottom: 4px; }
+.gz-post-nav-item strong { display: block; font-weight: 500; line-height: 1.35; }
+@media (max-width: 767px) {
+  .gz-post-nav { grid-template-columns: minmax(0, 1fr); }
+  .gz-post-nav-next { grid-column: 1; }
+}
+
+/* Share icons sit on a light section here; the template styles .social-icon for dark ones. */
+.gz-share .social-icon { display: flex; gap: 8px; padding: 0; list-style: none; }
+.gz-share .social-icon a { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid rgba(128, 128, 128, .4); border-radius: 12px; color: inherit; background: transparent; }
+.gz-share .social-icon a i { color: inherit; }
+.gz-share .social-icon a:hover { border-color: currentColor; }
+
+/* Detail pages: spacing between article sections, and breadcrumbs that wrap on phones. */
+.gz-article .girzock-article-title { margin-top: 32px; }
+.gz-article .girzock-article-title:first-child { margin-top: 0; }
+.gz-article > .ser-detail-list { margin: 24px 0; }
+.gz-article > .ibt-btn { margin-top: 24px; }
+.gz-article-meta + .gz-rich-text { margin-top: 0; }
+.breadcrumbs.gz-crumbs { max-width: 100%; }
+.breadcrumbs.gz-crumbs li { white-space: normal; overflow-wrap: anywhere; }
+@media (max-width: 767px) { .breadcrumbs.gz-crumbs { flex-wrap: wrap; } }
+
+/* The theme recolours its own components in dark mode, so new components set their text colour here. */
+body.dark-mode .gz-share,
+body.dark-mode .gz-post-nav-item,
+body.dark-mode .gz-blog-search,
+body.dark-mode .gz-blog-search input,
+body.dark-mode .gz-pagination a,
+body.dark-mode .gz-pagination .current,
+body.dark-mode .gz-job-facts,
+body.dark-mode .gz-empty,
+body.dark-mode .gz-article-meta,
+body.dark-mode .gz-rich-text,
+body.dark-mode .gz-apply-form .custom-form label,
+body.dark-mode .gz-inherit-link { color: #fff; }
+body.dark-mode .gz-blog-search input::placeholder { color: rgba(255, 255, 255, .7); }
+
+/* Service pages, article headings, areas page and admin preview bar */
+.gz-service-card { height: calc(100% - 24px); margin-bottom: 24px; }
+.gz-detail-list li { display: flex; gap: 10px; align-items: flex-start; }
+.gz-detail-list li > i { flex: none; margin-top: 6px; }
+.gz-workflow .faq-block5 { padding-left: 0; }
+.gz-rich-text h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); line-height: 1.25; margin: 32px 0 12px; }
+.gz-rich-text h3 { font-size: clamp(1.1rem, 2.4vw, 1.3rem); line-height: 1.3; margin: 24px 0 8px; }
+.gz-rich-text p { margin-bottom: 14px; }
+.gz-rich-text a { text-decoration: underline; }
+.gz-area-cta { margin-top: 8px; }
+.gz-preview-bar { position: relative; z-index: 5; padding: 8px 16px; text-align: center; font-size: 14px; background: #fdf0d6; color: #805200; }
+body.dark-mode .gz-service-card, body.dark-mode .gz-workflow { color: #fff; }
+
+/* Corrections after visual review */
+.gz-service-card { height: auto; }
+.gz-service-card a, .gz-article p a { text-decoration: underline; }
+.gz-area-cta { margin-top: 32px; }
+.gz-rich-text ul, .gz-rich-text ol { list-style: revert; padding-left: 22px; }
+.gz-rich-text li { margin-bottom: 6px; }
+.gz-rich-text h2, .gz-rich-text h3 { letter-spacing: normal; }
+.gz-rich-text p + ul { margin-top: 4px; }

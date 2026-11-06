@@ -1,0 +1,56 @@
+# Start the Git repository INSIDE this girzock-website folder, never in its parent.
+# This file cannot protect the sibling girzock-private and backups folders from a parent repository.
+
+# Environment files and secrets. Real secrets live outside the project in ../girzock-private/.
+.env
+.env.*
+!docs/env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+
+# Database dumps and backup copies. The three install files below are safe and stay tracked.
+*.sql
+*.sql.gz
+*.dump
+!database/girzock_technologies.sql
+!database/schema.sql
+!database/seed_content.sql
+*.bak
+*.backup
+*.old
+*.orig
+*.zip
+
+# Logs and sessions
+*.log
+application/logs/*
+!application/logs/index.html
+!application/logs/.htaccess
+**/sessions/
+ci_session*
+
+# Caches
+application/cache/*
+!application/cache/index.html
+!application/cache/.htaccess
+
+# Uploads and private files
+assets/uploads/*
+!assets/uploads/.htaccess
+!assets/uploads/index.html
+**/resumes/
+**/girzock-private/
+
+# Backups and temporary test files
+**/backups/
+tmp/
+temp/
+*.tmp
+*.temp
+test-output/
