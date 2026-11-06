@@ -64,21 +64,23 @@ class Contact extends Public_Controller {
 		$this->respond($ajax, 200, array('ok' => TRUE, 'reference' => $enquiry['reference_no'], 'message' => $this->success_message($enquiry['reference_no'])));
 	}
 
-	/** Maps both forms onto the enquiry fields. Values are stored as typed and escaped on output. */
+	/** Maps the three forms onto the enquiry fields. Values are stored as typed and escaped on output. */
 	private function read_input()
 	{
 		$post = function ($name) { return trim((string) $this->input->post($name)); };
 		$is_message_form = $post('form_type') === 'message';
+		$is_contact_form = $post('form_type') === 'contact';
 		return array(
 			'full_name' => clean_header_value($post('name')),
 			'email' => clean_header_value($post('email')),
 			'phone' => $post('phone') === '' ? NULL : $post('phone'),
 			'company' => $post('company') === '' ? NULL : $post('company'),
 			'service_required' => clean_header_value($is_message_form ? $post('subject') : $post('service')),
-			'message' => $is_message_form ? $post('message') : $post('details'),
+			'message' => ($is_message_form OR $is_contact_form) ? $post('message') : $post('details'),
 			'source_page' => mb_substr(preg_replace('#[^a-zA-Z0-9/_-]#', '', $post('source_page')), 0, 120),
 			'_phone_required' => ! $is_message_form,
 			'_is_message_form' => $is_message_form,
+			'_message_key' => ($is_message_form OR $is_contact_form) ? 'message' : 'details',
 		);
 	}
 
@@ -86,7 +88,8 @@ class Contact extends Public_Controller {
 	{
 		$is_message_form = $input['_is_message_form'];
 		$phone_required = $input['_phone_required'];
-		unset($input['_is_message_form'], $input['_phone_required']);
+		$message_key = $input['_message_key'];
+		unset($input['_is_message_form'], $input['_phone_required'], $input['_message_key']);
 
 		$errors = array();
 		if (mb_strlen($input['full_name']) < 2 OR mb_strlen($input['full_name']) > 120)
@@ -118,11 +121,7 @@ class Contact extends Public_Controller {
 		}
 		else
 		{
-			$allowed = array('Other');
-			foreach ($this->settings_model->services_by('form_order') as $service)
-			{
-				$allowed[] = $service['form_label'] ? $service['form_label'] : $service['title'];
-			}
+			$allowed = array_merge($this->settings_model->form_services(), array('Other'));
 			if ( ! in_array($input['service_required'], $allowed, TRUE))
 			{
 				$errors['service'] = 'Please choose a service.';
@@ -130,11 +129,11 @@ class Contact extends Public_Controller {
 		}
 		if (mb_strlen($input['message']) < 10)
 		{
-			$errors[$is_message_form ? 'message' : 'details'] = 'Please tell us a little about your project.';
+			$errors[$message_key] = 'Please tell us a little about your project.';
 		}
 		elseif (mb_strlen($input['message']) > 5000)
 		{
-			$errors[$is_message_form ? 'message' : 'details'] = 'Please keep your message under 5000 characters.';
+			$errors[$message_key] = 'Please keep your message under 5000 characters.';
 		}
 		return $errors;
 	}

@@ -120,6 +120,24 @@
   // "Get in Touch" forms on the inner pages. Without JavaScript they post normally to the same URL.
   document.querySelectorAll("form[data-girzock-form]").forEach(function (form) {
     var busy = false;
+    var serviceSelect = form.elements.service;
+    var serviceTrigger = serviceSelect && serviceSelect.id ? enhanceSelect(serviceSelect, form) : null;
+    if (serviceTrigger) {
+      // The real select is hidden, so its "required" message is shown beside the dropdown instead
+      var serviceError = document.getElementById(serviceSelect.id + "-error");
+      var clearServiceError = function () {
+        serviceTrigger.removeAttribute("aria-invalid");
+        serviceError.textContent = "";
+      };
+      serviceSelect.addEventListener("invalid", function (event) {
+        event.preventDefault();
+        serviceTrigger.setAttribute("aria-invalid", "true");
+        serviceError.textContent = "Please select a service.";
+        if (form.querySelector(":invalid") === serviceSelect) serviceTrigger.focus();
+      });
+      serviceSelect.addEventListener("change", clearServiceError);
+      form.addEventListener("reset", clearServiceError);
+    }
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       if (busy) return;
@@ -542,6 +560,7 @@
     var imgs = panel.querySelectorAll(".girzock-mega-images img");
     var title = panel.querySelector(".girzock-mega-title");
     var desc = panel.querySelector(".girzock-mega-desc");
+    var wanted = null;
     function show(link) {
       links.forEach(function (l) {
         l.classList.toggle("is-active", l === link);
@@ -549,12 +568,19 @@
       preview.setAttribute("href", link.getAttribute("href"));
       title.textContent = link.textContent;
       desc.textContent = link.getAttribute("data-desc");
+      var src = link.getAttribute("data-img");
       var next = imgs[0].classList.contains("is-current") ? imgs[1] : imgs[0];
       var current = next === imgs[0] ? imgs[1] : imgs[0];
-      if (current.getAttribute("src") === link.getAttribute("data-img")) return;
-      next.setAttribute("src", link.getAttribute("data-img"));
-      next.classList.add("is-current");
-      current.classList.remove("is-current");
+      wanted = src;
+      if (current.getAttribute("src") === src) return;
+      var loader = new Image();
+      loader.onload = function () {
+        if (wanted !== src) return;
+        next.setAttribute("src", src);
+        next.classList.add("is-current");
+        current.classList.remove("is-current");
+      };
+      loader.src = src;
     }
     links.forEach(function (link) {
       link.addEventListener("mouseenter", function () {
@@ -583,8 +609,7 @@
       if (item.contains(document.activeElement)) document.activeElement.blur();
     });
 
-    // Announce the state, load previews before they are needed, and let Escape close the panel
-    var preloaded = false;
+    // Announce the state and let Escape close the panel
     trigger.setAttribute("aria-haspopup", "true");
     trigger.setAttribute("aria-expanded", "false");
     function place() {
@@ -601,12 +626,6 @@
     function setOpen(open) {
       if (open) place();
       trigger.setAttribute("aria-expanded", open ? "true" : "false");
-      if (open && !preloaded) {
-        preloaded = true;
-        links.forEach(function (l) {
-          new Image().src = l.getAttribute("data-img");
-        });
-      }
     }
     item.addEventListener("mouseenter", function () {
       setOpen(true);

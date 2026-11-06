@@ -77,6 +77,14 @@ class Blog extends Public_Controller {
 		{
 			$this->not_found();
 		}
+		if ($page > 1 && $search === '')
+		{
+			// Later pages list different articles, so they get their own title, description and heading.
+			$meta['title'] = $meta['heading'].', page '.$page.' | '.setting('company_name');
+			$meta['description'] = 'Page '.$page.' of '.$meta['heading'].' articles from '.setting('company_name').', with practical guides on websites, software and running a business online.';
+			$meta['heading'] .= ': Page '.$page;
+			unset($meta['entity']);
+		}
 		$posts = $this->blog_model->list_public($filters, $per_page, ($page - 1) * $per_page);
 
 		$query = $search !== '' ? '?q='.rawurlencode($search) : '';
@@ -121,6 +129,7 @@ class Blog extends Public_Controller {
 		$this->render('frontend/blog/index', array(
 			'seo' => $this->seo->build($seo_options),
 			'posts' => $posts,
+			'show_featured' => $page === 1 && $search === '' && $base_path === 'blog',
 			'search' => $search,
 			'pagination' => $pagination,
 			'blog_categories' => $this->blog_model->categories(),
@@ -153,7 +162,8 @@ class Blog extends Public_Controller {
 			'post' => $post,
 			'is_preview' => $is_preview,
 			'related' => $related,
-			'latest' => $this->blog_model->latest_excluding($exclude, 3),
+			'latest' => $this->blog_model->latest_excluding($exclude, 4),
+			'categories' => $this->blog_model->categories(),
 			'previous' => $this->blog_model->neighbour($post, 'previous'),
 			'next' => $this->blog_model->neighbour($post, 'next'),
 			'share_url' => $this->seo->canonical($path),

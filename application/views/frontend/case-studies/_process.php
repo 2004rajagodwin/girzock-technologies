@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="process-title">
-                    <h4 class="title"><?= e($study['category_label']) ?></h4>
+                    <h3 class="title h4"><?= e($study['category_label']) ?></h3>
                 </div>
             </div>
             <div class="col-lg-9">
@@ -16,8 +16,8 @@
                     <?php if ($study['quote']): ?>
                     <blockquote>
                         <div class="quote-box">
-                            <img src="<?= asset('assets/images/icon/comas2.svg') ?>" alt="">
-                            <h4 class="title"><?= e($study['quote']) ?></h4>
+                            <img src="<?= asset('assets/images/icon/comas2.svg') ?>" width="52" height="39" alt="">
+                            <h3 class="title h4"><?= e($study['quote']) ?></h3>
                             <span class="sub-title"><?= e($study['quote_author']) ?></span>
                         </div>
                     </blockquote>

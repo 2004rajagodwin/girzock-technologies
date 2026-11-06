@@ -103,6 +103,27 @@ class Settings_model extends CI_Model {
 		return $list;
 	}
 
+	/**
+	 * Names for the enquiry and contact forms: every active service, so a new one appears without
+	 * further setup. Ordered services come first; a repeated name is listed once.
+	 */
+	public function form_services()
+	{
+		$list = $this->active_services();
+		usort($list, function ($a, $b) {
+			$x = (int) $a['form_order'] > 0 ? (int) $a['form_order'] : PHP_INT_MAX;
+			$y = (int) $b['form_order'] > 0 ? (int) $b['form_order'] : PHP_INT_MAX;
+			return $x === $y ? strcasecmp($a['title'], $b['title']) : $x - $y;
+		});
+		$labels = array();
+		foreach ($list as $service)
+		{
+			$label = trim((string) ($service['form_label'] ? $service['form_label'] : $service['title']));
+			$labels[mb_strtolower($label)] = isset($labels[mb_strtolower($label)]) ? $labels[mb_strtolower($label)] : $label;
+		}
+		return array_values($labels);
+	}
+
 	public function seo($entity_type, $entity_key)
 	{
 		$row = $this->db->get_where('seo_metadata', array('entity_type' => $entity_type, 'entity_key' => (string) $entity_key), 1)->row_array();

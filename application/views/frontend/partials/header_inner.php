@@ -8,7 +8,7 @@
                     <div class="col-auto">
                         <div class="header-logo">
                             <a href="#sideMenu" class="menu-toggle" aria-label="Open contact panel"></a>
-                            <a href="<?= site_url() ?>" aria-label="<?= e(setting('company_name')) ?> home"><img src="<?= e(media_url(setting('logo_color'))) ?>" alt="<?= e(setting('company_name')) ?> logo" class="girzock-auto-logo"></a>
+                            <a href="<?= site_url() ?>" aria-label="<?= e(setting('company_name')) ?> home"><img src="<?= e(media_url(setting('logo_color'))) ?>" width="640" height="199" alt="<?= e(setting('company_name')) ?> logo" class="girzock-auto-logo"></a>
                         </div>
                     </div>
                     <div class="col-auto">

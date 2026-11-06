@@ -6,7 +6,7 @@
             <div class="col-xl-6 col-lg-4">
                 <div class="project-img7">
                     <?php if ($study['image']): ?>
-                    <img src="<?= e(media_url($study['image'])) ?>" alt="<?= e($study['title']) ?>">
+                    <img src="<?= e(media_url($study['image'])) ?>"<?= media_srcset($study['image'], '(max-width: 991px) 92vw, 650px') ?> width="1200" height="900" alt="<?= e($study['image_alt'] ? $study['image_alt'] : $study['title']) ?>">
                     <?php else: ?>
                     <img src="<?= e(media_url(setting('logo_color'))) ?>" alt="<?= e(setting('company_name')) ?> logo" class="girzock-auto-logo">
                     <?php endif; ?>
@@ -28,15 +28,15 @@
                     <?php endif; ?>
                     <div class="project-post-meta">
                         <div class="post-meta-item">
-                            <h4 class="title">Service</h4>
+                            <h3 class="title h4">Service</h3>
                             <p><?= e($study['service_label']) ?></p>
                         </div>
                         <div class="post-meta-item">
-                            <h4 class="title">Approach</h4>
+                            <h3 class="title h4">Approach</h3>
                             <p><?= e($study['approach']) ?></p>
                         </div>
                         <div class="post-meta-item m-0">
-                            <h4 class="title">Status</h4>
+                            <h3 class="title h4">Status</h3>
                             <p><?= e($study['status_label']) ?></p>
                         </div>
                     </div>

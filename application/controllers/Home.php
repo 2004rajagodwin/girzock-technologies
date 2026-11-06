@@ -12,6 +12,7 @@ class Home extends Public_Controller {
 			'seo' => $this->seo->build(array('entity' => array('page', 'home'), 'path' => '')),
 			'overview_services' => $this->settings_model->services_by('home_overview_order'),
 			'core_services' => $this->settings_model->services_by('home_core_order'),
+			'service_count' => count($this->settings_model->active_services()),
 			'featured_projects' => $this->portfolio_model->featured(),
 			'latest_posts' => $this->blog_model->list_public(array(), 3),
 		));
@@ -29,6 +30,7 @@ class Home extends Public_Controller {
 	{
 		$this->render('frontend/home/about', array(
 			'use_wrapper' => TRUE,
+			'service_count' => count($this->settings_model->active_services()),
 			'seo' => $this->seo->build(array('entity' => array('page', 'about'), 'path' => 'about',
 				'breadcrumbs' => array('Home' => '', 'About' => NULL))),
 		));

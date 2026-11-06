@@ -12,7 +12,7 @@
             <div class="col-lg-9">
                 <div class="process-detail gz-article">
                     <p class="paragraph">GIRZOCK Technologies works from one place: Thisaiyanvilai, in the Tirunelveli District of Tamil Nadu. We have no branch offices elsewhere. We work with clients in other towns and cities by phone, video call and email, and we travel for meetings when a project needs it and the distance makes sense.</p>
-                    <p>This page sets out honestly how that works in each part of the region, and which kinds of work tend to come up. If your town is not listed, ask anyway: most website and software work does not depend on being in the same room.</p>
+                    <p>This page sets out honestly how that works in each part of the region, and which kinds of work are likely to suit local businesses. If your town is not listed, ask anyway: most website and software work does not depend on being in the same room.</p>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
             <div class="col-lg-6 col-md-6">
                 <div class="feature-card10 gz-service-card">
                     <h3 class="title h4">Web development in Tirunelveli</h3>
-                    <p>Tirunelveli city and the wider district are our main service area, and in-person meetings are practical for most projects. Education, healthcare, retail and family businesses that have traded for years often come to us when word of mouth is no longer enough. Common projects are <a href="<?= site_url('services/website-development') ?>">a professional company website</a>, <a href="<?= site_url('services/e-commerce-development') ?>">an online store</a> or <a href="<?= site_url('services/custom-software-development') ?>">custom software</a> built around how the business already runs.</p>
+                    <p>Tirunelveli city and the wider district are our main service area, and in-person meetings are practical for most projects. Education providers, healthcare practices, shops and long-established family businesses here may find that word of mouth alone is no longer enough. We also offer <a href="<?= site_url('services/digital-marketing-services') ?>">digital marketing services</a> in Tirunelveli. Useful projects can include <a href="<?= site_url('services/website-development') ?>">a professional company website</a>, <a href="<?= site_url('services/e-commerce-development') ?>">an online store</a> or <a href="<?= site_url('services/custom-software-development') ?>">custom software</a> built around how the business already runs.</p>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
             <div class="col-lg-6 col-md-6">
                 <div class="feature-card10 gz-service-card">
                     <h3 class="title h4">Thoothukudi (Tuticorin)</h3>
-                    <p>Thoothukudi's economy is built around Chidambaranar Port and the industry, logistics and trading firms connected to it. Businesses with many enquiries, documents and customers to track often benefit most from <a href="<?= site_url('services/web-application-development') ?>">web applications and portals</a> or <a href="<?= site_url('services/api-development-integration') ?>">connecting the systems</a> they already use.</p>
+                    <p>Thoothukudi's economy is built around Chidambaranar Port and the industry, logistics and trading firms connected to it. Businesses with many enquiries, documents and customers to track may benefit most from <a href="<?= site_url('services/web-application-development') ?>">web applications and portals</a> or <a href="<?= site_url('services/api-development-integration') ?>">connecting the systems</a> they already use.</p>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">

@@ -5,7 +5,7 @@
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <div class="hero-content2">
-                            <img src="<?= asset('assets/images/bg/bg2.png') ?>" alt="">
+                            <img src="<?= asset('assets/images/bg/bg2.png') ?>" width="1883" height="855" alt="">
                             <div class="hero-text2">
                                 <div class="container">
                                     <div class="hero-sec-info2 one-time">
@@ -28,22 +28,22 @@
                             </div>
                             <div class="exp-box">
                                 <div class="video-img">
-                                    <img src="<?= asset('assets/images/event/video.png') ?>" alt="">
+                                    <img src="<?= asset('assets/images/event/video.png') ?>" width="190" height="157" alt="">
                                     <a href="<?= site_url('portfolio') ?>" class="video-popup">
                                         <i class="fa fa-arrow-right"></i> <span>Our Portfolio</span>
                                     </a>
                                 </div>
                                 <div class="counter-box2">
-<span class="counter-number" data-target="<?= count($core_services) ?>">0</span>
-                                    <span class="counter-text"></span>
+<span class="counter-number" data-target="10">0</span>
+                                    <span class="counter-text">+</span>
                                 </div>
-                                <p>Core services for your business</p>
+                                <p>Core Services for Your Business</p>
                             </div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <div class="hero-content2">
-                            <img src="<?= asset('assets/images/bg/hero-slide2.png') ?>" alt="">
+                            <img src="<?= asset('assets/images/bg/hero-slide2.png') ?>" width="1883" height="855" alt="">
                             <div class="hero-text2">
                                 <div class="container">
                                     <div class="hero-sec-info2 one-time">
@@ -66,16 +66,16 @@
                             </div>
                             <div class="exp-box">
                                 <div class="video-img">
-                                    <img src="<?= asset('assets/images/event/video.png') ?>" alt="">
+                                    <img src="<?= asset('assets/images/event/video.png') ?>" width="190" height="157" alt="">
                                     <a href="<?= site_url('portfolio') ?>" class="video-popup">
                                         <i class="fa fa-arrow-right"></i> <span>Our Portfolio</span>
                                     </a>
                                 </div>
                                 <div class="counter-box2">
-<span class="counter-number" data-target="<?= count($core_services) ?>">0</span>
-                                    <span class="counter-text"></span>
+<span class="counter-number" data-target="10">0</span>
+                                    <span class="counter-text">+</span>
                                 </div>
-                                <p>Core services for your business</p>
+                                <p>Core Services for Your Business</p>
                             </div>
                         </div>
                     </div>
@@ -130,7 +130,7 @@
                     </div>
                     <div class="col-lg-7">
                         <div class="about-content">
-                            <div class="style-text">Girzock Technologies</div>
+                            <div class="style-text">GIRZOCK Technologies</div>
                             <div class="sec-title mb-0 white">
                                 <span class="sub-title">about</span>
                                 <h2 class="title animated-heading">Technology That Moves Your Business Forward</h2>
@@ -278,24 +278,24 @@
             <div class="container2">
                 <div class="project-track">
                     <div class="project-block3">
-                        <img src="<?= asset('assets/images/project/project3-1.png') ?>" alt="Abstract technology artwork">
+                        <img src="<?= asset('assets/images/project/project3-1.png') ?>" width="293" height="388" loading="lazy" decoding="async" alt="Abstract technology artwork">
                         <span class="text">Websites</span>
                     </div>
                     <div class="project-block3">
-                        <img src="<?= asset('assets/images/project/project3-2.png') ?>" alt="Abstract technology artwork">
+                        <img src="<?= asset('assets/images/project/project3-2.png') ?>" width="294" height="290" loading="lazy" decoding="async" alt="Abstract technology artwork">
                     </div>
                     <div class="project-block3">
-                        <img src="<?= asset('assets/images/project/track-3.png') ?>" alt="Abstract technology artwork">
+                        <img src="<?= asset('assets/images/project/track-3.png') ?>" width="294" height="388" loading="lazy" decoding="async" alt="Abstract technology artwork">
                     </div>
                     <div class="project-block3">
-                        <img src="<?= asset('assets/images/project/project3-4.png') ?>" alt="Abstract technology artwork">
+                        <img src="<?= asset('assets/images/project/project3-4.png') ?>" width="293" height="442" loading="lazy" decoding="async" alt="Abstract technology artwork">
                         <span class="text v2">Software</span>
                     </div>
                     <div class="project-block3">
-                        <img src="<?= asset('assets/images/project/track-5.png') ?>" alt="Abstract technology artwork">
+                        <img src="<?= asset('assets/images/project/track-5.png') ?>" width="294" height="290" loading="lazy" decoding="async" alt="Abstract technology artwork">
                     </div>
                     <div class="project-block3">
-                        <img src="<?= asset('assets/images/project/project3-6.png') ?>" alt="Abstract technology artwork">
+                        <img src="<?= asset('assets/images/project/project3-6.png') ?>" width="294" height="388" loading="lazy" decoding="async" alt="Abstract technology artwork">
                         <span class="text v3">Cloud</span>
                     </div>
                 </div>
@@ -376,17 +376,17 @@
                     <div class="row align-items-end">
                         <div class="col-xl-7 col-lg-9 col-md-12 col-sm-12">
                             <div class="sec-title mb-0">
-                                <span class="sub-title">global outlook</span>
-                                <h2 class="title animated-heading">Technology Without Borders</h2>
-                                <p>Building digital solutions for businesses across different markets and regions.</p>
+                                <span class="sub-title">who we help</span>
+                                <h2 class="title animated-heading">Technology for Local Businesses</h2>
+                                <p>From Thisaiyanvilai, we build websites and software for many kinds of organisation.</p>
                             </div>
                         </div>
                         <div class="col-xl-5 col-lg-4 col-md-5 col-sm-7">
                             <div class="user-count">
                                 <div class="counter-box5">
-                                    <span class="counter-text">Global</span>
+                                    <span class="counter-text">Local</span>
                                 </div>
-                                <span class="user">Outlook</span>
+                                <span class="user">Focus</span>
                             </div>
                         </div>
                     </div>
@@ -394,112 +394,112 @@
                 <div class="languages-content">
                     <div class="world-languages">
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>American English</span>
+                            <img src="<?= asset('assets/images/industry/retail.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Retail</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language2.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>British English</span>
+                            <img src="<?= asset('assets/images/industry/wholesale.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Wholesale</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language3.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>French</span>
+                            <img src="<?= asset('assets/images/industry/manufacturers.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Manufacturers</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language4.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>Spanish</span>
+                            <img src="<?= asset('assets/images/industry/schools.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Schools</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language5.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>German</span>
+                            <img src="<?= asset('assets/images/industry/colleges.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Colleges</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language6.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>Chinese</span>
+                            <img src="<?= asset('assets/images/industry/training.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Training</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language7.png') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
-                            <span>Norwegian</span>
+                            <img src="<?= asset('assets/images/industry/clinics.svg') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
+                            <span>Clinics</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language8.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>Ukrainian</span>
+                            <img src="<?= asset('assets/images/industry/hospitals.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Hospitals</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language9.png') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
-                            <span>Hindi</span>
+                            <img src="<?= asset('assets/images/industry/hotels.svg') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
+                            <span>Hotels</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language10.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>Australian English</span>
+                            <img src="<?= asset('assets/images/industry/restaurants.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Restaurants</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language11.png') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
-                            <span>Estonian</span>
+                            <img src="<?= asset('assets/images/industry/travel.svg') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
+                            <span>Travel</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language12.png') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
-                            <span>Georgian</span>
+                            <img src="<?= asset('assets/images/industry/real-estate.svg') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
+                            <span>Real Estate</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language13.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>Japanese</span>
+                            <img src="<?= asset('assets/images/industry/builders.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Builders</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language14.png') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
-                            <span>Finnish</span>
+                            <img src="<?= asset('assets/images/industry/logistics.svg') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
+                            <span>Logistics</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language15.png') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
-                            <span>Slovak</span>
+                            <img src="<?= asset('assets/images/industry/exporters.svg') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
+                            <span>Exporters</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language16.png') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
-                            <span>Italian</span>
+                            <img src="<?= asset('assets/images/industry/startups.svg') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
+                            <span>Startups</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language17.png') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
-                            <span>Slovenian</span>
+                            <img src="<?= asset('assets/images/industry/family-firms.svg') ?>" width="60" height="60" loading="lazy" decoding="async" alt="">
+                            <span>Family Firms</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language18.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>Swiss</span>
+                            <img src="<?= asset('assets/images/industry/agencies.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Agencies</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language19.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>Polish</span>
+                            <img src="<?= asset('assets/images/industry/consultants.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Consultants</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language20.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>Armenian</span>
+                            <img src="<?= asset('assets/images/industry/interiors.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Interiors</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language21.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>Portuguese</span>
+                            <img src="<?= asset('assets/images/industry/vehicle-sales.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Vehicle Sales</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language22.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>Paraguayan</span>
+                            <img src="<?= asset('assets/images/industry/repairs.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Repairs</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language23.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>Brazilian</span>
+                            <img src="<?= asset('assets/images/industry/fitness.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Fitness</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language24.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>Thai</span>
+                            <img src="<?= asset('assets/images/industry/salons.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Salons</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language25.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>Czech</span>
+                            <img src="<?= asset('assets/images/industry/trusts.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Trusts</span>
                         </a>
                         <a href="<?= site_url('contact') ?>">
-                            <img src="<?= asset('assets/images/event/language26.png') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
-                            <span>Belgian</span>
+                            <img src="<?= asset('assets/images/industry/events.svg') ?>" width="30" height="30" loading="lazy" decoding="async" alt="">
+                            <span>Events</span>
                         </a>
                     </div>
                     <a class='ibt-btn ibt-btn-outline' href="<?= site_url('contact') ?>">
-                        <span>More Languages</span>
+                        <span>Tell Us About Your Business</span>
                         <i class="icon-arrow-top"></i>
                     </a>
                 </div>
@@ -507,18 +507,18 @@
         </section>
         <!-- End lanuguage-sec -->
 
-        <!-- fun-fact-sec (index1). Same layout as the template, with true counts in place of its sample results claims. -->
+        <!-- fun-fact-sec -->
         <section class="fun-fact-sec ibt-section-gapTop" id="strengths">
             <div class="container">
                 <div class="sec-title">
-                    <span class="sub-title">achievements</span>
-                    <h2 class="title animated-heading">Notable Accomplishments and Key Milestones</h2>
+                    <span class="sub-title">at a glance</span>
+                    <h2 class="title animated-heading">What GIRZOCK Technologies Offers at a Glance</h2>
                 </div>
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="fun-fact-content black">
                             <div class="counter-box">
-                                <span class="counter-number percent-counter" data-target="9">0</span>
+                                <span class="counter-number percent-counter" data-target="<?= (int) $service_count ?>">0</span>
                                 <span class="counter-text">services</span>
                             </div>
                             <span class="title">Under One Roof</span>
@@ -601,42 +601,13 @@
                         <div class="sec-title white">
                             <span class="sub-title">custom software solutions</span>
                             <h2 class="title animated-heading">Software Built Around Your Business</h2>
-                            <p>Every business has unique requirements. We develop custom digital solutions designed to simplify workflows, improve productivity and support your business goals.</p>
+                          
                         </div>
-                        <img class="girzock-software-visual" src="<?= asset('assets/images/feature/feature12-1.png') ?>" alt="Code editor showing application source code">
+                      
                     </div>
-                    <div class="col-lg-6">
-                        <div class="girzock-feature-list">
-                            <div class="girzock-feature">
-                                <span class="girzock-icon"><svg aria-hidden="true" focusable="false" class="lucide lucide-workflow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect width="8" height="8" x="3" y="3" rx="2" /> <path d="M7 11v4a2 2 0 0 0 2 2h4" /> <rect width="8" height="8" x="13" y="13" rx="2" /> </svg></span>
-                                <div>
-                                    <h3 class="title">Business Process Automation</h3>
-                                    <p>Automate repetitive tasks and improve operational efficiency.</p>
-                                </div>
-                            </div>
-                            <div class="girzock-feature">
-                                <span class="girzock-icon"><svg aria-hidden="true" focusable="false" class="lucide lucide-app-window" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect x="2" y="4" width="20" height="16" rx="2" /> <path d="M10 4v4" /> <path d="M2 8h20" /> <path d="M6 4v4" /> </svg></span>
-                                <div>
-                                    <h3 class="title">Custom Business Applications</h3>
-                                    <p>Develop software tailored to your specific business requirements.</p>
-                                </div>
-                            </div>
-                            <div class="girzock-feature">
-                                <span class="girzock-icon"><svg aria-hidden="true" focusable="false" class="lucide lucide-network" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /> </svg></span>
-                                <div>
-                                    <h3 class="title">Scalable Architecture</h3>
-                                    <p>Build flexible systems that support future business growth.</p>
-                                </div>
-                            </div>
-                            <div class="girzock-feature">
-                                <span class="girzock-icon"><svg aria-hidden="true" focusable="false" class="lucide lucide-plug" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 22v-5" /> <path d="M15 8V2" /> <path d="M17 8a1 1 0 0 1 1 1v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1z" /> <path d="M9 8V2" /> </svg></span>
-                                <div>
-                                    <h3 class="title">Seamless Integrations</h3>
-                                    <p>Connect your software with existing platforms and business tools.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+
+
                 </div>
                 <div class="feature-tabs6">
                     <nav aria-label="Custom software solutions">
@@ -692,12 +663,12 @@
                     <div class="tab-pane fade show active" id="nav-automation" role="tabpanel" aria-labelledby="nav-automation-tab">
                         <div class="feature-tab-body">
                             <div class="row">
-                                <div class="col-lg-5">
+                                <div class="col-md-6">
                                     <div class="feature-tab-img">
-                                        <img src="<?= asset('assets/images/feature/software-1.png') ?>" width="526" height="629" loading="lazy" decoding="async" alt="Business Automation visual">
+                                        <img src="<?= asset('assets/images/generated/pro/home/business-automation.webp') ?>"<?= media_srcset('assets/images/generated/pro/home/business-automation.webp', '(max-width: 767px) 92vw, 46vw') ?> width="526" height="629" loading="lazy" decoding="async" alt="Two developers reviewing an automated business workflow on a large monitor">
                                     </div>
                                 </div>
-                                <div class="col-lg-7">
+                                <div class="col-md-6">
                                     <div class="feature-tab-content">
                                         <h3 class="title h4">Business Automation</h3>
                                         <p>Replace repetitive manual steps with reliable workflows.</p>
@@ -714,12 +685,12 @@
                     <div class="tab-pane fade" id="nav-dashboards" role="tabpanel" aria-labelledby="nav-dashboards-tab">
                         <div class="feature-tab-body">
                             <div class="row">
-                                <div class="col-lg-5">
+                                <div class="col-md-6">
                                     <div class="feature-tab-img">
-                                        <img src="<?= asset('assets/images/feature/software-2.png') ?>" width="526" height="629" loading="lazy" decoding="async" alt="Custom Dashboards visual">
+                                        <img src="<?= asset('assets/images/generated/pro/home/custom-dashboards.webp') ?>"<?= media_srcset('assets/images/generated/pro/home/custom-dashboards.webp', '(max-width: 767px) 92vw, 46vw') ?> width="526" height="629" loading="lazy" decoding="async" alt="Business analyst presenting a custom dashboard on a wall display to a colleague">
                                     </div>
                                 </div>
-                                <div class="col-lg-7">
+                                <div class="col-md-6">
                                     <div class="feature-tab-content">
                                         <h3 class="title h4">Custom Dashboards</h3>
                                         <p>See the information your team needs in one place.</p>
@@ -736,12 +707,12 @@
                     <div class="tab-pane fade" id="nav-webapps" role="tabpanel" aria-labelledby="nav-webapps-tab">
                         <div class="feature-tab-body">
                             <div class="row">
-                                <div class="col-lg-5">
+                                <div class="col-md-6">
                                     <div class="feature-tab-img">
-                                        <img src="<?= asset('assets/images/feature/software-3.png') ?>" width="526" height="629" loading="lazy" decoding="async" alt="Web Applications visual">
+                                        <img src="<?= asset('assets/images/generated/pro/home/web-applications.webp') ?>"<?= media_srcset('assets/images/generated/pro/home/web-applications.webp', '(max-width: 767px) 92vw, 46vw') ?> width="526" height="629" loading="lazy" decoding="async" alt="Software engineer working on a browser-based application on a laptop and monitor">
                                     </div>
                                 </div>
-                                <div class="col-lg-7">
+                                <div class="col-md-6">
                                     <div class="feature-tab-content">
                                         <h3 class="title h4">Web Applications</h3>
                                         <p>Secure tools that work in any modern browser.</p>
@@ -758,12 +729,12 @@
                     <div class="tab-pane fade" id="nav-management" role="tabpanel" aria-labelledby="nav-management-tab">
                         <div class="feature-tab-body">
                             <div class="row">
-                                <div class="col-lg-5">
+                                <div class="col-md-6">
                                     <div class="feature-tab-img">
-                                        <img src="<?= asset('assets/images/feature/software-4.png') ?>" width="526" height="629" loading="lazy" decoding="async" alt="Management Systems visual">
+                                        <img src="<?= asset('assets/images/generated/pro/home/management-systems.webp') ?>"<?= media_srcset('assets/images/generated/pro/home/management-systems.webp', '(max-width: 767px) 92vw, 46vw') ?> width="526" height="629" loading="lazy" decoding="async" alt="Operations manager with a tablet beside a business management system on a display">
                                     </div>
                                 </div>
-                                <div class="col-lg-7">
+                                <div class="col-md-6">
                                     <div class="feature-tab-content">
                                         <h3 class="title h4">Management Systems</h3>
                                         <p>Organise customers, orders, staff and records.</p>
@@ -780,12 +751,12 @@
                     <div class="tab-pane fade" id="nav-api" role="tabpanel" aria-labelledby="nav-api-tab">
                         <div class="feature-tab-body">
                             <div class="row">
-                                <div class="col-lg-5">
+                                <div class="col-md-6">
                                     <div class="feature-tab-img">
-                                        <img src="<?= asset('assets/images/feature/software-5.png') ?>" width="526" height="629" loading="lazy" decoding="async" alt="API Integrations visual">
+                                        <img src="<?= asset('assets/images/generated/pro/home/api-integrations.webp') ?>"<?= media_srcset('assets/images/generated/pro/home/api-integrations.webp', '(max-width: 767px) 92vw, 46vw') ?> width="526" height="629" loading="lazy" decoding="async" alt="Developer at a curved monitor showing software systems connected through a central hub">
                                     </div>
                                 </div>
-                                <div class="col-lg-7">
+                                <div class="col-md-6">
                                     <div class="feature-tab-content">
                                         <h3 class="title h4">API Integrations</h3>
                                         <p>Connect your software with the services you already use.</p>
@@ -813,7 +784,7 @@
                             <div class="sec-title">
                                 <span class="sub-title">our development process</span>
                                 <h2 class="title">From Concept <span class="girzock-gradient-text">to Completion</span></h2>
-                                <p>We follow a structured development process to transform your ideas into reliable digital solutions, delivering quality, performance and measurable results.</p>
+                                <p>We follow a structured development process to transform your ideas into reliable digital solutions, with clear communication and agreed goals at each stage.</p>
                             </div>
                             <a class='ibt-btn ibt-btn-secondary' href="<?= site_url('services') ?>">
                                 <span>Explore Our Services</span>
@@ -879,13 +850,21 @@
 <?php $this->load->view('frontend/home/_featured_projects'); ?>
 </div>
                 </div>
-                <div class="project-btn">
-                    <div class="custom-pagination"></div>
-                    <a class='ibt-btn ibt-btn-outline' href="<?= site_url('portfolio') ?>">
-                        <span>View Portfolio</span>
-                        <i class="icon-arrow-top"></i>
-                    </a>
+            </div>
+            <div class="title-area gz-project-actions">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="project-btn">
+                            <a class='ibt-btn ibt-btn-outline' href="<?= site_url('portfolio') ?>">
+                                <span>View Portfolio</span>
+                                <i class="icon-arrow-top"></i>
+                            </a>
+                            <div class="custom-pagination"></div>
+                        </div>
+                    </div>
                 </div>
+            </div>
             </div>
         </section>
         <!-- End project-sec -->
@@ -913,7 +892,7 @@
                                         </button>
                                     </h3>
                                     <div id="faqBody0" class="accordion-collapse collapse show" aria-labelledby="faqHeading0" data-bs-parent="#accordionFaq">
-                                        <div class="accordion-body">We provide website design and development, custom software, web applications, e-commerce, WordPress development, UI/UX design, cloud computing, AWS cloud solutions and IT consulting.</div>
+                                        <div class="accordion-body">We provide website design and development, custom software, web applications, e-commerce, WordPress, UI/UX design, CRM and business software, mobile apps, cloud and AWS solutions, API integration, website maintenance, SEO, digital marketing, business automation and IT consulting.</div>
                                     </div>
                                 </div>
                                 <div class="accordion-item">
@@ -993,7 +972,7 @@
                 </div>
                 <div class="col-xl-6 col-lg-6">
                     <div class="choose-content5">
-                        <div class="style-text">Girzock</div>
+                        <div class="style-text gz-flow-text"><span>GIRZOCK</span><svg aria-hidden="true" focusable="false"><defs><linearGradient id="gz-flow-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="5.5em" y2="0" spreadMethod="repeat"><stop offset="0" stop-color="#1769ff"/><stop offset="0.33" stop-color="#19d5e5"/><stop offset="0.66" stop-color="#8b5cf6"/><stop offset="1" stop-color="#1769ff"/></linearGradient><mask id="gz-flow-mask" maskUnits="userSpaceOnUse" x="-20" y="-400" width="2400" height="800"><text class="gz-flow-letters" x="0" y="0.34em">GIRZOCK</text></mask></defs><g mask="url(#gz-flow-mask)"><rect class="gz-flow-paint" x="-6em" y="-400" width="20em" height="800" fill="url(#gz-flow-gradient)"/></g></svg></div>
                         <div class="sec-title white">
                             <span class="sub-title">our commitment</span>
                             <h2 class="title animated-heading">Your Technology Partner for Long-Term Growth</h2>
@@ -1046,53 +1025,51 @@
         </section>
         <!-- End service-sec18 -->
 
-        <!-- partners-sec (index2).
-             REPLACE BEFORE LAUNCH: these six logos are the template's sample companies, not GIRZOCK partners.
-             Swap each img src and alt for an approved partner's logo and name; only then call them partners in the heading. -->
+        <!-- partners-sec -->
         <section class="partners-sec ibt-section-gap" id="partners">
             <div class="container">
                 <div class="sec-title">
-                    <span class="sub-title">partners</span>
-                    <h2 class="title animated-heading">Partner With GIRZOCK to Build Stronger Digital Experiences</h2>
+                    <span class="sub-title">work with us</span>
+                    <h2 class="title animated-heading">Work With GIRZOCK to Build Stronger Digital Experiences</h2>
                 </div>
                 <div class="brand-sec2 ">
                     <div class="swiper brand2">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
-                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK about partnerships"><img src="<?= asset('assets/images/brand/brand1.png') ?>" width="170" height="53" loading="lazy" decoding="async" alt="Sample partner logo"></a>
+                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK Technologies"><img src="<?= asset('assets/images/brand/brand1.png') ?>" width="170" height="53" loading="lazy" decoding="async" alt=""></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK about partnerships"><img src="<?= asset('assets/images/brand/brand2.png') ?>" width="162" height="60" loading="lazy" decoding="async" alt="Sample partner logo"></a>
+                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK Technologies"><img src="<?= asset('assets/images/brand/brand2.png') ?>" width="162" height="60" loading="lazy" decoding="async" alt=""></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK about partnerships"><img src="<?= asset('assets/images/brand/brand3.png') ?>" width="131" height="72" loading="lazy" decoding="async" alt="Sample partner logo"></a>
+                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK Technologies"><img src="<?= asset('assets/images/brand/brand3.png') ?>" width="131" height="72" loading="lazy" decoding="async" alt=""></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK about partnerships"><img src="<?= asset('assets/images/brand/brand4.png') ?>" width="183" height="44" loading="lazy" decoding="async" alt="Sample partner logo"></a>
+                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK Technologies"><img src="<?= asset('assets/images/brand/brand4.png') ?>" width="183" height="44" loading="lazy" decoding="async" alt=""></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK about partnerships"><img src="<?= asset('assets/images/brand/brand6.png') ?>" width="180" height="53" loading="lazy" decoding="async" alt="Sample partner logo"></a>
+                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK Technologies"><img src="<?= asset('assets/images/brand/brand6.png') ?>" width="180" height="53" loading="lazy" decoding="async" alt=""></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK about partnerships"><img src="<?= asset('assets/images/brand/brand5.png') ?>" width="104" height="92" loading="lazy" decoding="async" alt="Sample partner logo"></a>
+                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK Technologies"><img src="<?= asset('assets/images/brand/brand5.png') ?>" width="104" height="92" loading="lazy" decoding="async" alt=""></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK about partnerships"><img src="<?= asset('assets/images/brand/brand1.png') ?>" width="170" height="53" loading="lazy" decoding="async" alt="Sample partner logo"></a>
+                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK Technologies"><img src="<?= asset('assets/images/brand/brand1.png') ?>" width="170" height="53" loading="lazy" decoding="async" alt=""></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK about partnerships"><img src="<?= asset('assets/images/brand/brand2.png') ?>" width="162" height="60" loading="lazy" decoding="async" alt="Sample partner logo"></a>
+                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK Technologies"><img src="<?= asset('assets/images/brand/brand2.png') ?>" width="162" height="60" loading="lazy" decoding="async" alt=""></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK about partnerships"><img src="<?= asset('assets/images/brand/brand3.png') ?>" width="131" height="72" loading="lazy" decoding="async" alt="Sample partner logo"></a>
+                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK Technologies"><img src="<?= asset('assets/images/brand/brand3.png') ?>" width="131" height="72" loading="lazy" decoding="async" alt=""></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK about partnerships"><img src="<?= asset('assets/images/brand/brand4.png') ?>" width="183" height="44" loading="lazy" decoding="async" alt="Sample partner logo"></a>
+                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK Technologies"><img src="<?= asset('assets/images/brand/brand4.png') ?>" width="183" height="44" loading="lazy" decoding="async" alt=""></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK about partnerships"><img src="<?= asset('assets/images/brand/brand6.png') ?>" width="180" height="53" loading="lazy" decoding="async" alt="Sample partner logo"></a>
+                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK Technologies"><img src="<?= asset('assets/images/brand/brand6.png') ?>" width="180" height="53" loading="lazy" decoding="async" alt=""></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK about partnerships"><img src="<?= asset('assets/images/brand/brand5.png') ?>" width="104" height="92" loading="lazy" decoding="async" alt="Sample partner logo"></a>
+                                <a href="<?= site_url('contact') ?>" aria-label="Contact GIRZOCK Technologies"><img src="<?= asset('assets/images/brand/brand5.png') ?>" width="104" height="92" loading="lazy" decoding="async" alt=""></a>
                             </div>
                         </div>
                         <div class="swiper-pagination"></div>
@@ -1132,31 +1109,79 @@
         <!-- End blog-sec -->
 
         <!-- local-sec -->
-        <section class="feature-sec10 ibt-section-gapBottom" id="where-we-work">
+        <section class="gz-region" id="where-we-work">
             <div class="container">
-                <div class="sec-title">
-                    <span class="sub-title">where we work</span>
-                    <h2 class="title animated-heading">A Software Company in Thisaiyanvilai, Serving Tirunelveli and Beyond</h2>
-                    <p>We are based in Thisaiyanvilai and work with startups, small businesses and growing companies across Tamil Nadu and nearby Kerala. Here is how that works in practice.</p>
+                <div class="row align-items-center gz-region-top">
+                    <div class="col-lg-6">
+                        <div class="sec-title mb-0">
+                            <span class="sub-title">where we work</span>
+                            <h2 class="title animated-heading">A Software Company in <span class="gz-accent">Thisaiyanvilai,</span> Serving Tirunelveli and Beyond</h2>
+                            <p>We are based in Thisaiyanvilai and work with startups, small businesses and growing companies across Tamil Nadu and nearby Kerala. Here is how that works in practice.</p>
+                        </div>
+                        <div class="gz-region-links">
+                            <a href="<?= site_url('services') ?>" class="gz-region-btn gz-region-btn-main">Explore Our Services<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+                            <a href="<?= site_url('areas-we-serve') ?>" class="gz-region-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>View Areas We Serve</a>
+                            <a href="<?= site_url('contact') ?>" class="gz-region-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.800a3.5 3.5 0 0 1 0 6.400M18 14.500a6.5 6.5 0 0 1 3.5 5.5"/></svg>Contact Our Team</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="gz-orbit">
+                            <svg class="gz-orbit-svg" viewBox="0 0 520 520" role="img" aria-label="Rotating rings around a location pin marking our base in Thisaiyanvilai. This diagram is not a map.">
+                                <defs>
+                                    <linearGradient id="gzoRing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1769ff"/><stop offset=".6" stop-color="#19d5e5"/><stop offset="1" stop-color="#7a5cff"/></linearGradient>
+                                    <linearGradient id="gzoArc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12308f"/><stop offset="1" stop-color="#1769ff"/></linearGradient>
+                                    <linearGradient id="gzoPin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f8bff"/><stop offset="1" stop-color="#0b3fd1"/></linearGradient>
+                                    <linearGradient id="gzoSide" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a9dcff"/><stop offset="1" stop-color="#3f97ff"/></linearGradient>
+                                    <linearGradient id="gzoTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#e3f3ff"/></linearGradient>
+                                    <radialGradient id="gzoGlow"><stop offset="0" stop-color="#19d5e5" stop-opacity=".42"/><stop offset=".55" stop-color="#1769ff" stop-opacity=".12"/><stop offset="1" stop-color="#1769ff" stop-opacity="0"/></radialGradient>
+                                </defs>
+                                <circle cx="260" cy="260" r="258" fill="url(#gzoGlow)"/>
+                                <g class="gz-ring gz-ring-outer"><circle cx="260" cy="260" r="235" fill="none" stroke="url(#gzoRing)" stroke-width="1.8" stroke-dasharray="7 9"/><circle cx="160.7" cy="47" r="12" fill="#19d5e5" opacity=".18"/><circle cx="160.7" cy="47" r="6" fill="#19d5e5"/><circle cx="417.2" cy="85.4" r="13" fill="#1769ff" opacity=".18"/><circle cx="417.2" cy="85.4" r="7" fill="#1769ff"/><circle cx="417.2" cy="434.6" r="12" fill="#19d5e5" opacity=".18"/><circle cx="417.2" cy="434.6" r="6" fill="#19d5e5"/><circle cx="56.5" cy="377.5" r="11" fill="#7a5cff" opacity=".18"/><circle cx="56.5" cy="377.5" r="5" fill="#7a5cff"/></g>
+                                <g class="gz-ring gz-ring-middle"><circle cx="260" cy="260" r="172" fill="none" stroke="url(#gzoRing)" stroke-width="1.8" stroke-dasharray="5 7"/><circle cx="260" cy="260" r="172" fill="none" stroke="url(#gzoArc)" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="270 811" transform="rotate(95 260 260)"/><circle cx="149.4" cy="128.2" r="11" fill="#19d5e5" opacity=".18"/><circle cx="149.4" cy="128.2" r="5" fill="#19d5e5"/><circle cx="391.8" cy="149.4" r="11" fill="#19d5e5" opacity=".18"/><circle cx="391.8" cy="149.4" r="5" fill="#19d5e5"/><circle cx="431.3" cy="275" r="11" fill="#19d5e5" opacity=".18"/><circle cx="431.3" cy="275" r="5" fill="#19d5e5"/><circle cx="187.3" cy="415.9" r="11" fill="#12308f" opacity=".18"/><circle cx="187.3" cy="415.9" r="5" fill="#12308f"/><circle cx="88" cy="260" r="13" fill="#12308f" opacity=".18"/><circle cx="88" cy="260" r="7" fill="#12308f"/></g>
+                                <g class="gz-ring gz-ring-inner"><circle cx="260" cy="260" r="122" fill="none" stroke="url(#gzoRing)" stroke-width="1.4" stroke-dasharray="2 8" stroke-linecap="round"/><circle cx="301.7" cy="145.4" r="10" fill="#1769ff" opacity=".18"/><circle cx="301.7" cy="145.4" r="4" fill="#1769ff"/><circle cx="301.7" cy="374.6" r="10" fill="#19d5e5" opacity=".18"/><circle cx="301.7" cy="374.6" r="4" fill="#19d5e5"/><circle cx="145.4" cy="218.3" r="10" fill="#7a5cff" opacity=".18"/><circle cx="145.4" cy="218.3" r="4" fill="#7a5cff"/></g>
+                                <g class="gz-orbit-base">
+                                    <ellipse cx="260" cy="292" rx="96" ry="44" fill="url(#gzoSide)"/>
+                                    <ellipse cx="260" cy="276" rx="96" ry="44" fill="url(#gzoTop)"/>
+                                    <path d="M260 246 C237 216 222 198 222 174 a38 38 0 0 1 76 0 C298 198 283 216 260 246 Z" fill="url(#gzoPin)"/>
+                                    <circle cx="260" cy="174" r="15" fill="#d9f1ff"/>
+                                    <text class="gz-orbit-text" x="260" y="273" text-anchor="middle">Base</text>
+                                    <text class="gz-orbit-text" x="260" y="294" text-anchor="middle">Thisaiyanvilai</text>
+                                </g>
+                            </svg>
+                            <div class="gz-orbit-label gz-label-a"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.800a3.5 3.5 0 0 1 0 6.400M18 14.500a6.5 6.5 0 0 1 3.5 5.5"/></svg><span><strong>In-person</strong><small>Local &amp; Nearby</small></span></div>
+                            <div class="gz-orbit-label gz-label-b"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="11" rx="1.8"/><path d="M2 19.500h20"/></svg><span><strong>Remote</strong><small>Pan India &amp; Global</small></span></div>
+                            <div class="gz-orbit-label gz-label-c"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18.500a4.5 4.5 0 0 1-.6-9 6 6 0 0 1 11.4 1.3 3.9 3.9 0 0 1-.8 7.700z"/></svg><span><strong>Hybrid</strong><small>Flexible Engagement</small></span></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="feature-card10 gz-service-card">
-                            <h3 class="title h4">Thisaiyanvilai and Tirunelveli</h3>
-                            <p>Our home area, where meeting in person is easy. We build <a href="<?= site_url('services/website-development') ?>">websites</a>, <a href="<?= site_url('services/custom-software-development') ?>">custom software</a> and business systems for local companies.</p>
+                <div class="gz-cover-title"><span>Our Service Coverage</span></div>
+                <div class="gz-region-grid">
+                    <div class="gz-region-col gz-cover-a">
+                        <div class="gz-cover-head">
+                            <span class="gz-cover-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
+                            <div><h3 class="title h4">Thisaiyanvilai &amp; Tirunelveli</h3><span class="gz-region-tag">Our Home Area</span></div>
                         </div>
+                        <p>Our home area, where meeting in person is easy. We build <a href="<?= site_url('services/website-development') ?>">websites</a>, <a href="<?= site_url('services/custom-software-development') ?>">custom software</a> and business systems for local companies.</p>
+                        <ul><li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="m5.6 10.3 3 3 5.8-6.4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Primary business location</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="m5.6 10.3 3 3 5.8-6.4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Local website and software development</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="m5.6 10.3 3 3 5.8-6.4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>In-person meetings where appropriate</span></li></ul>
+                        <svg class="gz-cover-art" viewBox="0 0 170 120" aria-hidden="true"><path fill="currentColor" d="M50 120V96h8V84h6V72h6V60h6V48h5V34h4l2-12 2 12h4v14h5v12h6v12h6v12h6v12h8v24zM136 120v-46c-8-2-16 2-20 8 4-9 12-13 20-12-6-6-14-6-20-2 6-7 15-7 21-3 0-7-6-12-12-12 8-2 15 3 16 10 4-5 11-6 16-3-6 0-11 3-13 8 7-1 14 2 17 8-6-4-13-5-19-2 5 2 9 7 9 13-4-6-9-9-13-9l-2 40z"/><path fill="#fff" opacity=".7" d="M81 120v-18a6 6 0 0 1 12 0v18z"/></svg>
                     </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="feature-card10 gz-service-card">
-                            <h3 class="title h4">Thoothukudi, Nagercoil and Kanyakumari</h3>
-                            <p>We have no offices here, and projects run smoothly by phone and video call, with meetings arranged when a project needs them.</p>
+                    <div class="gz-region-col gz-cover-b">
+                        <div class="gz-cover-head">
+                            <span class="gz-cover-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6.5" width="12.5" height="11" rx="2.5"/><path d="m15.5 11 5.5-3.200v8.400L15.5 13"/></svg></span>
+                            <div><h3 class="title h4">Thoothukudi, Nagercoil &amp; Kanyakumari</h3><span class="gz-region-tag">Remote, with visits when needed</span></div>
                         </div>
+                        <p>We have no offices here, and projects run smoothly by phone and video call, with meetings arranged when a project needs them.</p>
+                        <ul><li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="m5.6 10.3 3 3 5.8-6.4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Remote project delivery</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="m5.6 10.3 3 3 5.8-6.4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Online consultations</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="m5.6 10.3 3 3 5.8-6.4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Meetings arranged when required</span></li></ul>
+                        <svg class="gz-cover-art" viewBox="0 0 170 120" aria-hidden="true"><path fill="currentColor" d="M0 120c20-16 38-24 60-24 8-8 24-16 42-14 26 3 46 20 68 38z"/><path fill="currentColor" d="M92 86 96 36h14l4 50zM94 32h18v-5l-3-3v-8h-12v8l-3 3z"/><path fill="#fff" opacity=".65" d="M95 52h16l.7 8H94.3zM93.6 70h19l.7 8H93z"/></svg>
                     </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="feature-card10 gz-service-card">
-                            <h3 class="title h4">Thiruvananthapuram and further afield</h3>
-                            <p>Most website and software work can be done remotely. <a href="<?= site_url('areas-we-serve') ?>">See the areas we serve</a> and how we work in each one.</p>
+                    <div class="gz-region-col gz-cover-c">
+                        <div class="gz-cover-head">
+                            <span class="gz-cover-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18.500a4.5 4.5 0 0 1-.6-9 6 6 0 0 1 11.4 1.3 3.9 3.9 0 0 1-.8 7.700z"/></svg></span>
+                            <div><h3 class="title h4">Thiruvananthapuram &amp; Beyond</h3><span class="gz-region-tag">Remote delivery</span></div>
                         </div>
+                        <p>Most website and software work can be done remotely. <a href="<?= site_url('areas-we-serve') ?>">See the areas we serve</a> and how we work in each one.</p>
+                        <ul><li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="m5.6 10.3 3 3 5.8-6.4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Remote website and software development</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="m5.6 10.3 3 3 5.8-6.4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Digital services for businesses in relevant regions</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="m5.6 10.3 3 3 5.8-6.4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>No office here; support is online</span></li></ul>
+                        <svg class="gz-cover-art" viewBox="0 0 170 120" aria-hidden="true"><path fill="currentColor" d="M0 120c30-14 60-20 92-18 30 2 56 8 78 18z"/><path fill="currentColor" d="M128 108c3-20 4-40 2-58h4c3 18 2 40-1 58zM132 50c-10-10-24-12-34-4 10-3 22-1 30 8-10-3-22 0-28 10 9-6 20-8 30-4-3 6-5 14-3 22 2-9 6-16 12-20 4 8 5 16 3 24 5-9 5-19 1-27 8 0 15 5 19 12-1-10-8-17-18-19 6-2 13-2 19 2-6-7-16-8-23-4zM66 106c2-11 2-22 1-30h3c2 8 2 20 0 30zM68 76c-6-6-14-7-20-3 6-1 12 0 17 5-6-1-12 1-16 6 5-3 11-4 17-2-2 4-2 8-1 12 1-5 3-9 7-11 2 4 3 9 2 13 3-5 3-10 1-15 5 0 9 3 11 7 0-6-5-10-10-11 3-1 7-1 11 1-3-4-9-5-13-3z"/></svg>
                     </div>
                 </div>
             </div>

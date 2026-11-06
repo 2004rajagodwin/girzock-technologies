@@ -17,6 +17,10 @@ class Media_manager {
 		'application/cdfv2' => array('doc'),
 	);
 
+	const WEBP_QUALITY = 82;
+	const IMAGE_MAX_WIDTH = 2000;
+	const IMAGE_COPY_WIDTHS = array(1200, 800, 420);
+
 	private $CI;
 	public $error = '';
 
@@ -56,8 +60,9 @@ class Media_manager {
 	}
 
 	/**
-	 * Stores an uploaded image under assets/uploads/YYYY/MM and records it in the media library.
-	 * JPEG and PNG files are converted to WebP when the server supports it.
+	 * Stores an uploaded image under assets/uploads/YYYY/MM as optimised WebP, with smaller
+	 * copies for responsive display, and records it in the media library. If conversion fails
+	 * nothing is stored and $error explains why, so a saved path is always a real WebP file.
 	 * @return array|FALSE media_library row data including file_path
 	 */
 	public function store_image(array $file, $uploaded_by = NULL, $alt_text = NULL)
@@ -75,9 +80,26 @@ class Media_manager {
 			return FALSE;
 		}
 		$info = @getimagesize($file['tmp_name']);
-		if ( ! $info OR $info[0] < 1 OR $info[0] > 8000 OR $info[1] > 8000)
+		if ( ! $info OR $info[0] < 1 OR $info[1] < 1 OR $info[0] > 8000 OR $info[1] > 8000 OR $info['mime'] !== $mime)
 		{
 			$this->error = 'That file is not a usable image.';
+			return FALSE;
+		}
+		if ($this->is_animated($file['tmp_name'], $mime))
+		{
+			$this->error = 'Animated images cannot be converted to WebP here. Please upload a still image.';
+			return FALSE;
+		}
+		$engine = $this->webp_engine();
+		if ( ! $engine)
+		{
+			log_message('error', 'Media: neither Imagick nor GD can write WebP on this server.');
+			$this->error = 'This server cannot create WebP images. It needs Imagick or GD with WebP support, so the image was not saved.';
+			return FALSE;
+		}
+		if ( ! $this->enough_memory($info[0], $info[1]))
+		{
+			$this->error = 'That image has too many pixels for the server to process. Please upload a smaller one.';
 			return FALSE;
 		}
 
@@ -91,79 +113,224 @@ class Media_manager {
 		}
 
 		$name = bin2hex(random_bytes(16));
-		$final_mime = $mime;
-		$width = $info[0];
-		$height = $info[1];
-		$saved = FALSE;
-		$converted = $this->convert_to_webp($file['tmp_name'], $mime, $absolute.'/'.$name.'.webp');
-		if ($converted)
+		$target = $folder.'/'.$name.'.webp';
+		try
 		{
-			$target = $name.'.webp';
-			$final_mime = 'image/webp';
-			$saved = TRUE;
-			$size = filesize($absolute.'/'.$target);
-			$width = $converted[0];
-			$height = $converted[1];
+			$size = $engine === 'imagick'
+				? $this->encode_with_imagick($file['tmp_name'], FCPATH.$target)
+				: $this->encode_with_gd($file['tmp_name'], $mime, FCPATH.$target);
 		}
-		else
+		catch (Throwable $e)
 		{
-			$target = $name.'.'.self::IMAGE_TYPES[$mime];
-			$saved = move_uploaded_file($file['tmp_name'], $absolute.'/'.$target);
-			$size = $saved ? filesize($absolute.'/'.$target) : 0;
+			log_message('error', 'Media: conversion failed: '.$e->getMessage());
+			$size = FALSE;
 		}
-		if ( ! $saved)
+		if ( ! $size OR ! $this->is_webp(FCPATH.$target))
 		{
-			$this->error = 'The file could not be saved.';
+			$this->delete_files($target);
+			$this->error = 'The image could not be converted to WebP, so it was not saved. Please try another file.';
 			return FALSE;
 		}
 
 		$row = array(
-			'file_name' => $target,
+			'file_name' => $name.'.webp',
 			'original_name' => mb_substr(basename((string) $file['name']), 0, 255),
-			'file_path' => $folder.'/'.$target,
-			'mime_type' => $final_mime,
-			'file_size' => $size,
-			'width' => $width,
-			'height' => $height,
+			'file_path' => $target,
+			'mime_type' => 'image/webp',
+			'file_size' => filesize(FCPATH.$target),
+			'width' => $size[0],
+			'height' => $size[1],
 			'alt_text' => $alt_text,
 			'uploaded_by' => $uploaded_by,
 		);
-		$this->CI->db->insert('media_library', $row);
+		if ( ! $this->CI->db->insert('media_library', $row))
+		{
+			$this->delete_files($target);
+			$this->error = 'The file could not be saved.';
+			return FALSE;
+		}
 		$row['id'] = $this->CI->db->insert_id();
 		return $row;
 	}
 
-	/** @return array|FALSE final width and height */
-	private function convert_to_webp($source, $mime, $destination)
+	/** Removes a stored upload and its responsive copies. */
+	public function delete_files($path)
 	{
-		if ( ! function_exists('imagewebp') OR ! in_array($mime, array('image/jpeg', 'image/png'), TRUE))
+		$path = (string) $path;
+		if (strpos($path, 'assets/uploads/') !== 0 OR strpos($path, '..') !== FALSE)
+		{
+			return;
+		}
+		@unlink(FCPATH.$path);
+		if (substr($path, -5) === '.webp')
+		{
+			foreach ((array) glob(FCPATH.substr($path, 0, -5).'-*w.webp') as $copy)
+			{
+				@unlink($copy);
+			}
+		}
+	}
+
+	/** @return string|NULL which library can write WebP here; Imagick is preferred */
+	private function webp_engine()
+	{
+		if (extension_loaded('imagick') && class_exists('Imagick') && in_array('WEBP', Imagick::queryFormats('WEBP'), TRUE))
+		{
+			return 'imagick';
+		}
+		return function_exists('imagewebp') ? 'gd' : NULL;
+	}
+
+	private function is_animated($path, $mime)
+	{
+		if ($mime !== 'image/gif' && $mime !== 'image/webp')
 		{
 			return FALSE;
 		}
-		$image = $mime === 'image/png' ? @imagecreatefrompng($source) : @imagecreatefromjpeg($source);
+		$bytes = (string) @file_get_contents($path);
+		if ($mime === 'image/webp')
+		{
+			return strpos(substr($bytes, 0, 256), 'ANIM') !== FALSE OR strpos($bytes, 'ANMF') !== FALSE;
+		}
+		return preg_match_all('/\x21\xF9\x04.{4}\x00[\x2C\x21]/s', $bytes) > 1;
+	}
+
+	private function enough_memory($width, $height)
+	{
+		$limit = trim((string) ini_get('memory_limit'));
+		if ($limit === '' OR $limit === '-1')
+		{
+			return TRUE;
+		}
+		$units = array('G' => 1073741824, 'M' => 1048576, 'K' => 1024);
+		$unit = strtoupper(substr($limit, -1));
+		$bytes = (int) $limit * (isset($units[$unit]) ? $units[$unit] : 1);
+		return memory_get_usage(TRUE) + $width * $height * 5 * 2 < $bytes;
+	}
+
+	private function is_webp($path)
+	{
+		$info = is_file($path) && filesize($path) > 0 ? @getimagesize($path) : FALSE;
+		return $info && $info['mime'] === 'image/webp';
+	}
+
+	/** Width a stored image should have, and the smaller copies worth making for it. */
+	private function plan_widths($width)
+	{
+		$full = min($width, self::IMAGE_MAX_WIDTH);
+		$copies = array();
+		foreach (self::IMAGE_COPY_WIDTHS as $copy)
+		{
+			if ($copy < $full)
+			{
+				$copies[] = $copy;
+			}
+		}
+		return array($full, $copies);
+	}
+
+	/** @return array|FALSE final width and height */
+	private function encode_with_gd($source, $mime, $destination)
+	{
+		$loaders = array('image/jpeg' => 'imagecreatefromjpeg', 'image/png' => 'imagecreatefrompng', 'image/gif' => 'imagecreatefromgif', 'image/webp' => 'imagecreatefromwebp');
+		if ( ! function_exists($loaders[$mime]))
+		{
+			return FALSE;
+		}
+		$image = @call_user_func($loaders[$mime], $source);
 		if ( ! $image)
 		{
 			return FALSE;
 		}
-		$width = imagesx($image);
-		$height = imagesy($image);
-		if ($width > 2000)
+		imagepalettetotruecolor($image);
+		imagealphablending($image, FALSE);
+		imagesavealpha($image, TRUE);
+		if ($mime === 'image/jpeg' && function_exists('exif_read_data'))
 		{
-			$scaled = imagescale($image, 2000);
-			if ($scaled)
+			$exif = @exif_read_data($source);
+			$turn = array(3 => 180, 6 => -90, 8 => 90);
+			if ( ! empty($exif['Orientation']) && isset($turn[$exif['Orientation']]))
 			{
-				imagedestroy($image);
-				$image = $scaled;
-				$width = imagesx($image);
-				$height = imagesy($image);
+				$rotated = imagerotate($image, $turn[$exif['Orientation']], 0);
+				if ($rotated)
+				{
+					imagedestroy($image);
+					$image = $rotated;
+				}
 			}
 		}
-		imagepalettetotruecolor($image);
-		imagealphablending($image, TRUE);
-		imagesavealpha($image, TRUE);
-		$ok = imagewebp($image, $destination, 82);
+		list($full, $copies) = $this->plan_widths(imagesx($image));
+		$base = substr($destination, 0, -5);
+		$result = FALSE;
+		$sizes = array($full => $destination);
+		foreach ($copies as $copy)
+		{
+			$sizes[$copy] = $base.'-'.$copy.'w.webp';
+		}
+		foreach ($sizes as $width => $path)
+		{
+			$scaled = $width === imagesx($image) ? $image : imagescale($image, $width, -1, IMG_BICUBIC);
+			if ( ! $scaled)
+			{
+				imagedestroy($image);
+				return FALSE;
+			}
+			imagealphablending($scaled, FALSE);
+			imagesavealpha($scaled, TRUE);
+			$written = imagewebp($scaled, $path, self::WEBP_QUALITY);
+			if ($path === $destination)
+			{
+				$result = array(imagesx($scaled), imagesy($scaled));
+			}
+			if ($scaled !== $image)
+			{
+				imagedestroy($scaled);
+			}
+			if ( ! $written)
+			{
+				imagedestroy($image);
+				return FALSE;
+			}
+		}
 		imagedestroy($image);
-		return $ok ? array($width, $height) : FALSE;
+		return $result;
+	}
+
+	/** @return array|FALSE final width and height */
+	private function encode_with_imagick($source, $destination)
+	{
+		$image = new Imagick($source);
+		$image->autoOrient();
+		$image->stripImage();
+		$image->setImageFormat('webp');
+		$image->setImageCompressionQuality(self::WEBP_QUALITY);
+		list($full, $copies) = $this->plan_widths($image->getImageWidth());
+		$base = substr($destination, 0, -5);
+		$sizes = array($full => $destination);
+		foreach ($copies as $copy)
+		{
+			$sizes[$copy] = $base.'-'.$copy.'w.webp';
+		}
+		$result = FALSE;
+		foreach ($sizes as $width => $path)
+		{
+			$scaled = clone $image;
+			if ($width !== $image->getImageWidth())
+			{
+				$scaled->resizeImage($width, 0, Imagick::FILTER_LANCZOS, 1);
+			}
+			if ( ! $scaled->writeImage($path))
+			{
+				return FALSE;
+			}
+			if ($path === $destination)
+			{
+				$result = array($scaled->getImageWidth(), $scaled->getImageHeight());
+			}
+			$scaled->clear();
+		}
+		$image->clear();
+		return $result;
 	}
 
 	/**

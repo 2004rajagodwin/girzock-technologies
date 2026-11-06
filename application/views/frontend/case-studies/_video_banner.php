@@ -3,7 +3,7 @@
     <section class="video-banner4">
         <h2 class="visually-hidden">Start Your Project with GIRZOCK Technologies</h2>
         <div class="parallax-wrap">
-            <img src="<?= asset('assets/images/bg/video4-1.png') ?>" alt="" class="parallax-img">
+            <img src="<?= asset('assets/images/bg/video4-1.png') ?>" width="1876" height="793" alt="" class="parallax-img">
         </div>
         <div class="video-banner-img4">
             <img src="<?= asset('assets/logos/girzock-logo-white.png') ?>" alt="GIRZOCK Technologies logo">

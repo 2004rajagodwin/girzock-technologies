@@ -14,12 +14,11 @@ class CaseStudies extends Public_Controller {
 		$studies = $this->case_study_model->published();
 		$samples = array_filter($studies, function ($study) { return stripos((string) $study['card_label'], 'sample') !== FALSE; });
 		$this->render('frontend/case-studies/index', array(
-			'gallery_scripts' => TRUE,
 			'seo' => $this->seo->build(array('entity' => array('page', 'case-studies'), 'path' => 'case-studies',
 				'breadcrumbs' => array('Home' => '', 'Case Studies' => NULL))),
 			'studies' => $studies,
 			'sample_count' => count($samples),
-			'service_count' => count($this->settings_model->services_by('home_core_order')),
+			'service_count' => count($this->settings_model->active_services()),
 		));
 	}
 

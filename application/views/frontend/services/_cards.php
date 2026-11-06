@@ -7,7 +7,7 @@ $card = function ($s, $card_class, $content_class) {
 	<div class="ser-card<?= $card_class ?>"<?= $s['legacy_anchor'] ? ' id="'.e($s['legacy_anchor']).'"' : '' ?>>
 		<img src="<?= e(media_url($s['image'])) ?>" alt="">
 		<div class="ser-content<?= $content_class ?>">
-			<h4 class="title"><a href="<?= $link ?>"><?= e($s['title']) ?></a></h4>
+			<h3 class="title h4"><a href="<?= $link ?>"><?= e($s['title']) ?></a></h3>
 			<p><?= e($s['short_description']) ?></p>
 		</div>
 		<a href="<?= $link ?>" class="ser-btn" aria-label="Learn about <?= e($s['title']) ?>">
@@ -28,7 +28,7 @@ $card = function ($s, $card_class, $content_class) {
     <div class="ser-card v4"<?= $s['legacy_anchor'] ? ' id="'.e($s['legacy_anchor']).'"' : '' ?>>
         <div class="ser-content">
             <img src="<?= e(media_url($s['icon'] ? $s['icon'] : $s['image'])) ?>" alt="">
-            <h4 class="title"><a href="<?= site_url('services/'.$s['slug']) ?>"><?= e($s['title']) ?></a></h4>
+            <h3 class="title h4"><a href="<?= site_url('services/'.$s['slug']) ?>"><?= e($s['title']) ?></a></h3>
             <p><?= e($s['short_description']) ?></p>
         </div>
         <a href="<?= site_url('services/'.$s['slug']) ?>" class="ser-btn" aria-label="Learn about <?= e($s['title']) ?>">

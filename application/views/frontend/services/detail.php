@@ -13,7 +13,8 @@ $faqs = pipe_rows($service['faqs']);
         <div class="row">
             <div class="col-xl-6 col-lg-5">
                 <div class="project-img7">
-                    <img src="<?= e(media_url($service['image'])) ?>" alt="<?= e($service['title']) ?> by <?= e(setting('company_name')) ?>">
+                    <?php $page_image = $service['detail_image'] ? $service['detail_image'] : $service['image']; ?>
+                    <img src="<?= e(media_url($page_image)) ?>"<?= media_srcset($page_image, '456px') ?> width="456" height="561" alt="<?= e($service['detail_image_alt'] ? $service['detail_image_alt'] : $service['title'].' by '.setting('company_name')) ?>">
                 </div>
             </div>
             <div class="col-xl-6 col-lg-7">
@@ -38,7 +39,7 @@ $faqs = pipe_rows($service['faqs']);
     <div class="container">
         <div class="sec-title">
             <span class="sub-title">problems we solve</span>
-            <h2 class="title animated-heading">Where This Service Helps</h2>
+            <h2 class="title animated-heading">Problems We Solve with <?= e($service['title']) ?></h2>
         </div>
         <div class="row">
             <?php foreach ($problems as $row): ?>
@@ -60,7 +61,7 @@ $faqs = pipe_rows($service['faqs']);
         <div class="row">
             <div class="col-lg-3">
                 <div class="process-title">
-                    <h2 class="title h3">What You Get</h2>
+                    <h2 class="title h3">Features and Benefits</h2>
                 </div>
             </div>
             <div class="col-lg-9">
@@ -91,7 +92,7 @@ $faqs = pipe_rows($service['faqs']);
 <section class="faq-sec5 ibt-section-gapBottom">
     <div class="container">
         <div class="faq-content5 gz-workflow">
-            <h2 class="title">How We Work</h2>
+            <h2 class="title">How We Deliver <?= e($service['title']) ?></h2>
             <?php $last = count($workflow) - 1; foreach ($workflow as $i => $row): ?>
             <div class="faq-block5<?= $i === $last ? ' mb-0' : '' ?>">
                 <h3 class="title2 h4"><span><?= $i + 1 ?>.</span><?= e($row[0]) ?></h3>
@@ -104,7 +105,7 @@ $faqs = pipe_rows($service['faqs']);
 <?php endif; ?>
 
 <?php if ($faqs): ?>
-<section class="faq-sec ibt-section-gapBottom">
+<section class="faq-sec ibt-section-gapBottom gz-detail-faq">
     <div class="container">
         <div class="row">
             <div class="col-lg-4">
@@ -144,7 +145,7 @@ $faqs = pipe_rows($service['faqs']);
     <div class="container">
         <div class="sec-title">
             <span class="sub-title">related services</span>
-            <h2 class="title animated-heading">Services That Often Go Together</h2>
+            <h2 class="title animated-heading">Services Related to <?= e($service['title']) ?></h2>
             <?php if ($service['cta_text']): ?><p><?= e($service['cta_text']) ?> <a href="<?= site_url('contact') ?>">Talk to GIRZOCK Technologies</a>.</p><?php endif; ?>
         </div>
         <div class="row">

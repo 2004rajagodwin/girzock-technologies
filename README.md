@@ -124,6 +124,10 @@ Scheduled blog posts go live on their own at the chosen time, with no cron job.
 
 **Speed on the server:** turn on `mod_deflate` for text compression. In XAMPP, remove the `#` before `LoadModule deflate_module` in `httpd.conf` and restart Apache. `.htaccess` already has the rules.
 
+**Illustrations:** the service, article and case study artwork and the industry icons are drawn by `database/tools/build_illustrations.js`. Edit a scene there and re-run it with `NODE_PATH=<folder with puppeteer-core> node database/tools/build_illustrations.js`.
+
+**Uploaded images:** every admin upload is stored as WebP with smaller copies beside it. If the server cannot convert a file, the upload is refused with a message. It needs Imagick or GD with WebP support.
+
 **Editing CSS or JavaScript:** the site loads `.min` files. After editing `style.css`, `girzock.css`, `girzock-dynamic.css`, `main.js` or `girzock.js`, rebuild them with `database/tools/minify_assets.js`. After adding large images, run `php database/tools/build_webp.php`.
 
 ## Version control

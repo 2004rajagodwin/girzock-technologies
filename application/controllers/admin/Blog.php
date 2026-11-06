@@ -36,6 +36,7 @@ class Blog extends Admin_Crud_Controller {
 			array('name' => 'author_name', 'label' => 'Author', 'type' => 'text', 'max' => 120, 'group' => 'side', 'help' => 'Left blank, your own name is used.'),
 			array('name' => 'reading_time', 'label' => 'Reading time (minutes)', 'type' => 'number', 'group' => 'side', 'help' => 'Left blank or 0, it is calculated from the content.'),
 			array('name' => 'featured_image', 'label' => 'Featured image', 'type' => 'image', 'group' => 'side'),
+			array('name' => 'featured_image_alt', 'label' => 'Featured image alt text', 'type' => 'text', 'max' => 255, 'group' => 'side', 'help' => 'Describe the image. Left blank, the article title is used.'),
 		);
 	}
 

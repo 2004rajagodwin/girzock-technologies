@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-/* Main navigation. The homepage shows the services mega menu; inner pages show the sub-menu, as on the original site. */
+/* Main navigation. Every page uses this one menu and its services mega menu. */
 $top = array('products' => 'Products', 'case-studies' => 'Case Studies', 'portfolio' => 'Portfolio', 'careers' => 'Careers', 'blog' => 'Blog', 'contact' => 'Contact');
 $active = function ($section) use ($is_home) { return $is_home ? '' : nav_active($section); };
 ?>
@@ -23,7 +23,6 @@ $active = function ($section) use ($is_home) { return $is_home ? '' : nav_active
                 <span class="menu-item">Services</span>
                 <span class="menu-item2">Services</span>
             </a>
-            <?php if ($is_home): ?>
             <?php $menu = $this->settings_model->services_by('menu_order'); $first = isset($menu[0]) ? $menu[0] : NULL; ?>
             <ul class="mega-sub-menu girzock-mega">
                 <li class="mega-menu-column">
@@ -45,13 +44,6 @@ $active = function ($section) use ($is_home) { return $is_home ? '' : nav_active
                 </li>
                 <?php endif; ?>
             </ul>
-            <?php else: ?>
-            <ul class="sub-menu">
-                <?php foreach ($this->settings_model->services_by('footer_order') as $service): ?>
-                <li><a href="<?= site_url('services/'.$service['slug']) ?>"><?= e($service['footer_title'] ? $service['footer_title'] : $service['title']) ?></a></li>
-                <?php endforeach; ?>
-            </ul>
-            <?php endif; ?>
         </li>
         <?php foreach ($top as $section => $label): ?>
         <li class="girzock-no-sub">

@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 $email = setting('contact_email');
 $address_html = str_replace("\n", ' <br>', e(setting('business_address')));
-$mobile_services = $is_home ? $this->settings_model->services_by('menu_order') : $this->settings_model->services_by('footer_order');
+$mobile_services = $this->settings_model->services_by('menu_order');
 ?>
 <!-- Preloader -->
 <div id="preloader">
@@ -36,10 +36,10 @@ $mobile_services = $is_home ? $this->settings_model->services_by('menu_order') :
     <a href="#sideMenu" class="close-btn" id="closeBtn"><i class="fa fa-close"></i> close</a>
     <div class="menu-content">
         <a class='logo' href="<?= site_url() ?>">
-            <img src="<?= e(media_url(setting('logo_white'))) ?>" alt="<?= e(setting('company_name')) ?> logo">
+            <img src="<?= e(media_url(setting('logo_white'))) ?>" width="640" height="199" alt="<?= e(setting('company_name')) ?> logo">
         </a>
         <div class="sidebar-menu">
-            <?php if ($is_home): ?><div class="title">contacts</div><?php else: ?><h4 class="title">Contacts</h4><?php endif; ?>
+            <?php if ($is_home): ?><div class="title">contacts</div><?php else: ?><h3 class="title h4">Contacts</h3><?php endif; ?>
             <p><?= $address_html ?></p>
             <a href="mailto:<?= e($email) ?>" class="email"><?= e($email) ?></a>
             <a href="<?= site_url('contact') ?>" class="ibt-btn ibt-btn-outline-3 ibt-btn-rounded">
@@ -72,7 +72,7 @@ $mobile_services = $is_home ? $this->settings_model->services_by('menu_order') :
             <ul>
                 <li><a href="<?= site_url('services') ?>">All services</a></li>
                 <?php foreach ($mobile_services as $service): ?>
-                <li><a href="<?= site_url('services/'.$service['slug']) ?>"><?= e($is_home ? ($service['menu_title'] ? $service['menu_title'] : $service['title']) : ($service['footer_title'] ? $service['footer_title'] : $service['title'])) ?></a></li>
+                <li><a href="<?= site_url('services/'.$service['slug']) ?>"><?= e($service['menu_title'] ? $service['menu_title'] : $service['title']) ?></a></li>
                 <?php endforeach; ?>
             </ul>
         </li>
@@ -105,7 +105,7 @@ $mobile_services = $is_home ? $this->settings_model->services_by('menu_order') :
             <div class="col-auto">
                 <div class="header-logo">
                     <a href="#sideMenu" class="menu-toggle" aria-label="Open contact panel"></a>
-                    <a href="<?= site_url() ?>" aria-label="<?= e(setting('company_name')) ?> home"><img src="<?= e(media_url(setting('logo_color'))) ?>" alt="<?= e(setting('company_name')) ?> logo"<?= $is_home ? '' : ' class="girzock-auto-logo"' ?>></a>
+                    <a href="<?= site_url() ?>" aria-label="<?= e(setting('company_name')) ?> home"><img src="<?= e(media_url(setting('logo_color'))) ?>" width="640" height="199" alt="<?= e(setting('company_name')) ?> logo"<?= $is_home ? '' : ' class="girzock-auto-logo"' ?>></a>
                 </div>
             </div>
             <div class="col-auto">

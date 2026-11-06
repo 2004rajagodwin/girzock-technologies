@@ -7,7 +7,7 @@ class Media extends Admin_Controller {
 
 	/** Columns that may reference a media file, checked before a delete. */
 	const REFERENCES = array(
-		'services' => array('image', 'icon', 'menu_image', 'home_core_image', 'home_overview_image', 'description'),
+		'services' => array('image', 'detail_image', 'icon', 'menu_image', 'home_core_image', 'home_overview_image', 'description'),
 		'products' => array('image', 'description'),
 		'portfolio_projects' => array('image', 'gallery', 'description'),
 		'case_studies' => array('image', 'gallery'),
@@ -136,7 +136,8 @@ class Media extends Admin_Controller {
 		$this->db->where('id', $row['id'])->update('media_library', array('deleted_at' => date('Y-m-d H:i:s')));
 		if (is_safe_asset_path($row['file_path']) && strpos($row['file_path'], 'assets/uploads/') === 0)
 		{
-			@unlink(FCPATH.$row['file_path']);
+			$this->load->library('media_manager');
+			$this->media_manager->delete_files($row['file_path']);
 		}
 		$this->log_action('delete', $row['id'], $row['original_name']);
 		$this->flash_success('File deleted.');

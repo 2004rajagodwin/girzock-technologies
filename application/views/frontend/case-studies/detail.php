@@ -18,7 +18,8 @@ $sections = array(
             </div>
             <div class="col-lg-9">
                 <article class="process-detail gz-article">
-                    <?php if ($study['image']): ?><img class="gz-article-image" src="<?= e(media_url($study['image'])) ?>" alt="<?= e($study['title']) ?>"><?php endif; ?>
+                    <?php if ($study['image']): ?><img class="gz-article-image" src="<?= e(media_url($study['image'])) ?>"<?= media_srcset($study['image'], '(max-width: 991px) 92vw, 985px') ?> width="1200" height="900" alt="<?= e($study['image_alt'] ? $study['image_alt'] : $study['title']) ?>">
+                    <?php if (stripos((string) $study['status_label'], 'sample') !== FALSE): ?><small class="gz-image-note">Concept image, not a client photograph or project screenshot.</small><?php endif; ?><?php endif; ?>
                     <?php foreach ($sections as $label => $body): if ( ! trim((string) $body)) { continue; } ?>
                     <h3 class="girzock-article-title"><?= $label === 'Results' && stripos((string) $study['status_label'], 'sample') !== FALSE ? 'Outcome we would aim for' : e($label) ?></h3>
                     <?php if ($body !== strip_tags($body)): ?><div class="gz-rich-text"><?= rich_text($body) ?></div><?php else: ?><p><?= nl2br(e($body)) ?></p><?php endif; ?>
@@ -33,8 +34,8 @@ $sections = array(
                     <?php if ($study['quote']): ?>
                     <blockquote>
                         <div class="quote-box">
-                            <img src="<?= asset('assets/images/icon/comas2.svg') ?>" alt="">
-                            <h4 class="title"><?= e($study['quote']) ?></h4>
+                            <img src="<?= asset('assets/images/icon/comas2.svg') ?>" width="52" height="39" alt="">
+                            <h3 class="title h4"><?= e($study['quote']) ?></h3>
                             <span class="sub-title"><?= e($study['quote_author']) ?></span>
                         </div>
                     </blockquote>

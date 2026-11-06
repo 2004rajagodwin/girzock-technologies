@@ -14,7 +14,12 @@ function e($value)
 /** Public URL for a file under the web root. */
 function asset($path)
 {
-	return base_url(ltrim((string) $path, '/'));
+	$path = ltrim((string) $path, '/');
+	if (preg_match('/\.(css|js)$/', $path) && is_file(FCPATH.$path))
+	{
+		return base_url($path).'?v='.filemtime(FCPATH.$path);
+	}
+	return base_url($path);
 }
 
 /** Resolves a stored media value: an absolute http(s) URL or a path relative to the web root. */
@@ -26,6 +31,44 @@ function media_url($path)
 		return '';
 	}
 	return preg_match('#^https?://#i', $path) ? $path : base_url(ltrim($path, '/'));
+}
+
+/** srcset and sizes attributes for a WebP image that has -NNNw.webp copies beside it; empty otherwise. */
+function media_srcset($path, $sizes)
+{
+	static $sets = array();
+	$path = ltrim(trim((string) $path), '/');
+	if ( ! isset($sets[$path]))
+	{
+		$sets[$path] = array();
+		if (preg_match('#^assets/[\w./-]+\.webp$#', $path) && strpos($path, '..') === FALSE && is_file(FCPATH.$path))
+		{
+			$base = substr($path, 0, -5);
+			$size = @getimagesize(FCPATH.$path);
+			if ($size)
+			{
+				$sets[$path][$size[0]] = $path;
+			}
+			foreach ((array) glob(FCPATH.$base.'-*w.webp') as $file)
+			{
+				if (preg_match('/-(\d+)w\.webp$/', $file, $match))
+				{
+					$sets[$path][(int) $match[1]] = $base.'-'.$match[1].'w.webp';
+				}
+			}
+			ksort($sets[$path]);
+		}
+	}
+	if (count($sets[$path]) < 2)
+	{
+		return '';
+	}
+	$parts = array();
+	foreach ($sets[$path] as $width => $file)
+	{
+		$parts[] = media_url($file).' '.$width.'w';
+	}
+	return ' srcset="'.e(implode(', ', $parts)).'" sizes="'.e($sizes).'"';
 }
 
 /** Prints trusted, already-sanitised rich text and makes relative asset paths absolute. */

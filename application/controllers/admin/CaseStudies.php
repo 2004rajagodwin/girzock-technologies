@@ -40,6 +40,7 @@ class CaseStudies extends Admin_Crud_Controller {
 			array('name' => 'gallery', 'label' => 'Images', 'type' => 'gallery', 'group' => 'main'),
 			array('name' => 'status', 'label' => 'Status', 'type' => 'select', 'required' => TRUE, 'options' => array('draft' => 'Draft', 'published' => 'Published'), 'group' => 'side'),
 			array('name' => 'image', 'label' => 'Main image', 'type' => 'image', 'group' => 'side'),
+			array('name' => 'image_alt', 'label' => 'Main image alt text', 'type' => 'text', 'max' => 255, 'group' => 'side', 'help' => 'For a sample concept, say that it is a concept.'),
 			array('name' => 'card_label', 'label' => 'Card label', 'type' => 'text', 'max' => 60, 'group' => 'side', 'help' => 'For example: Sample concept, or Client project'),
 			array('name' => 'card_title', 'label' => 'Card title', 'type' => 'text', 'max' => 160, 'group' => 'side'),
 			array('name' => 'category_label', 'label' => 'Category', 'type' => 'text', 'max' => 80, 'group' => 'side'),

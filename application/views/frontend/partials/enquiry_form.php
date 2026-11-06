@@ -29,7 +29,7 @@
     </div>
     <div class="girzock-field girzock-field-wide">
         <label class="girzock-sr-only" id="gz-service-label" for="gz-service">Service Required</label>
-        <select id="gz-service" name="service" required aria-describedby="gz-service-error"><option value="">Select a service</option><?php foreach ($this->settings_model->services_by('form_order') as $service): ?><option><?= e($service['form_label'] ? $service['form_label'] : $service['title']) ?></option><?php endforeach; ?><option>Other</option></select>
+        <select id="gz-service" name="service" required aria-describedby="gz-service-error"><option value="">Select a service</option><?php foreach ($this->settings_model->form_services() as $label): ?><option><?= e($label) ?></option><?php endforeach; ?><option>Other</option></select>
         <span class="girzock-field-error" id="gz-service-error"></span>
     </div>
     <div class="girzock-field girzock-field-wide">

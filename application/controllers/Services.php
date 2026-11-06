@@ -45,7 +45,7 @@ class Services extends Public_Controller {
 				'title' => $service['title'].' | '.setting('company_name'),
 				'description' => $description,
 				'path' => $path,
-				'image' => $service['image'],
+				'image' => $service['detail_image'] ? $service['detail_image'] : $service['image'],
 				'breadcrumbs' => array('Home' => '', 'Services' => 'services', $service['title'] => NULL),
 				'schema' => array(array('@context' => 'https://schema.org', '@type' => 'Service', 'name' => $service['title'], 'description' => $description,
 					'url' => $this->seo->canonical($path), 'provider' => $this->seo->provider(), 'areaServed' => $this->seo->area_served())),

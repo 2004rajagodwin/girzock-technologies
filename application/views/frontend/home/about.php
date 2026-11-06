@@ -3,7 +3,7 @@
         <section class="page-banner11">
         <div class="shape"></div>
         <div class="shape3"></div>
-        <div class="staff-text">Girzock</div>
+        <div class="staff-text">GIRZOCK</div>
         <div class="container">
             <div class="page-content">
                 <h1 class="title">/ About GIRZOCK /</h1>
@@ -31,7 +31,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="about-content9">
-                            <h3 class="title">Girzock</h3>
+                            <h3 class="title">GIRZOCK</h3>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -66,9 +66,9 @@
                         <div class="ser-card22">
                             <div class="ser-content22">
                                 <img src="<?= asset('assets/images/layers/corss2.png') ?>" width="274" height="94" alt="" class="cross" loading="lazy" decoding="async">
-                                <h4 class="title">Mission</h4>
+                                <h3 class="title h4">Mission</h3>
                                 <p>To help businesses grow with dependable, well-built websites, software and cloud solutions that solve real problems and are simple to use.</p>
-                                <h4 class="title">Vision</h4>
+                                <h3 class="title h4">Vision</h3>
                                 <p>To be a trusted technology partner, from Tirunelveli to businesses everywhere, known for clear communication and quality work.</p>
                             </div>
                         </div>
@@ -77,11 +77,11 @@
                         <div class="ser-card22 v2">
                             <img src="<?= asset('assets/images/event/ser22-2.png') ?>" width="1254" height="599" alt="" loading="lazy" decoding="async">
                             <div class="inner-content2">
-                                <h4 class="profection">We build technology that helps your business develop, expand and transform</h4>
+                                <h3 class="profection h4">We build technology that helps your business develop, expand and transform</h3>
                                 <div class="ser-counter22">
                                     <div class="counter-box22">
-                                        <span class="counter-number percent-counter" data-target="9">0</span>
-                                        <span class="counter-text"></span>
+                                        <span class="counter-number percent-counter" data-target="10">0</span>
+                                        <span class="counter-text">+</span>
                                     </div>
                                     <span class="title">Core <br>services</span>
                                 </div>
@@ -113,40 +113,40 @@
                         <div class="swiper brand">
                             <div class="swiper-wrapper">
                             <div class="swiper-slide">
-                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-html5.svg') ?>" alt="HTML5"></a>
+                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-html5.svg') ?>" width="170" height="53" loading="lazy" decoding="async" alt="HTML5"></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-css3.svg') ?>" alt="CSS3"></a>
+                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-css3.svg') ?>" width="170" height="53" loading="lazy" decoding="async" alt="CSS3"></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-javascript.svg') ?>" alt="JavaScript"></a>
+                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-javascript.svg') ?>" width="170" height="53" loading="lazy" decoding="async" alt="JavaScript"></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-php.svg') ?>" alt="PHP"></a>
+                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-php.svg') ?>" width="170" height="53" loading="lazy" decoding="async" alt="PHP"></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-wordpress.svg') ?>" alt="WordPress"></a>
+                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-wordpress.svg') ?>" width="170" height="53" loading="lazy" decoding="async" alt="WordPress"></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-aws.svg') ?>" alt="AWS"></a>
+                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-aws.svg') ?>" width="170" height="53" loading="lazy" decoding="async" alt="AWS"></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-html5.svg') ?>" alt="HTML5"></a>
+                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-html5.svg') ?>" width="170" height="53" loading="lazy" decoding="async" alt="HTML5"></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-css3.svg') ?>" alt="CSS3"></a>
+                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-css3.svg') ?>" width="170" height="53" loading="lazy" decoding="async" alt="CSS3"></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-javascript.svg') ?>" alt="JavaScript"></a>
+                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-javascript.svg') ?>" width="170" height="53" loading="lazy" decoding="async" alt="JavaScript"></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-php.svg') ?>" alt="PHP"></a>
+                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-php.svg') ?>" width="170" height="53" loading="lazy" decoding="async" alt="PHP"></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-wordpress.svg') ?>" alt="WordPress"></a>
+                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-wordpress.svg') ?>" width="170" height="53" loading="lazy" decoding="async" alt="WordPress"></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-aws.svg') ?>" alt="AWS"></a>
+                                <a href="<?= site_url('services') ?>"><img src="<?= asset('assets/images/brand/tech-aws.svg') ?>" width="170" height="53" loading="lazy" decoding="async" alt="AWS"></a>
                             </div>
                             </div>
                         </div>
@@ -167,29 +167,29 @@
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="feature-card10">
-                        <img src="<?= asset('assets/images/feature/feature1.svg') ?>" alt="">
-                        <h4 class="title">Quality First</h4>
+                        <img src="<?= asset('assets/images/feature/feature1.svg') ?>" width="24" height="24" loading="lazy" decoding="async" alt="">
+                        <h3 class="title h4">Quality First</h3>
                         <p>We take care over the details, because reliable work is what keeps a business running.</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="feature-card10">
-                        <img src="<?= asset('assets/images/feature/feature2.svg') ?>" alt="">
-                        <h4 class="title">Transparency</h4>
+                        <img src="<?= asset('assets/images/feature/feature2.svg') ?>" width="24" height="24" loading="lazy" decoding="async" alt="">
+                        <h3 class="title h4">Transparency</h3>
                         <p>We are open about scope, progress and cost, so that you can always make informed decisions.</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="feature-card10">
-                        <img src="<?= asset('assets/images/feature/feature3.svg') ?>" alt="">
-                        <h4 class="title">Partnership</h4>
+                        <img src="<?= asset('assets/images/feature/feature3.svg') ?>" width="28" height="28" loading="lazy" decoding="async" alt="">
+                        <h3 class="title h4">Partnership</h3>
                         <p>We treat your goals as our own and work with you, not simply for you.</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="feature-card10">
-                        <img src="<?= asset('assets/images/feature/feature4.svg') ?>" alt="">
-                        <h4 class="title">Continuous Learning</h4>
+                        <img src="<?= asset('assets/images/feature/feature4.svg') ?>" width="26" height="26" loading="lazy" decoding="async" alt="">
+                        <h3 class="title h4">Continuous Learning</h3>
                         <p>Technology keeps changing, and we keep learning so our advice stays useful.</p>
                     </div>
                 </div>
@@ -210,7 +210,7 @@
                             <div class="team-counter">
                                 <div class="counter-box8">
                                     <span class="counter-text"></span>
-                                    <span class="counter-number percent-counter" data-target="9">0</span>
+                                    <span class="counter-number percent-counter" data-target="<?= (int) $service_count ?>">0</span>
                                 </div>
                                 <span class="title">Service disciplines</span>
                             </div>
@@ -237,7 +237,7 @@
                 <li><a href="mailto:<?= e(setting('contact_email')) ?>" aria-label="Email"><i class="fa fa-envelope"></i></a></li>
             </ul>
         </div>
-        <h4 class="name"><a href="<?= service_link('consulting') ?>">IT Consulting</a></h4>
+        <h3 class="name h4"><a href="<?= service_link('consulting') ?>">IT Consulting</a></h3>
         <span class="designation">/ Strategy /</span>
     </div>
 </div>
@@ -263,7 +263,7 @@
                 <li><a href="mailto:<?= e(setting('contact_email')) ?>" aria-label="Email"><i class="fa fa-envelope"></i></a></li>
             </ul>
         </div>
-        <h4 class="name"><a href="<?= service_link('web-apps') ?>">Web Engineering</a></h4>
+        <h3 class="name h4"><a href="<?= service_link('web-apps') ?>">Web Engineering</a></h3>
         <span class="designation">/ Websites &amp; Web Apps /</span>
     </div>
 </div>
@@ -281,7 +281,7 @@
                 <li><a href="mailto:<?= e(setting('contact_email')) ?>" aria-label="Email"><i class="fa fa-envelope"></i></a></li>
             </ul>
         </div>
-        <h4 class="name"><a href="<?= service_link('ui-ux') ?>">UI/UX Design</a></h4>
+        <h3 class="name h4"><a href="<?= service_link('ui-ux') ?>">UI/UX Design</a></h3>
         <span class="designation">/ Interfaces /</span>
     </div>
 </div>
@@ -301,7 +301,7 @@
                 <li><a href="mailto:<?= e(setting('contact_email')) ?>" aria-label="Email"><i class="fa fa-envelope"></i></a></li>
             </ul>
         </div>
-        <h4 class="name"><a href="<?= service_link('custom-software') ?>">Software Engineering</a></h4>
+        <h3 class="name h4"><a href="<?= service_link('custom-software') ?>">Software Engineering</a></h3>
         <span class="designation">/ Custom Software /</span>
     </div>
 </div>
@@ -319,7 +319,7 @@
                 <li><a href="mailto:<?= e(setting('contact_email')) ?>" aria-label="Email"><i class="fa fa-envelope"></i></a></li>
             </ul>
         </div>
-        <h4 class="name"><a href="<?= service_link('cloud') ?>">Cloud &amp; AWS</a></h4>
+        <h3 class="name h4"><a href="<?= service_link('cloud') ?>">Cloud &amp; AWS</a></h3>
         <span class="designation">/ Infrastructure /</span>
     </div>
 </div>
@@ -349,11 +349,11 @@
     <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="contact-info">
             <div class="call-center">
-                <h4 class="title">Email</h4>
+                <h3 class="title h4">Email</h3>
                 <a href="mailto:<?= e(setting('contact_email')) ?>" class="gmail"><?= e(setting('contact_email')) ?></a>
             </div>
             <div class="call-center mb-0">
-                <h4 class="title">Website</h4>
+                <h3 class="title h4">Website</h3>
                 <a href="<?= e(setting('website_url')) ?>" class="gmail"><?= e(preg_replace('#^https?://#', '', rtrim(setting('website_url'), '/'))) ?></a>
             </div>
         </div>
@@ -361,11 +361,11 @@
     <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="contact-info">
             <div class="call-center">
-                <h4 class="title">Our Location</h4>
+                <h3 class="title h4">Our Location</h3>
                 <p><?= str_replace("\n", ' <br>', e(setting('business_address'))) ?></p>
             </div>
             <div class="call-center mb-0">
-                <h4 class="title">Social Network</h4>
+                <h3 class="title h4">Social Network</h3>
                 <?php $this->load->view('frontend/partials/social_icons'); ?>
             </div>
         </div>

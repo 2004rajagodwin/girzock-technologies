@@ -107,3 +107,5 @@ body.dark-mode .gz-service-card, body.dark-mode .gz-workflow { color: #fff; }
 .gz-rich-text li { margin-bottom: 6px; }
 .gz-rich-text h2, .gz-rich-text h3 { letter-spacing: normal; }
 .gz-rich-text p + ul { margin-top: 4px; }
+.gz-image-note { display: block; margin: -14px 0 24px; font-size: 13px; opacity: .75; }
+.gz-image-note-below { margin: 10px 0 0; }

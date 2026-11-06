@@ -44,7 +44,7 @@ $gallery_css = $gallery_scripts OR ! empty($gallery_css);
     <?php endif; ?>
 </head>
 
-<body<?= $is_home ? ' class="girzock-home"' : '' ?>>
+<body class="<?= $is_home ? 'girzock-home ' : '' ?>girzock-nav">
 <?php if ($use_wrapper): ?><div class="wrapper"><?php endif; ?>
 <?php $this->load->view('frontend/partials/overlays', array('is_home' => $is_home)); ?>
 <?php $this->load->view($is_home ? 'frontend/partials/header_home' : 'frontend/partials/header_inner'); ?>

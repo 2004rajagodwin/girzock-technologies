@@ -42,9 +42,11 @@ class Services extends Admin_Crud_Controller {
 			array('name' => 'menu_title', 'label' => 'Menu title', 'type' => 'text', 'max' => 160, 'group' => 'display'),
 			array('name' => 'menu_description', 'label' => 'Menu description', 'type' => 'text', 'max' => 255, 'group' => 'display'),
 			array('name' => 'menu_image', 'label' => 'Mega menu image', 'type' => 'image', 'group' => 'display'),
-			array('name' => 'menu_order', 'label' => 'Homepage mega menu order', 'type' => 'number', 'group' => 'display', 'help' => $order_help),
-			array('name' => 'footer_title', 'label' => 'Footer and sub-menu title', 'type' => 'text', 'max' => 160, 'group' => 'display'),
-			array('name' => 'footer_order', 'label' => 'Footer and sub-menu order', 'type' => 'number', 'group' => 'display', 'help' => $order_help),
+			array('name' => 'detail_image', 'label' => 'Service page image', 'type' => 'image', 'group' => 'display', 'help' => 'Left blank, the main image is used.'),
+			array('name' => 'detail_image_alt', 'label' => 'Service page image alt text', 'type' => 'text', 'max' => 255, 'group' => 'display'),
+			array('name' => 'menu_order', 'label' => 'Mega menu order', 'type' => 'number', 'group' => 'display', 'help' => $order_help),
+			array('name' => 'footer_title', 'label' => 'Footer title', 'type' => 'text', 'max' => 160, 'group' => 'display'),
+			array('name' => 'footer_order', 'label' => 'Footer order', 'type' => 'number', 'group' => 'display', 'help' => $order_help),
 			array('name' => 'home_core_label', 'label' => 'Homepage slider label', 'type' => 'text', 'max' => 40, 'group' => 'display'),
 			array('name' => 'home_core_title', 'label' => 'Homepage slider title', 'type' => 'text', 'max' => 160, 'group' => 'display'),
 			array('name' => 'home_core_image', 'label' => 'Homepage slider image', 'type' => 'image', 'group' => 'display'),
@@ -53,8 +55,32 @@ class Services extends Admin_Crud_Controller {
 			array('name' => 'home_overview_text', 'label' => 'Homepage overview text', 'type' => 'textarea', 'max' => 500, 'group' => 'display'),
 			array('name' => 'home_overview_image', 'label' => 'Homepage overview image', 'type' => 'image', 'group' => 'display'),
 			array('name' => 'home_overview_order', 'label' => 'Homepage overview order', 'type' => 'number', 'group' => 'display', 'help' => 'The first five services with a value above 0 are shown.'),
-			array('name' => 'form_label', 'label' => 'Enquiry form label', 'type' => 'text', 'max' => 160, 'group' => 'display'),
+			array('name' => 'form_label', 'label' => 'Enquiry form label', 'type' => 'text', 'max' => 160, 'group' => 'display', 'help' => 'The name shown in the enquiry and contact forms. Left blank, the service title is used.'),
 			array('name' => 'form_order', 'label' => 'Enquiry form order', 'type' => 'number', 'group' => 'display', 'help' => $order_help),
 		);
+	}
+
+	/** Two services must not share a name, or a form list would be ambiguous. */
+	protected function prepare(array $data, $id, array &$errors)
+	{
+		$data = parent::prepare($data, $id, $errors);
+		$label = mb_strtolower(trim((string) (! empty($data['form_label']) ? $data['form_label'] : $data['title'])));
+		$title = mb_strtolower(trim((string) $data['title']));
+		foreach ($this->db->select('id, title, form_label')->where('deleted_at IS NULL', NULL, FALSE)->get('services')->result_array() as $other)
+		{
+			if ((int) $other['id'] === (int) $id)
+			{
+				continue;
+			}
+			if (mb_strtolower(trim((string) $other['title'])) === $title)
+			{
+				$errors['title'] = 'Another service already uses this title.';
+			}
+			if (mb_strtolower(trim((string) ($other['form_label'] ? $other['form_label'] : $other['title']))) === $label)
+			{
+				$errors[ ! empty($data['form_label']) ? 'form_label' : 'title'] = 'Another service already uses this name in the enquiry forms.';
+			}
+		}
+		return $data;
 	}
 }

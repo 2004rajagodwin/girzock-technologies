@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 /* Footer columns shared by both footers. The homepage uses div headings, inner pages h4, as on the original site. */
 $heading = function ($text) use ($is_home) {
-	return $is_home ? '<div class="widget-title">'.$text.'</div>' : '<h4 class="widget-title">'.$text.'</h4>';
+	return $is_home ? '<div class="widget-title">'.$text.'</div>' : '<h3 class="widget-title h4">'.$text.'</h3>';
 };
 $email = setting('contact_email');
 $website = setting('website_url');
@@ -25,6 +25,7 @@ $instagram_handle = $instagram ? trim(parse_url($instagram, PHP_URL_PATH), '/') 
             <div class="contact-widget footer-widget">
                 <?= $heading('Contacts') ?>
                 <p><?= str_replace("\n", ' <br>', e(setting('business_address'))) ?></p>
+                <a href="tel:<?= e(preg_replace('/[^0-9+]/', '', setting('phone'))) ?>" class="girzock-footer-link"><?= e(setting('phone')) ?></a>
                 <a href="mailto:<?= e($email) ?>" class="gmail"><?= e($email) ?></a>
                 <?php if ($instagram): ?><a href="<?= e($instagram) ?>" target="_blank" rel="noopener" class="girzock-footer-link">@<?= e($instagram_handle) ?></a><?php endif; ?>
                 <a href="<?= e($website) ?>" class="girzock-footer-link"><?= e(preg_replace('#^https?://#', '', rtrim($website, '/'))) ?></a>

@@ -43,25 +43,25 @@
 <?php $this->load->view('frontend/products/_side_links'); ?>
 </div>
                         <div class="post-widget side-widget2">
-                            <h4 class="side-bar-title">Related Services</h4>
+                            <h3 class="side-bar-title h4">Related Services</h3>
                             <div class="recent-post2">
                                 <a href="<?= service_link('web-apps') ?>"><img src="<?= asset('assets/images/blog/related-1.png') ?>" width="75" height="70" alt="" loading="lazy" decoding="async"></a>
-                                <h4 class="title"><a href="<?= service_link('web-apps') ?>">Web Applications</a></h4>
+                                <h3 class="title h4"><a href="<?= service_link('web-apps') ?>">Web Applications</a></h3>
                                 <span class="sub-title">/ Development /</span>
                             </div>
                             <div class="recent-post2">
                                 <a href="<?= service_link('ui-ux') ?>"><img src="<?= asset('assets/images/blog/related-2.png') ?>" width="75" height="70" alt="" loading="lazy" decoding="async"></a>
-                                <h4 class="title"><a href="<?= service_link('ui-ux') ?>">UI/UX Design</a></h4>
+                                <h3 class="title h4"><a href="<?= service_link('ui-ux') ?>">UI/UX Design</a></h3>
                                 <span class="sub-title">/ Design /</span>
                             </div>
                             <div class="recent-post2 mb-0">
                                 <a href="<?= service_link('aws') ?>"><img src="<?= asset('assets/images/blog/related-3.png') ?>" width="75" height="70" alt="" loading="lazy" decoding="async"></a>
-                                <h4 class="title"><a href="<?= service_link('aws') ?>">AWS Cloud Solutions</a></h4>
+                                <h3 class="title h4"><a href="<?= service_link('aws') ?>">AWS Cloud Solutions</a></h3>
                                 <span class="sub-title">/ Cloud /</span>
                             </div>
                         </div>
                         <div class="tag-list-widget side-widget2">
-                            <h4 class="side-bar-title">Tags</h4>
+                            <h3 class="side-bar-title h4">Tags</h3>
                             <ul class="tag-list">
                                 <li><a href="<?= service_link('web-design') ?>">/ Websites /</a></li>
                                 <li><a href="<?= service_link('ecommerce') ?>">/ E-commerce /</a></li>
@@ -95,11 +95,11 @@
     <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="contact-info">
             <div class="call-center">
-                <h4 class="title">Email</h4>
+                <h3 class="title h4">Email</h3>
                 <a href="mailto:<?= e(setting('contact_email')) ?>" class="gmail"><?= e(setting('contact_email')) ?></a>
             </div>
             <div class="call-center mb-0">
-                <h4 class="title">Website</h4>
+                <h3 class="title h4">Website</h3>
                 <a href="<?= e(setting('website_url')) ?>" class="gmail"><?= e(preg_replace('#^https?://#', '', rtrim(setting('website_url'), '/'))) ?></a>
             </div>
         </div>
@@ -107,11 +107,11 @@
     <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="contact-info">
             <div class="call-center">
-                <h4 class="title">Our Location</h4>
+                <h3 class="title h4">Our Location</h3>
                 <p><?= str_replace("\n", ' <br>', e(setting('business_address'))) ?></p>
             </div>
             <div class="call-center mb-0">
-                <h4 class="title">Social Network</h4>
+                <h3 class="title h4">Social Network</h3>
                 <?php $this->load->view('frontend/partials/social_icons'); ?>
             </div>
         </div>

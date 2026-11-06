@@ -6,7 +6,8 @@
         <div class="row">
             <div class="col-xl-6 col-lg-5">
                 <div class="project-img7">
-                    <img src="<?= e(media_url($project['image'])) ?>" alt="<?= e($project['image_alt'] ? $project['image_alt'] : $project['title']) ?>">
+                    <img src="<?= e(media_url($project['image'])) ?>"<?= media_srcset($project['image'], '(max-width: 991px) 92vw, 650px') ?> width="606" height="412" alt="<?= e($project['image_alt'] ? $project['image_alt'] : $project['title']) ?>">
+                    <?php if (stripos((string) $project['image_alt'], 'concept') === 0): ?><small class="gz-image-note gz-image-note-below">Concept image, not a client photograph or project screenshot.</small><?php endif; ?>
                 </div>
             </div>
             <div class="col-xl-6 col-lg-7">
