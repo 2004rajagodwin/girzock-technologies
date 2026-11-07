@@ -17,7 +17,7 @@ $instagram_handle = $instagram ? trim(parse_url($instagram, PHP_URL_PATH), '/') 
             </div>
             <p class="girzock-footer-intro"><?= e(setting('footer_description')) ?></p>
             <?php $this->load->view('frontend/partials/social_icons'); ?>
-            <div class="title">GIRZOCK</div>
+            <div class="title gz-flow-text"><?php $this->load->view('frontend/partials/flow_text', array('flow_id' => 'footer', 'lines' => array('GIRZOCK'))); ?></div>
         </div>
     </div>
     <div class="col-lg-8">

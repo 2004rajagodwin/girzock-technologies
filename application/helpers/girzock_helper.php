@@ -33,6 +33,28 @@ function media_url($path)
 	return preg_match('#^https?://#i', $path) ? $path : base_url(ltrim($path, '/'));
 }
 
+/**
+ * The browser icon: the one uploaded in the admin panel when it exists, otherwise the default file.
+ * The file's date is added to the address, so a browser notices when the icon changes.
+ */
+function site_favicon()
+{
+	$default = 'assets/logos/girzock-favv.webp';
+	$path = trim((string) setting('favicon'));
+	$remote = (bool) preg_match('#^https?://#i', $path);
+	if ($path === '' OR ( ! $remote && ! is_file(FCPATH.ltrim($path, '/'))))
+	{
+		$path = $default;
+	}
+	$types = array('png' => 'image/png', 'webp' => 'image/webp', 'ico' => 'image/x-icon', 'svg' => 'image/svg+xml', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg');
+	$extension = strtolower(pathinfo(parse_url($path, PHP_URL_PATH), PATHINFO_EXTENSION));
+	$file = FCPATH.ltrim($path, '/');
+	return array(
+		'url' => media_url($path).( ! $remote && is_file($file) ? '?v='.filemtime($file) : ''),
+		'type' => isset($types[$extension]) ? $types[$extension] : 'image/png',
+	);
+}
+
 /** srcset and sizes attributes for a WebP image that has -NNNw.webp copies beside it; empty otherwise. */
 function media_srcset($path, $sizes)
 {

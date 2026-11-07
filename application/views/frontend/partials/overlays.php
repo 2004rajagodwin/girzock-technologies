@@ -5,11 +5,29 @@ $address_html = str_replace("\n", ' <br>', e(setting('business_address')));
 $mobile_services = $this->settings_model->services_by('menu_order');
 ?>
 <!-- Preloader -->
-<div id="preloader">
-    <div class="loader">
-        <img src="<?= e(media_url(setting('logo_icon'))) ?>" alt="Loading <?= e(setting('company_name')) ?>">
+<div id="preloader" class="gz-preloader" role="status" aria-label="Loading">
+    <svg class="gz-pre-wave gz-pre-wave-top" viewBox="0 0 700 420" fill="none" aria-hidden="true" focusable="false"><path d="M0 170C150 110 250 170 340 90S520 0 700 0H0Z" fill="#19d5e5" opacity=".08"/><path d="M0 250C130 230 240 170 320 90S470 10 560 0H380C330 40 290 90 230 120S90 130 0 120Z" fill="#1769ff" opacity=".06"/><path d="M0 320C120 280 230 190 320 95S470 25 620 15" stroke="#19d5e5" stroke-opacity=".35"/><path d="M0 130C110 110 210 150 310 95S430 20 480 0" stroke="#1769ff" stroke-opacity=".22"/></svg>
+    <svg class="gz-pre-wave gz-pre-wave-bottom" viewBox="0 0 700 420" fill="none" aria-hidden="true" focusable="false"><path d="M0 170C150 110 250 170 340 90S520 0 700 0H0Z" fill="#19d5e5" opacity=".08"/><path d="M0 250C130 230 240 170 320 90S470 10 560 0H380C330 40 290 90 230 120S90 130 0 120Z" fill="#1769ff" opacity=".06"/><path d="M0 320C120 280 230 190 320 95S470 25 620 15" stroke="#19d5e5" stroke-opacity=".35"/><path d="M0 130C110 110 210 150 310 95S430 20 480 0" stroke="#1769ff" stroke-opacity=".22"/></svg>
+    <div class="gz-pre-box">
+        <div class="gz-pre-ring">
+            <svg viewBox="0 0 240 240" fill="none" aria-hidden="true" focusable="false">
+                <defs><linearGradient id="gz-pre-arc" gradientUnits="userSpaceOnUse" x1="232" y1="120" x2="28" y2="56"><stop offset="0" stop-color="#1769ff" stop-opacity="0"/><stop offset=".35" stop-color="#1769ff"/><stop offset="1" stop-color="#19d5e5"/></linearGradient><linearGradient id="gz-pre-track" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfeefa"/><stop offset=".72" stop-color="#e3f3fb"/><stop offset="1" stop-color="#e3f3fb" stop-opacity="0"/></linearGradient></defs>
+                <circle cx="120" cy="120" r="112" stroke="url(#gz-pre-track)" stroke-width="3"/>
+                <g class="gz-pre-spin">
+                    <circle cx="120" cy="120" r="112" stroke="url(#gz-pre-arc)" stroke-width="4" stroke-linecap="round" stroke-dasharray="420 284"/>
+                    <circle cx="28.3" cy="55.8" r="11" fill="#19d5e5" opacity=".28"/>
+                    <circle cx="28.3" cy="55.8" r="5.5" fill="#fff" stroke="#13c6e0" stroke-width="3"/>
+                </g>
+            </svg>
+            <img class="gz-pre-logo" src="<?= asset('assets/logos/girzocl-loader.webp') ?>" width="3000" height="2382" alt="<?= e(setting('company_name')) ?>">
+        </div>
+        <p class="gz-pre-label">Loading...</p>
+        <div class="gz-pre-bar"><span class="gz-pre-fill"></span><b class="gz-pre-pct">0%</b></div>
+        <div class="gz-pre-dots" aria-hidden="true"><i></i><i></i><i></i></div>
     </div>
 </div>
+<script>try{if(sessionStorage.getItem("gzPageLoaded")){var gzPre=document.getElementById("preloader");gzPre.style.display="none";gzPre.dataset.hidden="true";}}catch(e){}</script>
+<noscript><style>#preloader{display:none}</style></noscript>
 <!-- End Preloader -->
 
 <button id="themeBtn" aria-label="Switch colour theme"><i class="far fa-moon"></i></button>

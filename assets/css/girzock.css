@@ -321,12 +321,6 @@ body.girzock-home footer .social-icon li a.girzock-social:focus-visible::before 
   }
 }
 
-/* Logo icon in the loading screen is also shown without a filter */
-#preloader .loader img {
-  -webkit-filter: none !important;
-  filter: none !important;
-  box-shadow: none !important;
-}
 /* The template offsets its short 400px wordmark far to the left on wide screens; the longer name sits in the column */
 @media (min-width: 1441px) {
   .about-content9 {
@@ -480,10 +474,6 @@ body.girzock-home footer .social-icon li a.girzock-social:focus-visible::before 
 #commitment {
   background-image: url(../images/bg/bg3-dark.png);
   margin-bottom: 60px;
-}
-#about-girzock .style-text,
-#commitment .style-text {
-  background-image: linear-gradient(112deg, #1769ff 0%, #19d5e5 100%);
 }
 #about-girzock .style-text {
   font-size: min(112px, 7.6vw);
@@ -3081,18 +3071,24 @@ section.gz-detail-faq {
   }
 }
 
-/* Commitment section: hollow GIRZOCK with a colour gradient flowing through the outline.
-   The span keeps the space and the text for search and screen readers; the drawing sits on top. */
-#commitment .gz-flow-text {
+/* Large outlined text: About section, commitment section and footer share this and flow_text.php */
+.style-text.gz-flow-text,
+.about-widget .title.gz-flow-text,
+.active-body .style-text.gz-flow-text,
+.active-body .about-widget .title.gz-flow-text,
+.active-body .choose-us-sec5 .style-text.gz-flow-text {
   background: none;
-  color: transparent;
+  color: transparent !important;
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: 0;
 }
-.active-body #commitment .gz-flow-text {
-  -webkit-text-fill-color: transparent;
+.gz-flow-line {
+  position: relative;
+  display: block;
+  width: fit-content;
+  white-space: nowrap;
 }
-#commitment .gz-flow-text svg {
+.gz-flow-line svg {
   position: absolute;
   top: 50%;
   left: 0;
@@ -3101,28 +3097,59 @@ section.gz-detail-faq {
   overflow: visible;
   pointer-events: none;
 }
-#commitment .gz-flow-letters {
+.gz-flow-letters {
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
   letter-spacing: inherit;
   fill: #000;
   stroke: #fff;
-  stroke-width: 2px;
+  stroke-width: 1.8px;
   stroke-linejoin: round;
 }
 @media (max-width: 767px) {
-  #commitment .gz-flow-letters {
-    stroke-width: 1.4px;
+  .gz-flow-letters {
+    stroke-width: 1.2px;
   }
 }
-#commitment .gz-flow-paint {
+/* The gradient repeats every 800px, so moving one full repeat loops with no visible reset.
+   Phones scale it, so the short words still show all the colours. */
+.gz-flow-paint {
+  --gz-flow-scale: 1;
   animation: gz-flow-move 7s linear infinite;
+  transform: scaleX(var(--gz-flow-scale));
+}
+@media (max-width: 767px) {
+  .gz-flow-paint {
+    --gz-flow-scale: 0.5;
+  }
 }
 @keyframes gz-flow-move {
-  to {
-    transform: translateX(5.5em);
+  from {
+    transform: translateX(0) scaleX(var(--gz-flow-scale));
   }
+  to {
+    transform: translateX(calc(800px * var(--gz-flow-scale))) scaleX(var(--gz-flow-scale));
+  }
+}
+
+/* About section spacing */
+#about-girzock .style-text.gz-flow-text {
+  line-height: 1.2;
+  margin-bottom: 24px;
+}
+#about-girzock .sec-title .sub-title {
+  margin-bottom: 12px;
+}
+#about-girzock .sec-title .title {
+  margin-bottom: 26px;
+}
+#about-girzock .sec-title p {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+#about-girzock .sec-title .paragraph {
+  margin-bottom: 40px;
 }
 
 /* Header Get in Touch: the border colours run around the button */
@@ -3144,7 +3171,7 @@ section.gz-detail-faq {
   box-shadow: 0 0 18px rgba(25, 213, 229, 0.35), 0 0 30px rgba(139, 92, 246, 0.22);
 }
 @media (prefers-reduced-motion: reduce) {
-  #commitment .gz-flow-paint,
+  .gz-flow-paint,
   .btn-box > .ibt-btn-outline-3::before {
     animation: none;
   }
@@ -3154,4 +3181,229 @@ section.gz-detail-faq {
 #nav-webapps .feature-tab-img img,
 #nav-api .feature-tab-img img {
   object-position: center 8%;
+}
+/* Dark theme: the template turns every list item white, and this list stays light */
+.active-body .girzock-select .girzock-select-list li {
+  color: #111a4d !important;
+}
+
+/* Loading screen: stays white in both themes, because the logo has a dark wordmark */
+#preloader.gz-preloader,
+.active-body #preloader.gz-preloader {
+  overflow: hidden;
+  background: #fff;
+}
+.gz-pre-wave {
+  position: absolute;
+  width: min(46vw, 700px);
+  min-width: 260px;
+  height: auto;
+  pointer-events: none;
+}
+.gz-pre-wave-top {
+  top: 0;
+  left: 0;
+}
+.gz-pre-wave-bottom {
+  right: 0;
+  bottom: 0;
+  transform: rotate(180deg);
+}
+.gz-pre-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(320px, 84vw);
+}
+.gz-pre-ring {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(300px, 70vw);
+  aspect-ratio: 1;
+}
+.gz-pre-ring svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.gz-pre-spin {
+  transform-origin: 120px 120px;
+  animation: gz-pre-turn 1.8s linear infinite;
+}
+@keyframes gz-pre-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+#preloader .gz-pre-logo,
+.active-body #preloader .gz-pre-logo {
+  position: relative;
+  width: 76%;
+  height: auto;
+  animation: none;
+  -webkit-filter: none !important;
+  filter: none !important;
+}
+.gz-pre-label {
+  margin: 26px 0 14px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #111a4d !important;
+}
+.gz-pre-bar {
+  position: relative;
+  width: 100%;
+  height: 24px;
+  overflow: hidden;
+  border: 1px solid #dfe9f5;
+  border-radius: 12px;
+  background: #eef4fb;
+}
+.gz-pre-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #0a5cff, #19e5ef);
+  transition: width 0.35s ease;
+}
+.gz-pre-pct {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  color: #111a4d;
+  transform: translateY(-50%);
+}
+.gz-pre-dots {
+  display: flex;
+  gap: 14px;
+  margin-top: 22px;
+}
+.gz-pre-dots i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #1769ff;
+  opacity: 0.25;
+  animation: gz-pre-dot 1.2s ease-in-out infinite;
+}
+.gz-pre-dots i:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.gz-pre-dots i:nth-child(3) {
+  background: #19d5e5;
+  animation-delay: 0.4s;
+}
+@keyframes gz-pre-dot {
+  40% {
+    opacity: 1;
+  }
+}
+@media (max-height: 620px) {
+  .gz-pre-ring {
+    width: 190px;
+  }
+  .gz-pre-label {
+    margin-top: 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gz-pre-spin,
+  .gz-pre-dots i {
+    animation: none;
+  }
+  .gz-pre-dots i {
+    opacity: 0.6;
+  }
+  .gz-pre-fill {
+    transition: none;
+  }
+}
+
+/* About section: balanced columns. The image scales with the screen, so its crop stays the same. */
+#about-girzock .sec-title .title {
+  line-height: 1.2;
+}
+#about-girzock .sec-title .ibt-btn {
+  max-width: 100%;
+}
+@media (min-width: 992px) {
+  /* The content starts from the image's own width, so the gap stays 25px at every desktop width */
+  #about-girzock {
+    --gz-about-img: min(44vw, 805px);
+  }
+  #about-girzock .about-img img {
+    width: var(--gz-about-img);
+    height: auto;
+  }
+  #about-girzock > .container {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding-left: calc(var(--gz-about-img) + 25px);
+    padding-right: 24px;
+  }
+  #about-girzock > .container > .row {
+    display: block;
+    margin: 0;
+  }
+  #about-girzock .row > .col-lg-5 {
+    position: static;
+    width: 0;
+    padding: 0;
+  }
+  #about-girzock .row > .col-lg-7 {
+    width: 100%;
+    padding: 0;
+  }
+  #about-girzock .about-content {
+    max-width: 680px;
+    margin: 0;
+    padding: 0;
+  }
+  #about-girzock .sec-title .title {
+    max-width: 540px;
+    font-size: clamp(34px, 3.3vw, 50px);
+  }
+}
+@media (min-width: 992px) and (max-width: 1100px) {
+  #about-girzock {
+    --gz-about-img: 42vw;
+  }
+}
+@media (min-width: 821px) and (max-width: 991px) {
+  #about-girzock .row > .col-lg-5 {
+    width: 40%;
+  }
+  #about-girzock .row > .col-lg-7 {
+    width: 60%;
+  }
+  #about-girzock .about-img img {
+    width: 38vw;
+    height: auto;
+  }
+  #about-girzock .about-content {
+    padding: 0 0 0 24px;
+  }
+  #about-girzock .style-text.gz-flow-text {
+    font-size: 8.2vw;
+  }
+  #about-girzock .sec-title .title {
+    font-size: 34px;
+  }
+}
+@media (max-width: 360px) {
+  #about-girzock .sec-title .ibt-btn {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
 }

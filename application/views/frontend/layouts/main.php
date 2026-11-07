@@ -17,7 +17,9 @@ $gallery_css = $gallery_scripts OR ! empty($gallery_css);
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
 
-    <link rel="icon" type="image/png" href="<?= e(media_url(setting('favicon'))) ?>">
+    <?php $favicon = site_favicon(); ?>
+    <link rel="icon" type="<?= e($favicon['type']) ?>" href="<?= e($favicon['url']) ?>">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= asset('assets/logos/apple-touch-icon.png') ?>">
 
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'">

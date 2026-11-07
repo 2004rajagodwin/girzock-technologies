@@ -16,24 +16,63 @@ var Preloader = {
     const preloader = document.getElementById("preloader");
     if (!preloader) return;
 
-    const transitionDuration = 500; // ms
+    const transitionDuration = 400; // ms
     const fallbackDelay = 3000; // ms
+    const fill = preloader.querySelector(".gz-pre-fill");
+    const percent = preloader.querySelector(".gz-pre-pct");
+    let shown = 0;
 
-    const hidePreloader = () => {
+    const setProgress = (value) => {
+      shown = Math.max(shown, Math.min(100, Math.round(value)));
+      if (fill) fill.style.width = shown + "%";
+      if (percent) percent.textContent = shown + "%";
+    };
+
+    // Shows 100% only when the page has finished; the time limit hides it at the real figure
+    const hidePreloader = (finished) => {
       if (!preloader || preloader.dataset.hidden === "true") return;
       preloader.dataset.hidden = "true"; // prevent double calls
-      preloader.style.transition = `opacity ${transitionDuration}ms ease`;
+      if (finished) setProgress(100);
+      try {
+        sessionStorage.setItem("gzPageLoaded", "1"); // later pages in this visit open straight away
+      } catch (e) {}
+      preloader.style.transition = `opacity ${transitionDuration}ms ease 150ms`;
       preloader.style.opacity = "0";
       setTimeout(() => {
         preloader.style.display = "none";
-      }, transitionDuration);
+      }, transitionDuration + 150);
     };
 
+    // Already hidden for this visit, or the page finished before this ran
+    if (preloader.dataset.hidden === "true") return;
+    if (document.readyState === "complete") {
+      hidePreloader(true);
+      return;
+    }
+
+    // Progress follows the images the page is really waiting for; lazy ones load later and do not count
+    const waiting = Array.prototype.filter.call(document.images, (img) => img.loading !== "lazy");
+    let done = 0;
+    const report = () => setProgress(((done + 1) / (waiting.length + 1)) * 92);
+    waiting.forEach((img) => {
+      if (img.complete) {
+        done++;
+      } else {
+        const finished = () => {
+          done++;
+          report();
+        };
+        img.addEventListener("load", finished, { once: true });
+        img.addEventListener("error", finished, { once: true });
+      }
+    });
+    report();
+
     // Hide when the page fully loaded
-    window.addEventListener("load", hidePreloader, { once: true });
+    window.addEventListener("load", () => hidePreloader(true), { once: true });
 
     // Fallback in case some assets hang or slow CDN
-    setTimeout(hidePreloader, fallbackDelay);
+    setTimeout(() => hidePreloader(false), fallbackDelay);
   },
 };
 // ============================

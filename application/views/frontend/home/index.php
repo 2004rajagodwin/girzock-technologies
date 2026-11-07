@@ -130,7 +130,7 @@
                     </div>
                     <div class="col-lg-7">
                         <div class="about-content">
-                            <div class="style-text">GIRZOCK Technologies</div>
+                            <div class="style-text gz-flow-text"><?php $this->load->view('frontend/partials/flow_text', array('flow_id' => 'about', 'lines' => array('GIRZOCK', 'Technologies'))); ?></div>
                             <div class="sec-title mb-0 white">
                                 <span class="sub-title">about</span>
                                 <h2 class="title animated-heading">Technology That Moves Your Business Forward</h2>
@@ -972,7 +972,7 @@
                 </div>
                 <div class="col-xl-6 col-lg-6">
                     <div class="choose-content5">
-                        <div class="style-text gz-flow-text"><span>GIRZOCK</span><svg aria-hidden="true" focusable="false"><defs><linearGradient id="gz-flow-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="5.5em" y2="0" spreadMethod="repeat"><stop offset="0" stop-color="#1769ff"/><stop offset="0.33" stop-color="#19d5e5"/><stop offset="0.66" stop-color="#8b5cf6"/><stop offset="1" stop-color="#1769ff"/></linearGradient><mask id="gz-flow-mask" maskUnits="userSpaceOnUse" x="-20" y="-400" width="2400" height="800"><text class="gz-flow-letters" x="0" y="0.34em">GIRZOCK</text></mask></defs><g mask="url(#gz-flow-mask)"><rect class="gz-flow-paint" x="-6em" y="-400" width="20em" height="800" fill="url(#gz-flow-gradient)"/></g></svg></div>
+                        <div class="style-text gz-flow-text"><?php $this->load->view('frontend/partials/flow_text', array('flow_id' => 'commitment', 'lines' => array('GIRZOCK'))); ?></div>
                         <div class="sec-title white">
                             <span class="sub-title">our commitment</span>
                             <h2 class="title animated-heading">Your Technology Partner for Long-Term Growth</h2>
