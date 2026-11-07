@@ -16,7 +16,7 @@ class Sitemap extends MY_Controller {
 		{
 			$noindex[$row['entity_type'].':'.$row['entity_key']] = TRUE;
 		}
-		foreach (array('home' => '', 'about' => 'about', 'services' => 'services', 'products' => 'products', 'portfolio' => 'portfolio', 'case-studies' => 'case-studies', 'blog' => 'blog', 'careers' => 'careers', 'contact' => 'contact', 'areas-we-serve' => 'areas-we-serve') as $key => $path)
+		foreach (array('home' => '', 'about' => 'about', 'services' => 'services', 'products' => 'products', 'portfolio' => 'portfolio', 'case-studies' => 'case-studies', 'blog' => 'blog', 'careers' => 'careers', 'contact' => 'contact', 'areas-we-serve' => 'areas-we-serve', 'privacy-policy' => 'privacy-policy', 'terms' => 'terms', 'cookie-policy' => 'cookie-policy') as $key => $path)
 		{
 			if ( ! isset($noindex['page:'.$key]))
 			{

@@ -26,7 +26,7 @@
                         <div class="sec-title">
                             <span class="sub-title">get in touch</span>
                             <h2 class="title animated-heading">Tell Us What You Want to Build Next</h2>
-                            <p>Have a question about a website, custom software or cloud solution? We are based in Thisaiyanvilai and work with businesses across Tirunelveli and <a href="<?= site_url('areas-we-serve') ?>">nearby districts</a>. Call <a href="tel:<?= e(preg_replace('/[^0-9+]/', '', setting('phone'))) ?>"><?= e(setting('phone')) ?></a> or send us the details, and we will get back to you with clear next steps.</p>
+                            <p>Have a question about a website, custom software or cloud solution? We are based in Thisaiyanvilai and work with businesses across Tirunelveli, Thoothukudi and Kanyakumari districts, including Sattankulam, Tiruchendur and Nagercoil (<a href="<?= site_url('areas-we-serve') ?>">see areas we serve</a>). Call <a href="tel:<?= e(preg_replace('/[^0-9+]/', '', setting('phone'))) ?>"><?= e(setting('phone')) ?></a> or send us the details, and we will get back to you with clear next steps.</p>
                         </div>
                         <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-6">

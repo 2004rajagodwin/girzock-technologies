@@ -2074,6 +2074,7 @@ var LenisScroll = {
 
     // Store instance
     this.lenis = lenis;
+    window.gzLenis = lenis;
 
     // Smoother RAF loop
     function raf(time) {

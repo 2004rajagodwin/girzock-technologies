@@ -2,6 +2,8 @@
 
 Date: 6 November 2026. Site tested: `http://localhost/girzock-website/` (local XAMPP). The site is not yet public, so nothing that needs a public URL has been run.
 
+> **Superseded.** This is an earlier snapshot. The current results are in `COMPLETE_SEO_SCORE_REPORT.md`, `COMPLETE_PAGE_INVENTORY.md` and `CONTENT_QUALITY_AUDIT.md` (7 November 2026). Since this report, LinkedIn and Facebook icons are hidden until real addresses are added, and the six short blog posts were rewritten with H2 sections.
+
 ## 1. Summary
 
 The content, counter, articles and technical SEO changes are live on the local site, and every automated test passes.

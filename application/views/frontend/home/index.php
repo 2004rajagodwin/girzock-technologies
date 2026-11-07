@@ -135,7 +135,7 @@
                                 <span class="sub-title">about</span>
                                 <h2 class="title animated-heading">Technology That Moves Your Business Forward</h2>
                                 <p>GIRZOCK Technologies delivers practical digital solutions that help businesses improve operations, strengthen their online presence and grow with confidence.</p>
-                                <p class="paragraph">Based in Thisaiyanvilai, Tirunelveli, we design and build websites, custom software and cloud solutions around what your business needs.</p>
+                                <p class="paragraph">Based in Thisaiyanvilai, Tirunelveli, we design and build websites, custom software and cloud solutions around what your business needs, for clients across Tirunelveli, Thoothukudi and Kanyakumari districts.</p>
                                 <a class='ibt-btn ibt-btn-outline' href="<?= site_url('about') ?>">
                                     <span>Discover Our Company</span>
                                     <i class="icon-arrow-top"></i>
@@ -958,34 +958,7 @@
         <!-- End faq-sec -->
 
         <!-- choose-us-sec5 (index6) -->
-        <section class="choose-us-sec5" id="commitment">
-            <div class="row align-items-center">
-                <div class="col-xl-5 col-lg-6">
-                    <div class="choose-img5">
-                        <img src="<?= asset('assets/images/event/choose2.png') ?>" width="721" height="1124" loading="lazy" decoding="async" alt="">
-                        <div class="video-box5">
-                            <a href="<?= site_url('about') ?>" class="video-popup">
-                                <i class="fa fa-arrow-right"></i> About Us
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6">
-                    <div class="choose-content5">
-                        <div class="style-text gz-flow-text"><?php $this->load->view('frontend/partials/flow_text', array('flow_id' => 'commitment', 'lines' => array('GIRZOCK'))); ?></div>
-                        <div class="sec-title white">
-                            <span class="sub-title">our commitment</span>
-                            <h2 class="title animated-heading">Your Technology Partner for Long-Term Growth</h2>
-                            <p>We believe great technology starts with understanding your business. Our commitment is to deliver reliable, scalable and thoughtfully developed digital solutions while building lasting relationships with our clients.</p>
-                        </div>
-                        <a class='ibt-btn ibt-btn-outline' href="<?= site_url('contact') ?>">
-                            <span>Start a Project</span>
-                            <i class="icon-arrow-top"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+   
         <!-- End choose-us-sec5 -->
 
         <!-- service-sec18 (index12): left card and right video -->
@@ -1007,9 +980,8 @@
                     </div>
                     <div class="col-lg-8">
                         <div class="ser-img18">
-                            <video autoplay muted loop playsinline preload="metadata" class="video-bg" aria-hidden="true">
-                                <source src="<?= asset('assets/videos/abstract-render.mp4') ?>" type="video/mp4">
-                            </video>
+                            <video muted loop playsinline preload="none" class="video-bg" aria-hidden="true" data-gz-lazy-video="<?= asset('assets/videos/abstract-render.mp4') ?>"></video>
+                            <noscript><video autoplay muted loop playsinline class="video-bg" aria-hidden="true"><source src="<?= asset('assets/videos/abstract-render.mp4') ?>" type="video/mp4"></video></noscript>
                             <div class="ser-text18">
                                 <h2 class="girzock-cta-heading"><span>Bring Your Ideas to Life</span></h2>
                                 <p>Have a business idea or a digital project in mind? Let's create something meaningful with modern technology.</p>

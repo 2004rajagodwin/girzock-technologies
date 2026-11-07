@@ -2,6 +2,8 @@
 
 Completed 6 November 2026.
 
+> **Superseded.** This is an earlier snapshot. The current results are in `COMPLETE_SEO_SCORE_REPORT.md`, `COMPLETE_PAGE_INVENTORY.md` and `CONTENT_QUALITY_AUDIT.md` (7 November 2026). Since this report, LinkedIn and Facebook icons are hidden until real addresses are added, and the six short blog posts were rewritten with H2 sections.
+
 ## Summary
 
 | Item | Result |

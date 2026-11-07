@@ -18,6 +18,26 @@ class Home extends Public_Controller {
 		));
 	}
 
+	public function legal($page = '')
+	{
+		$pages = array(
+			'privacy' => array('Privacy Policy', 'privacy-policy', 'How GIRZOCK Technologies collects, uses, keeps and protects the personal details you send through our enquiry, contact and job application forms.'),
+			'terms' => array('Terms and Conditions', 'terms', 'The terms that apply when you use the GIRZOCK Technologies website, including its information, promotional offers, sample work and links to other sites.'),
+			'cookies' => array('Cookie Policy', 'cookie-policy', 'The cookies and browser storage the GIRZOCK Technologies website uses, what each one is for, how long it lasts and how you can control them.'),
+		);
+		if ( ! isset($pages[$page]))
+		{
+			$this->not_found();
+		}
+		$item = $pages[$page];
+		$this->render('frontend/legal/page', array(
+			'legal_page' => $page,
+			'legal_title' => $item[0],
+			'seo' => $this->seo->build(array('title' => $item[0].' | '.setting('company_name'), 'description' => $item[2], 'path' => $item[1],
+				'breadcrumbs' => array('Home' => '', $item[0] => NULL))),
+		));
+	}
+
 	public function areas()
 	{
 		$this->render('frontend/home/areas', array(

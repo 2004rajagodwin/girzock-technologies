@@ -43,23 +43,6 @@
     });
   });
 
-  // Add the confirmed company profile URLs here. Until then these two footer icons show as "coming soon".
-  var SOCIAL_LINKS = {
-    linkedin: "",
-    facebook: "",
-  };
-  var SOCIAL_NAMES = { linkedin: "LinkedIn", facebook: "Facebook" };
-  document.querySelectorAll("a[data-social]").forEach(function (link) {
-    var key = link.getAttribute("data-social");
-    if (!SOCIAL_LINKS[key]) return;
-    link.setAttribute("href", SOCIAL_LINKS[key]);
-    link.setAttribute("target", "_blank");
-    link.setAttribute("rel", "noopener noreferrer");
-    link.setAttribute("aria-label", "GIRZOCK Technologies on " + SOCIAL_NAMES[key]);
-    link.setAttribute("title", SOCIAL_NAMES[key]);
-    link.removeAttribute("aria-disabled");
-  });
-
   // Development process: on desktop the cards stay in a sticky stage and change with scroll.
   // Small screens and reduced-motion users get the plain stacked list from the CSS.
   (function () {
@@ -117,6 +100,58 @@
     });
   })();
 
+  // One notification style for every form. Success is shown only after the server confirms the save.
+  var Toast = (function () {
+    var box = null;
+    var ICON = { success: "\u2713", error: "!" };
+    function container() {
+      if (box) return box;
+      box = document.createElement("div");
+      box.className = "gz-toasts";
+      document.body.appendChild(box);
+      return box;
+    }
+    function show(kind, message, detail) {
+      var item = document.createElement("div");
+      item.className = "gz-toast gz-toast-" + kind;
+      item.setAttribute("role", kind === "error" ? "alert" : "status");
+      item.setAttribute("aria-live", kind === "error" ? "assertive" : "polite");
+      item.innerHTML = '<span class="gz-toast-icon" aria-hidden="true"></span><div class="gz-toast-text"><p></p><small></small></div><button type="button" class="gz-toast-close" aria-label="Close notification">&times;</button>';
+      item.querySelector(".gz-toast-icon").textContent = ICON[kind] || "i";
+      item.querySelector("p").textContent = message;
+      var small = item.querySelector("small");
+      if (detail) small.textContent = detail;
+      else small.remove();
+      container().appendChild(item);
+      var timer = null;
+      function remove() {
+        clearTimeout(timer);
+        item.classList.remove("is-shown");
+        setTimeout(function () {
+          if (item.parentNode) item.parentNode.removeChild(item);
+        }, 350);
+      }
+      function schedule() {
+        clearTimeout(timer);
+        timer = setTimeout(remove, 3500);
+      }
+      item.querySelector(".gz-toast-close").addEventListener("click", remove);
+      item.addEventListener("mouseenter", function () { clearTimeout(timer); });
+      item.addEventListener("mouseleave", schedule);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { item.classList.add("is-shown"); });
+      });
+      schedule();
+      return item;
+    }
+    return { show: show };
+  })();
+  window.GirzockToast = Toast;
+  var MSG_ERROR = "Something went wrong. Please try again or contact us directly.";
+  var MSG_INVALID = "Please check the highlighted fields and try again.";
+  function referenceLine(reply) {
+    return reply && reply.reference ? "Reference: " + reply.reference : "";
+  }
   // "Get in Touch" forms on the inner pages. Without JavaScript they post normally to the same URL.
   document.querySelectorAll("form[data-girzock-form]").forEach(function (form) {
     var busy = false;
@@ -149,23 +184,30 @@
       }
       busy = true;
       button.disabled = true;
+      button.setAttribute("aria-busy", "true");
+      button.classList.add("is-loading");
       say("", "Sending...");
       postForm(form)
         .then(function (reply) {
           if (reply.ok) {
             form.reset();
-            say("success", reply.message);
+            say("", "");
+            Toast.show("success", reply.message);
           } else {
             var errors = reply.errors ? Object.keys(reply.errors).map(function (key) { return reply.errors[key]; }) : [];
             say("error", errors.length ? errors.join(" ") : reply.message);
+            Toast.show("error", reply.errors ? MSG_INVALID : reply.message || MSG_ERROR);
           }
         })
         .catch(function () {
-          say("error", "Sorry, your message could not be sent. Your details are still here, so you can try again, or write to " + EMAIL + ".");
+          say("error", "Your details are still here, so you can try again, or write to " + EMAIL + ".");
+          Toast.show("error", MSG_ERROR);
         })
         .then(function () {
           busy = false;
           button.disabled = false;
+          button.removeAttribute("aria-busy");
+          button.classList.remove("is-loading");
         });
     });
   });
@@ -250,7 +292,7 @@
       if (isOpen()) return;
       var box = trigger.getBoundingClientRect();
       // Fit the list inside both the screen and the rounded panel, which clips anything past its edge
-      var panel = wrap.closest(".girzock-contact-panel");
+      var panel = wrap.closest(".girzock-contact-panel, .gz-popup-scroll");
       var bounds = panel ? panel.getBoundingClientRect() : { top: 0, bottom: window.innerHeight };
       var below = Math.min(window.innerHeight, bounds.bottom) - box.bottom - 16;
       var above = box.top - Math.max(115, bounds.top) - 16;
@@ -341,6 +383,10 @@
       trigger.focus();
     });
     trigger.addEventListener("blur", close);
+    // Safari does not focus a button when it is clicked, so Escape is also handled here
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && isOpen()) close();
+    });
     select.addEventListener("change", sync);
     document.addEventListener("click", function (event) {
       if (!wrap.contains(event.target)) close();
@@ -381,13 +427,14 @@
         return v ? "" : "Please choose a service.";
       },
       details: function (v) {
+        if (!v && form.elements.details.getAttribute("data-optional") === "1") return "";
         return v.length >= 10 ? "" : "Please tell us a little about your project.";
       },
     };
     function validate(name) {
       var field = form.elements[name];
       var message = checks[name](field.value.trim());
-      var error = form.querySelector("#gz-" + name + "-error");
+      var error = form.querySelector("[id$='-" + name + "-error']");
       error.textContent = message;
       [field, name === "service" ? serviceTrigger : null].forEach(function (el) {
         if (!el) return;
@@ -426,7 +473,8 @@
         return !validate(name);
       });
       if (invalid.length) {
-        say("error", "Please check the highlighted fields.");
+        say("error", MSG_INVALID);
+        Toast.show("error", MSG_INVALID);
         (invalid[0] === "service" && serviceTrigger ? serviceTrigger : form.elements[invalid[0]]).focus();
         return;
       }
@@ -438,19 +486,28 @@
           if (reply.ok) {
             form.reset();
             if (serviceTrigger) form.elements.service.dispatchEvent(new Event("change"));
-            say("success", reply.message);
+            say("", "");
+            Toast.show("success", reply.message);
+            // A popup form closes once the notification is on screen above it.
+            var popup = form.closest(".gz-popup");
+            if (popup) {
+              popup.dispatchEvent(new Event("gz:submitted"));
+              setTimeout(function () { var close = popup.querySelector(".gz-popup-close"); if (close) close.click(); }, 700);
+            }
             return;
           }
           // Show the server's field errors in the same places as the browser checks.
           Object.keys(reply.errors || {}).forEach(function (name) {
-            var error = form.querySelector("#gz-" + name + "-error");
+            var error = form.querySelector("[id$='-" + name + "-error']");
             if (error) error.textContent = reply.errors[name];
             if (form.elements[name]) form.elements[name].setAttribute("aria-invalid", "true");
           });
           say("error", reply.message);
+          Toast.show("error", reply.errors ? MSG_INVALID : reply.message || MSG_ERROR);
         })
         .catch(function () {
-          say("error", "Sorry, your enquiry could not be sent. Your details are still here, so you can try again. " + CONTACT_HINT);
+          say("error", "Your details are still here, so you can try again. " + CONTACT_HINT);
+          Toast.show("error", MSG_ERROR);
         })
         .then(function () {
           setBusy(false);
@@ -675,4 +732,237 @@
       revealObserver.observe(el);
     });
   }
+  // Floating WhatsApp button: shown from 700px down the page. The listener is passive and does its
+  // work once per frame; it is removed when the page is left and added back if the page is restored.
+  (function () {
+    var button = document.getElementById("gz-whatsapp");
+    if (!button) return;
+    var THRESHOLD = 700;
+    var queued = false;
+    function update() {
+      queued = false;
+      button.classList.toggle("is-visible", window.scrollY >= THRESHOLD);
+    }
+    function onScroll() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(update);
+    }
+    function start() {
+      window.addEventListener("scroll", onScroll, { passive: true });
+      update();
+    }
+    window.addEventListener("pagehide", function () {
+      window.removeEventListener("scroll", onScroll);
+    });
+    window.addEventListener("pageshow", function (event) {
+      if (event.persisted) start();
+    });
+    start();
+  })();
+
+  // Promotional popup. The delay counts from when the page opened. Only the image for the current
+  // screen size is requested, shortly before opening, so the page's own loading is not affected.
+  (function () {
+    var popup = document.getElementById("gz-popup");
+    if (!popup) return;
+    var d = popup.dataset;
+    var preview = d.preview === "1";
+    var previewMode = new URLSearchParams(location.search).get("gz_popup_preview");
+    // What this browser remembers: when the visitor closed the popup or sent the form, tied to the
+    // admin's reset number. Nothing personal is stored.
+    var STORE = "gzPopup";
+    var SESSION = "gzPopupSession";
+    var DAY = 86400000;
+    var mobileQuery = window.matchMedia("(max-width: 767px)");
+    var dialog = popup.querySelector(".gz-popup-dialog");
+    var media = popup.querySelector(".gz-popup-media");
+    var closeButton = popup.querySelector(".gz-popup-close");
+    var lastFocus = null;
+    var lenis = function () { return window.gzLenis || null; };
+
+    function isMobile() {
+      return mobileQuery.matches;
+    }
+    function allowedHere() {
+      return preview || (isMobile() ? d.showMobile === "1" : d.showDesktop === "1");
+    }
+    function readState() {
+      try {
+        var s = JSON.parse(localStorage.getItem(STORE) || "{}");
+        return s && s.v === d.version ? s : { v: d.version };
+      } catch (e) {
+        return { v: d.version };
+      }
+    }
+    function writeState(change) {
+      try {
+        var s = readState();
+        for (var k in change) s[k] = change[k];
+        s.v = d.version;
+        localStorage.setItem(STORE, JSON.stringify(s));
+      } catch (e) {}
+    }
+    function shownThisSession() {
+      try {
+        return sessionStorage.getItem(SESSION) === d.version;
+      } catch (e) {
+        return false;
+      }
+    }
+    function alreadySeen() {
+      if (preview) return false;
+      var s = readState(), now = Date.now();
+      if (s.submitted && now - s.submitted < parseInt(d.submitDays, 10) * DAY) return true;
+      if (d.reappear === "refresh") return false;
+      if (d.reappear === "session") return shownThisSession();
+      if (d.reappear === "closed") return !!s.closed || shownThisSession();
+      return (s.closed && now - s.closed < parseInt(d.dismissDays, 10) * DAY) || shownThisSession();
+    }
+    function markSeen() {
+      if (preview) return;
+      try {
+        sessionStorage.setItem(SESSION, d.version);
+      } catch (e) {}
+    }
+    popup.addEventListener("gz:submitted", function () {
+      if (!preview) writeState({ submitted: Date.now() });
+    });
+    function setImage() {
+      var src = isMobile() ? d.mobileSrc : d.desktopSrc;
+      var w = isMobile() ? d.mobileW : d.desktopW;
+      var h = isMobile() ? d.mobileH : d.desktopH;
+      var img = media.querySelector("img");
+      popup.classList.toggle("gz-popup-no-image", !src);
+      if (!src) {
+        media.textContent = "";
+        return;
+      }
+      if (img && img.getAttribute("src") === src) return;
+      if (!img) {
+        img = document.createElement("img");
+        img.alt = d.alt || "";
+        img.decoding = "async";
+        img.addEventListener("error", function () {
+          popup.classList.add("gz-popup-no-image");
+          media.textContent = "";
+        });
+        media.appendChild(img);
+      }
+      img.width = w;
+      img.height = h;
+      img.style.setProperty("--gz-popup-ratio", w + " / " + h);
+      img.src = src;
+    }
+    function focusables() {
+      return Array.prototype.filter.call(dialog.querySelectorAll("a[href], button:not([disabled]), input:not([type=hidden]):not([tabindex='-1']), textarea, select:not([tabindex='-1'])"), function (el) {
+        return el.offsetParent !== null;
+      });
+    }
+    function onKey(event) {
+      if (event.key === "Escape") {
+        if (popup.querySelector(".girzock-select.is-open")) return;
+        close();
+      } else if (event.key === "Tab") {
+        var list = focusables();
+        if (!list.length) return;
+        var first = list[0], last = list[list.length - 1];
+        if (event.shiftKey && (document.activeElement === first || !dialog.contains(document.activeElement))) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    }
+    function open() {
+      if (popup.classList.contains("is-open") || !allowedHere()) return;
+      setImage();
+      lastFocus = document.activeElement;
+      popup.hidden = false;
+      document.documentElement.classList.add("gz-popup-lock");
+      if (lenis()) lenis().stop();
+      markSeen();
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          popup.classList.add("is-open");
+        });
+      });
+      closeButton.focus({ preventScroll: true });
+      document.addEventListener("keydown", onKey, true);
+      mobileQuery.addEventListener("change", setImage);
+    }
+    function close() {
+      if (!popup.classList.contains("is-open")) return;
+      if (!preview) writeState({ closed: Date.now() });
+      popup.classList.remove("is-open");
+      document.documentElement.classList.remove("gz-popup-lock");
+      if (lenis()) lenis().start();
+      document.removeEventListener("keydown", onKey, true);
+      mobileQuery.removeEventListener("change", setImage);
+      setTimeout(function () {
+        popup.hidden = true;
+      }, 260);
+      if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+    }
+    closeButton.addEventListener("click", close);
+    popup.addEventListener("click", function (event) {
+      if (event.target === popup) close();
+    });
+    if (preview || previewMode) {
+      open();
+      return;
+    }
+    if (alreadySeen() || !allowedHere()) return;
+    var due = parseInt(d.delay, 10) * 1000;
+    function attempt() {
+      var loader = document.getElementById("preloader");
+      if (loader && loader.dataset.hidden !== "true" && loader.style.display !== "none" && getComputedStyle(loader).display !== "none") {
+        setTimeout(attempt, 200);
+        return;
+      }
+      open();
+    }
+    var left = Math.max(0, due - performance.now());
+    // Fetches the image a moment early, so it is ready when the popup opens.
+    setTimeout(function () {
+      if (allowedHere()) {
+        var src = isMobile() ? d.mobileSrc : d.desktopSrc;
+        if (src) new Image().src = src;
+      }
+    }, Math.max(0, left - 1500));
+    setTimeout(attempt, left);
+  })();
+
+  // Homepage background video: downloaded only when it comes near the screen.
+  document.querySelectorAll("video[data-gz-lazy-video]").forEach(function (video) {
+    function start() {
+      var source = document.createElement("source");
+      source.src = video.getAttribute("data-gz-lazy-video");
+      source.type = "video/mp4";
+      video.appendChild(source);
+      video.load();
+      var playing = video.play();
+      if (playing && playing.catch) playing.catch(function () {});
+    }
+    if (!("IntersectionObserver" in window)) {
+      start();
+      return;
+    }
+    var watcher = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        watcher.disconnect();
+        start();
+      }
+    }, { rootMargin: "600px 0px" });
+    watcher.observe(video);
+  });
+
+  // Forms that post without JavaScript (careers) show the server's result as the same toast.
+  document.querySelectorAll(".gz-alert-success, .gz-alert-error").forEach(function (alert) {
+    var kind = alert.classList.contains("gz-alert-success") ? "success" : "error";
+    Toast.show(kind, alert.textContent.trim());
+  });
+
 })();

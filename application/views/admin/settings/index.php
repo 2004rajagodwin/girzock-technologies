@@ -36,10 +36,11 @@ $image = function ($key, $label) use ($values, $err) {
             <?php $image('logo_color', 'Logo (colour)'); $image('logo_white', 'Logo (white)'); $image('logo_icon', 'Icon'); $image('favicon', 'Favicon'); ?>
         </div>
         <div class="gz-card">
-            <h2>Social media</h2>
-            <p class="gz-muted">Use only your verified company profiles. Leave a field empty to show that icon as "coming soon".</p>
-            <?php foreach ($socials as $link): $key = 'social_'.$link['platform']; ?>
-            <div class="gz-field"><label for="<?= $key ?>"><?= e($link['label']) ?></label><input id="<?= $key ?>" type="url" name="<?= $key ?>" value="<?= e(isset($posted[$key]) ? $posted[$key] : $link['url']) ?>" placeholder="https://"><?= $err($key) ?></div>
+            <h2>Social links</h2>
+            <p class="gz-muted">Use only your verified company profiles. Each icon appears in the footer of every page once its address is saved, and opens in a new tab. Leave a field empty to hide that icon.</p>
+            <?php $hints = array('linkedin' => 'https://www.linkedin.com/company/…', 'facebook' => 'https://www.facebook.com/…', 'instagram' => 'https://www.instagram.com/…', 'whatsapp' => 'https://wa.me/91…');
+            foreach ($socials as $link): $key = 'social_'.$link['platform']; ?>
+            <div class="gz-field"><label for="<?= $key ?>"><?= e($link['label']) ?> URL</label><input id="<?= $key ?>" type="url" name="<?= $key ?>" maxlength="255" value="<?= e(isset($posted[$key]) ? $posted[$key] : $link['url']) ?>" placeholder="<?= e(isset($hints[$link['platform']]) ? $hints[$link['platform']] : 'https://') ?>"><?= $err($key) ?></div>
             <?php endforeach; ?>
         </div>
         <div class="gz-card">

@@ -16,6 +16,10 @@ $route['robots\.txt'] = 'sitemap/robots';
 
 /* ---- Public website ---- */
 $route['about'] = 'home/about';
+$route['privacy-policy'] = 'home/legal/privacy';
+$route['terms'] = 'home/legal/terms';
+$route['terms-and-conditions'] = 'redirects/to/terms';
+$route['cookie-policy'] = 'home/legal/cookies';
 $route['areas-we-serve'] = 'home/areas';
 $route['search'] = 'search/index';
 
@@ -35,6 +39,7 @@ $route['blog'] = 'blog/index';
 $route['blog/page/(:num)'] = 'blog/index/$1';
 $route['blog/category/(:any)/page/(:num)'] = 'blog/category/$1/$2';
 $route['blog/category/(:any)'] = 'blog/category/$1';
+$route['blog/tag/(:any)/page/(:num)'] = 'blog/tag/$1/$2';
 $route['blog/tag/(:any)'] = 'blog/tag/$1';
 $route['blog/(:any)'] = 'blog/detail/$1';
 

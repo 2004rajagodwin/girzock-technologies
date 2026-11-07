@@ -13,6 +13,7 @@ $nav = array(
 	array('job-applications', 'applications', 'Job Applications', 'fa-file-lines', 'applications'),
 	array('media', 'media', 'Media Library', 'fa-images', 'media'),
 	array('categories', 'categories', 'Categories', 'fa-tags', 'categories'),
+	array('popup', 'popup', 'Promotional Popup', 'fa-bullhorn', 'popup'),
 	array('seo', 'seo', 'SEO Management', 'fa-magnifying-glass-chart', 'seo'),
 	array('users', 'users', 'Admin Users', 'fa-users-gear', 'users'),
 	array('settings', 'settings', 'Website Settings', 'fa-sliders', 'settings'),

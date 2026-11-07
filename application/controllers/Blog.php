@@ -41,22 +41,25 @@ class Blog extends Public_Controller {
 			'description' => $category['description'] ? $category['description'] : 'Articles about '.$category['name'].' from '.setting('company_name').'.',
 			'active_category' => $category['slug'],
 			'entity' => array('blog_category', $category['id']),
+			// A category with no published articles stays reachable but out of search results.
+			'robots' => $this->blog_model->count_public(array('category_id' => $category['id'])) > 0 ? NULL : 'noindex, follow',
 		));
 	}
 
-	public function tag($slug = '')
+	public function tag($slug = '', $page = 0)
 	{
 		$tag = $this->blog_model->tag_by_slug($slug);
 		if ( ! $tag)
 		{
 			$this->not_found();
 		}
-		$page = max(1, (int) $this->input->get('page'));
+		$page = max(1, (int) $page, (int) $this->input->get('page'));
 		$this->listing(array('tag_id' => $tag['id']), $page, 'blog/tag/'.$tag['slug'], array(
-			'heading' => $tag['name'],
+			'heading' => 'Tagged: '.$tag['name'],
 			'banner' => 'Articles',
 			'crumb' => $tag['name'],
-			'title' => $tag['name'].' Articles | '.setting('company_name'),
+			// Worded differently from category pages, so a tag and a category with the same name never share a title.
+			'title' => 'Posts Tagged '.$tag['name'].' | '.setting('company_name'),
 			'description' => 'Articles tagged '.$tag['name'].' from '.setting('company_name').'.',
 			'robots' => 'noindex, follow',
 		));

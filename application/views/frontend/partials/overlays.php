@@ -19,7 +19,7 @@ $mobile_services = $this->settings_model->services_by('menu_order');
                     <circle cx="28.3" cy="55.8" r="5.5" fill="#fff" stroke="#13c6e0" stroke-width="3"/>
                 </g>
             </svg>
-            <img class="gz-pre-logo" src="<?= asset('assets/logos/girzocl-loader.webp') ?>" width="3000" height="2382" alt="<?= e(setting('company_name')) ?>">
+            <img class="gz-pre-logo" src="<?= asset(preloader_logo()) ?>" width="3000" height="2382" alt="<?= e(setting('company_name')) ?>">
         </div>
         <p class="gz-pre-label">Loading...</p>
         <div class="gz-pre-bar"><span class="gz-pre-fill"></span><b class="gz-pre-pct">0%</b></div>

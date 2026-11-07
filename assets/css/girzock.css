@@ -438,6 +438,8 @@ body.girzock-home footer .social-icon li a.girzock-social:focus-visible::before 
   width: 100%;
   height: 100%;
   min-height: 460px;
+  /* the video is 16:9; holding the shape before it loads keeps the page from moving */
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: 25px;
   background: #111a4d url(../images/bg/video4-1.png) center / cover no-repeat;
@@ -3249,7 +3251,7 @@ section.gz-detail-faq {
   -webkit-filter: none !important;
   filter: none !important;
 }
-.gz-pre-label {
+#preloader .gz-pre-label {
   margin: 26px 0 14px;
   font-size: 20px;
   font-weight: 600;
@@ -3405,5 +3407,564 @@ section.gz-detail-faq {
   #about-girzock .sec-title .ibt-btn {
     padding-left: 18px;
     padding-right: 18px;
+  }
+}
+
+/* Floating WhatsApp: 18px above the Back-to-Top button (15px from the bottom, 70px tall), shown from 700px down */
+.gz-whatsapp {
+  position: fixed;
+  right: 15px;
+  bottom: 103px;
+  z-index: 9999998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #25d366, #1ebe5d);
+  box-shadow: 0 8px 22px rgba(37, 211, 102, 0.38);
+  font-size: 27px;
+  line-height: 1;
+  color: #fff;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s, box-shadow 0.25s ease;
+}
+.gz-whatsapp.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.gz-whatsapp:hover,
+.gz-whatsapp:focus-visible {
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.55);
+}
+/* A short shake of the icon every 3 seconds; the button itself stays in place */
+.gz-whatsapp i {
+  display: block;
+  color: #fff;
+}
+.gz-whatsapp.is-visible i {
+  animation: gz-wa-shake 3s ease-in-out infinite;
+}
+@keyframes gz-wa-shake {
+  0%, 20%, 100% {
+    transform: rotate(0) scale(1);
+  }
+  3% {
+    transform: rotate(-8deg) scale(1.06);
+  }
+  6.5% {
+    transform: rotate(8deg) scale(1.06);
+  }
+  10% {
+    transform: rotate(-6deg) scale(1.04);
+  }
+  13.5% {
+    transform: rotate(6deg) scale(1.04);
+  }
+  17% {
+    transform: rotate(-3deg) scale(1.02);
+  }
+}
+/* Very short screens (a phone on its side): beside Back-to-Top, so it stays clear of the theme button */
+@media (max-height: 400px) {
+  .gz-whatsapp {
+    right: 80px;
+    bottom: 15px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gz-whatsapp {
+    transform: none;
+    transition: none;
+  }
+  .gz-whatsapp.is-visible i {
+    animation: none;
+  }
+}
+
+/* Promotional popup: light in both themes, like the approved design */
+html.gz-popup-lock,
+html.gz-popup-lock body {
+  overflow: hidden !important;
+}
+/* keeps the scrollbar's space while the page is locked, so nothing behind the popup moves */
+html.gz-popup-lock {
+  scrollbar-gutter: stable;
+}
+.gz-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 99999998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(10, 16, 48, 0.72);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.gz-popup[hidden] {
+  display: none;
+}
+.gz-popup.is-open {
+  opacity: 1;
+}
+.gz-popup-dialog {
+  position: relative;
+  width: min(1180px, 100%);
+  height: min(92vh, 760px);
+  border-radius: 24px;
+  overflow: hidden;
+  background: linear-gradient(160deg, #f8fbff, #e9f1ff);
+  box-shadow: 0 30px 80px rgba(5, 10, 40, 0.5);
+  outline: none;
+  transform: scale(0.95);
+  transition: transform 0.25s ease;
+}
+.gz-popup.is-open .gz-popup-dialog {
+  transform: none;
+}
+.gz-popup-scroll {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  height: 100%;
+}
+.gz-popup-media {
+  height: 100%;
+  min-height: 0;
+  background: #0b1650;
+}
+.gz-popup-media img {
+  display: block;
+  width: auto;
+  height: 100%;
+  max-width: 44vw;
+  object-fit: contain;
+  object-position: center;
+}
+.gz-popup-body {
+  min-width: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.gz-popup .girzock-enquiry,
+.active-body .gz-popup .girzock-enquiry {
+  align-content: center;
+  min-height: 100%;
+  padding: 44px 38px 36px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+.gz-popup .girzock-enquiry-title,
+.active-body .gz-popup .girzock-enquiry-title {
+  font-size: 38px;
+  line-height: 1.15;
+  font-weight: 700;
+  color: #0b1650 !important;
+}
+.gz-popup .girzock-enquiry-title span {
+  padding-bottom: 6px;
+  color: #1769ff;
+  background: linear-gradient(90deg, #1769ff, #19d5e5) no-repeat left bottom / 80% 3px;
+}
+.gz-popup .girzock-enquiry-intro p,
+.active-body .gz-popup .girzock-enquiry-intro p {
+  color: #3a4468 !important;
+}
+.gz-popup .girzock-field {
+  position: relative;
+}
+.gz-popup .girzock-field::before {
+  content: "";
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  width: 20px;
+  font: 900 15px/20px "Font Awesome 5 Free";
+  text-align: center;
+  color: #1a2b78;
+  pointer-events: none;
+}
+.gz-popup .girzock-field-name::before { content: "\f007"; }
+.gz-popup .girzock-field-email::before { content: "\f0e0"; }
+.gz-popup .girzock-field-phone::before { content: "\f095"; }
+.gz-popup .girzock-field-company::before { content: "\f1ad"; }
+.gz-popup .girzock-field-service::before { content: "\f5fd"; }
+.gz-popup .girzock-field-details::before { content: "\f075"; }
+.gz-popup .girzock-field input,
+.gz-popup .girzock-field textarea,
+.gz-popup .girzock-select-trigger,
+.active-body .gz-popup .girzock-field input,
+.active-body .gz-popup .girzock-field textarea,
+.active-body .gz-popup .girzock-select-trigger {
+  padding-left: 44px;
+  padding-right: 8px;
+  font-size: 13.5px;
+  border: 1px solid rgba(23, 105, 255, 0.24);
+  border-radius: 14px;
+  background-color: #fff;
+  color: #111a4d !important;
+}
+.active-body .gz-popup .girzock-field input::placeholder,
+.active-body .gz-popup .girzock-field textarea::placeholder,
+.active-body .gz-popup .girzock-select-trigger.is-placeholder {
+  color: #5b6380 !important;
+}
+.active-body .gz-popup .girzock-field input:focus,
+.active-body .gz-popup .girzock-field textarea:focus,
+.active-body .gz-popup .girzock-select-trigger:focus,
+.active-body .gz-popup .girzock-select.is-open .girzock-select-trigger {
+  background-image: linear-gradient(#fff, #fff), linear-gradient(112deg, #1769ff, #13cfe0);
+}
+.active-body .gz-popup .girzock-select-trigger svg {
+  color: #1769ff;
+}
+.gz-popup .girzock-enquiry-foot {
+  justify-content: center;
+}
+.gz-popup .girzock-enquiry-submit,
+.active-body .gz-popup .girzock-enquiry-submit {
+  min-width: min(340px, 100%);
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(95deg, #12c6ea, #1769ff 55%, #0b2aa8) !important;
+  color: #fff !important;
+}
+.gz-popup .girzock-enquiry-submit::before,
+.gz-popup .girzock-enquiry-submit::after,
+.gz-popup .girzock-enquiry-submit > i {
+  display: none;
+}
+.gz-popup .girzock-enquiry-submit span::after {
+  content: "\f054";
+  margin-left: 12px;
+  font: 900 13px/1 "Font Awesome 5 Free";
+}
+.gz-popup .girzock-enquiry-submit span {
+  color: #fff !important;
+}
+.gz-popup .girzock-enquiry-submit span::before {
+  content: "\f1d8";
+  margin-right: 10px;
+  font: 900 15px/1 "Font Awesome 5 Free";
+}
+.gz-popup .girzock-enquiry-status,
+.active-body .gz-popup .girzock-enquiry-status {
+  flex-basis: 100%;
+  color: #3a4468;
+  text-align: center;
+}
+.gz-popup .girzock-enquiry-status.is-success { color: #0e7a3e !important; }
+.gz-popup .girzock-enquiry-status.is-error,
+.active-body .gz-popup .girzock-field-error { color: #b3261e !important; }
+.gz-popup-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #0b1650;
+  font-size: 24px;
+  line-height: 1;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(5, 10, 40, 0.35);
+}
+.gz-popup-close:hover {
+  background: #1769ff;
+}
+.gz-popup-close:focus-visible {
+  outline: 3px solid #19d5e5;
+  outline-offset: 2px;
+}
+.gz-popup-no-image .gz-popup-dialog {
+  width: min(760px, 100%);
+}
+.gz-popup-no-image .gz-popup-scroll {
+  grid-template-columns: minmax(0, 1fr);
+}
+.gz-popup-no-image .gz-popup-media {
+  display: none;
+}
+@media (max-width: 1023px) {
+  .gz-popup-media img {
+    max-width: 42vw;
+  }
+  .gz-popup .girzock-enquiry,
+  .active-body .gz-popup .girzock-enquiry {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 34px 22px 26px;
+  }
+  .gz-popup .girzock-enquiry-title,
+  .active-body .gz-popup .girzock-enquiry-title {
+    font-size: 30px;
+  }
+}
+@media (max-width: 767px) {
+  .gz-popup {
+    padding: 10px;
+  }
+  .gz-popup-dialog {
+    height: auto;
+    max-height: calc(100dvh - 20px);
+    display: flex;
+    flex-direction: column;
+    border-radius: 18px;
+  }
+  .gz-popup-scroll {
+    display: block;
+    height: auto;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .gz-popup-media {
+    height: auto;
+  }
+  .gz-popup-media img {
+    width: 100%;
+    max-width: none;
+    height: auto;
+  }
+  .gz-popup-body {
+    overflow: visible;
+  }
+  .gz-popup .girzock-enquiry,
+  .active-body .gz-popup .girzock-enquiry {
+    padding: 24px 16px 22px;
+  }
+  .gz-popup .girzock-enquiry-title,
+  .active-body .gz-popup .girzock-enquiry-title {
+    font-size: 26px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gz-popup,
+  .gz-popup-dialog {
+    transition: none;
+  }
+  .gz-popup-dialog {
+    transform: none;
+  }
+}
+
+/* Notifications for every form */
+.gz-toasts {
+  position: fixed;
+  top: 96px;
+  right: 20px;
+  z-index: 2147483000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(380px, calc(100vw - 32px));
+  pointer-events: none;
+}
+.gz-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 14px 14px 16px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 16px 40px rgba(11, 22, 80, 0.22);
+  border-left: 5px solid #16a34a;
+  color: #111a4d;
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateX(24px) scale(0.98);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.gz-toast.is-shown {
+  opacity: 1;
+  transform: none;
+}
+.gz-toast-error {
+  border-left-color: #c62828;
+}
+.gz-toast-icon {
+  display: flex;
+  flex: 0 0 26px;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #16a34a;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+}
+.gz-toast-error .gz-toast-icon {
+  background: #c62828;
+}
+.gz-toast-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.gz-toast-text p,
+.active-body .gz-toast-text p {
+  margin: 2px 0 0;
+  font-size: 14.5px;
+  line-height: 1.45;
+  font-weight: 600;
+  color: #111a4d !important;
+}
+.gz-toast-text small {
+  display: block;
+  margin-top: 4px;
+  font-size: 12.5px;
+  color: #4a5578;
+}
+.gz-toast-close {
+  flex: 0 0 auto;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  font-size: 22px;
+  line-height: 1;
+  color: #4a5578;
+  cursor: pointer;
+}
+.gz-toast-close:focus-visible {
+  outline: 2px solid #1769ff;
+  border-radius: 4px;
+}
+@media (max-width: 767px) {
+  .gz-toasts {
+    top: auto;
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    width: auto;
+  }
+  .gz-toast {
+    transform: translateY(16px) scale(0.98);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gz-toast {
+    transition: none;
+    transform: none;
+  }
+}
+/* Loading state on submit buttons */
+.is-loading,
+[aria-busy="true"].girzock-enquiry-submit {
+  cursor: progress;
+  opacity: 0.8;
+}
+
+/* Promotional popup, final size: about 15% smaller on desktop */
+@media (min-width: 768px) {
+  .gz-popup-dialog {
+    width: min(1003px, 100%);
+    height: min(88vh, 646px);
+  }
+  .gz-popup .girzock-enquiry,
+  .active-body .gz-popup .girzock-enquiry {
+    gap: 14px 16px;
+    padding: 36px 30px 28px;
+  }
+  .gz-popup .girzock-enquiry-title,
+  .active-body .gz-popup .girzock-enquiry-title {
+    font-size: 32px;
+  }
+  .gz-popup .girzock-field input,
+  .gz-popup .girzock-select-trigger,
+  .active-body .gz-popup .girzock-field input,
+  .active-body .gz-popup .girzock-select-trigger {
+    height: 48px;
+    font-size: 13px;
+  }
+  .gz-popup .girzock-field textarea,
+  .active-body .gz-popup .girzock-field textarea {
+    min-height: 92px;
+    font-size: 13px;
+  }
+}
+/* Form side: light gradient, soft glows and faint technology lines */
+.gz-popup-body {
+  background:
+    radial-gradient(circle at 92% 8%, rgba(25, 213, 229, 0.16), transparent 42%),
+    radial-gradient(circle at 6% 96%, rgba(23, 105, 255, 0.12), transparent 46%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' fill='none' stroke='%231769ff' stroke-opacity='.07'%3E%3Cpath d='M0 40h60l20 20h60M240 120h-70l-20-20h-50M60 240v-50l20-20v-40M200 0v50l-20 20v30'/%3E%3Ccircle cx='140' cy='60' r='3'/%3E%3Ccircle cx='100' cy='100' r='3'/%3E%3Ccircle cx='80' cy='130' r='3'/%3E%3Ccircle cx='180' cy='100' r='3'/%3E%3C/svg%3E"),
+    linear-gradient(160deg, #ffffff 0%, #f1f7ff 55%, #e6f2ff 100%);
+}
+/* The same footer on every page: on inner pages it stands on its own, so all corners are rounded */
+body:not(.girzock-home) .footer-style2 {
+  border-radius: 25px;
+  margin-top: 20px;
+}
+.gz-legal-links a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.gz-legal-updated {
+  font-size: 14px;
+  color: #5b6380;
+}
+
+/* Popup form: fixed message box, room above the button, fits laptop screens without a scrollbar */
+.gz-popup .girzock-field textarea,
+.active-body .gz-popup .girzock-field textarea {
+  height: 96px;
+  min-height: 96px;
+  max-height: 96px;
+  resize: none;
+  overflow-y: auto;
+}
+.gz-popup .girzock-enquiry-foot {
+  margin-top: 10px;
+}
+/* A closed service list is invisible but still took up room below the field, which gave the form a scrollbar */
+.gz-popup .girzock-select:not(.is-open) .girzock-select-list {
+  display: none;
+}
+.gz-popup .girzock-field input,
+.gz-popup .girzock-select-trigger {
+  text-overflow: ellipsis;
+}
+@media (min-width: 768px) {
+  .gz-popup .girzock-enquiry,
+  .active-body .gz-popup .girzock-enquiry {
+    gap: 12px 16px;
+    padding: 30px 30px 24px;
+  }
+  .gz-popup .girzock-enquiry-intro p {
+    margin-bottom: 4px;
+  }
+  .gz-popup .girzock-field input,
+  .gz-popup .girzock-select-trigger,
+  .active-body .gz-popup .girzock-field input,
+  .active-body .gz-popup .girzock-select-trigger {
+    height: 46px;
+  }
+}
+@media (max-width: 767px) {
+  .gz-popup .girzock-field textarea,
+  .active-body .gz-popup .girzock-field textarea {
+    height: 84px;
+    min-height: 84px;
+    max-height: 84px;
   }
 }

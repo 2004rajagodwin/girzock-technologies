@@ -59,7 +59,8 @@
 
   /* ---------- confirm before destructive actions ---------- */
   document.addEventListener("submit", function (event) {
-    var message = event.target.getAttribute("data-gz-confirm");
+    // the button that sent the form may carry its own question
+    var message = (event.submitter && event.submitter.getAttribute("data-gz-confirm")) || event.target.getAttribute("data-gz-confirm");
     if (message && !window.confirm(message)) event.preventDefault();
   });
 

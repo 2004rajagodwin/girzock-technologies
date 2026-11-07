@@ -153,6 +153,68 @@ class Media_manager {
 		return $row;
 	}
 
+	/**
+	 * Stores a WebP, PNG or JPG image byte for byte, for artwork whose quality must not change.
+	 * The real type is read from the content, the name is random and the extension comes from
+	 * that type, so a disguised file cannot be stored. The uploads folder never runs scripts.
+	 * @return array|FALSE media_library row data including file_path
+	 */
+	public function store_original_image(array $file, $uploaded_by, $min_side, $max_side)
+	{
+		$mime = $this->inspect($file);
+		if ($mime === FALSE)
+		{
+			return FALSE;
+		}
+		$types = array('image/webp' => array('webp', array('webp')), 'image/png' => array('png', array('png')), 'image/jpeg' => array('jpg', array('jpg', 'jpeg')));
+		$extension = strtolower(pathinfo((string) $file['name'], PATHINFO_EXTENSION));
+		if ( ! isset($types[$mime]) OR ! in_array($extension, $types[$mime][1], TRUE))
+		{
+			$this->error = 'Please upload a WebP, PNG or JPG image.';
+			return FALSE;
+		}
+		$info = @getimagesize($file['tmp_name']);
+		if ( ! $info OR $info['mime'] !== $mime)
+		{
+			$this->error = 'That file is not a usable image.';
+			return FALSE;
+		}
+		if ($info[0] < $min_side OR $info[1] < $min_side OR $info[0] > $max_side OR $info[1] > $max_side)
+		{
+			$this->error = 'The image must be '.$min_side.' to '.$max_side.' pixels on each side. This one is '.$info[0].' x '.$info[1].'.';
+			return FALSE;
+		}
+		if ($this->is_animated($file['tmp_name'], $mime))
+		{
+			$this->error = 'Please upload a still image.';
+			return FALSE;
+		}
+		$folder = 'assets/uploads/'.date('Y/m');
+		if ( ! is_dir(FCPATH.$folder) && ! @mkdir(FCPATH.$folder, 0755, TRUE))
+		{
+			log_message('error', 'Media: cannot create upload folder '.$folder);
+			$this->error = 'The upload folder is not writable.';
+			return FALSE;
+		}
+		$name = bin2hex(random_bytes(16)).'.'.$types[$mime][0];
+		$target = $folder.'/'.$name;
+		if ( ! move_uploaded_file($file['tmp_name'], FCPATH.$target))
+		{
+			$this->error = 'The file could not be saved.';
+			return FALSE;
+		}
+		@chmod(FCPATH.$target, 0644);
+		$row = array('file_name' => $name, 'original_name' => mb_substr(basename((string) $file['name']), 0, 255), 'file_path' => $target, 'mime_type' => $mime, 'file_size' => filesize(FCPATH.$target), 'width' => $info[0], 'height' => $info[1], 'alt_text' => NULL, 'uploaded_by' => $uploaded_by);
+		if ( ! $this->CI->db->insert('media_library', $row))
+		{
+			$this->delete_files($target);
+			$this->error = 'The file could not be saved.';
+			return FALSE;
+		}
+		$row['id'] = $this->CI->db->insert_id();
+		return $row;
+	}
+
 	/** Removes a stored upload and its responsive copies. */
 	public function delete_files($path)
 	{

@@ -48,11 +48,11 @@
 
         <!-- marquee-sec -->
         <section class="marquee-sec ibt-section-gapBottom">
-        <h2 style="display:none;">Develop. Expand. Transform.</h2>
+        <h2 style="display:none;">Technology. Growth. Elevate.</h2>
         <div class="marquee">
             <div class="marquee-inner">
-                <span>/ Develop. Expand. Transform. Technology for growing businesses.</span>
-                <span>/ Develop. Expand. Transform. Technology for growing businesses.</span>
+                <span>/ Technology. Growth. Elevate. Technology for growing businesses.</span>
+                <span>/ Technology. Growth. Elevate. Technology for growing businesses.</span>
             </div>
         </div>
     </section>

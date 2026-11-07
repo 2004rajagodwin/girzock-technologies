@@ -44,6 +44,48 @@
 
 <section class="feature-sec10 ibt-section-gapBottom">
     <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="feature-card10 gz-service-card">
+                    <h3 class="title h4">Digital solutions in Sattankulam</h3>
+                    <p>Sattankulam, in Thoothukudi District, is a short journey from our base, so meeting in person is practical. Its traders, schools, clinics and service businesses can use a clear <a href="<?= site_url('services/website-development') ?>">business website</a> to be found by customers in the surrounding villages and towns, and simple <a href="<?= site_url('services/custom-software-development') ?>">custom software</a> to replace paper registers for orders, stock and accounts.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="feature-sec10 ibt-section-gapBottom" id="towns">
+    <div class="container">
+        <div class="sec-title">
+            <span class="sub-title">towns we serve</span>
+            <h2 class="title animated-heading">Towns Across Three Districts</h2>
+            <p>We work with businesses in these towns and the villages around them. Our only office is in Thisaiyanvilai: projects elsewhere run online, with visits arranged when they are needed.</p>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card10 gz-service-card">
+                    <h3 class="title h4">Tirunelveli District</h3>
+                    <p>Thisaiyanvilai, Tirunelveli, Palayamkottai, Valliyur, Radhapuram, Nanguneri, Kalakkad, Cheranmahadevi and Ambasamudram.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card10 gz-service-card">
+                    <h3 class="title h4">Thoothukudi District</h3>
+                    <p>Sattankulam, Thoothukudi, Tiruchendur, Kovilpatti, Srivaikuntam, Ettayapuram and Vilathikulam.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card10 gz-service-card">
+                    <h3 class="title h4">Kanyakumari District</h3>
+                    <p>Nagercoil, Kanyakumari, Marthandam, Colachel, Thuckalay, Kuzhithurai and Padmanabhapuram.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="feature-sec10 ibt-section-gapBottom">
+    <div class="container">
         <div class="sec-title">
             <span class="sub-title">across the region</span>
             <h2 class="title animated-heading">Nearby Districts We Work With Remotely</h2>

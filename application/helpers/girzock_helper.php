@@ -33,13 +33,27 @@ function media_url($path)
 	return preg_match('#^https?://#i', $path) ? $path : base_url(ltrim($path, '/'));
 }
 
+/** The loading screen logo: the WebP when it is present, otherwise the original PNG, so the logo is never broken. */
+function preloader_logo()
+{
+	return is_file(FCPATH.'assets/logos/girzocl-loader.webp') ? 'assets/logos/girzocl-loader.webp' : 'assets/logos/girzock-pre-logo.png';
+}
+
 /**
  * The browser icon: the one uploaded in the admin panel when it exists, otherwise the default file.
  * The file's date is added to the address, so a browser notices when the icon changes.
  */
 function site_favicon()
 {
-	$default = 'assets/logos/girzock-favv.webp';
+	$default = 'assets/logos/apple-touch-icon.png';
+	foreach (array('assets/logos/girzock-favicon.webp', 'assets/logos/girzock-favv.webp') as $file)
+	{
+		if (is_file(FCPATH.$file))
+		{
+			$default = $file;
+			break;
+		}
+	}
 	$path = trim((string) setting('favicon'));
 	$remote = (bool) preg_match('#^https?://#i', $path);
 	if ($path === '' OR ( ! $remote && ! is_file(FCPATH.ltrim($path, '/'))))
@@ -207,6 +221,37 @@ function is_safe_asset_path($path)
 function is_safe_http_url($url)
 {
 	return (bool) filter_var($url, FILTER_VALIDATE_URL) && (bool) preg_match('#^https?://#i', (string) $url);
+}
+
+/**
+ * A social profile address is accepted only over https, on that platform's own domain, with a profile path and
+ * no user name or password in it. Anything else (javascript:, data:, other sites, a bare home page) is refused.
+ */
+function valid_social_url($platform, $url)
+{
+	$url = trim((string) $url);
+	$hosts = array(
+		'linkedin' => '/^([a-z]{2,3}\.|www\.)?linkedin\.com$/',
+		'facebook' => '/^(www\.|m\.|web\.)?(facebook|fb)\.com$/',
+		'instagram' => '/^(www\.)?instagram\.com$/',
+		'whatsapp' => '/^(wa\.me|api\.whatsapp\.com|chat\.whatsapp\.com|(www\.)?whatsapp\.com)$/',
+	);
+	if ($url === '' OR strlen($url) > 255 OR ! filter_var($url, FILTER_VALIDATE_URL) OR ! preg_match('#^https://#i', $url))
+	{
+		return FALSE;
+	}
+	$parts = parse_url($url);
+	if ( ! $parts OR isset($parts['user']) OR isset($parts['pass']) OR isset($parts['port']) OR empty($parts['host']))
+	{
+		return FALSE;
+	}
+	$host = strtolower($parts['host']);
+	if (isset($hosts[$platform]) && ! preg_match($hosts[$platform], $host))
+	{
+		return FALSE;
+	}
+	$path = isset($parts['path']) ? trim($parts['path'], '/') : '';
+	return $path !== '' OR ($platform === 'whatsapp' && isset($parts['query']));
 }
 
 /** Removes characters that could inject email headers. */

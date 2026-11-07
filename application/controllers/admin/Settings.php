@@ -92,9 +92,10 @@ class Settings extends Admin_Controller {
 		foreach ($this->settings_model->socials() as $link)
 		{
 			$url = trim((string) $this->input->post('social_'.$link['platform']));
-			if ($url !== '' && ! is_safe_http_url($url))
+			if ($url !== '' && ! valid_social_url($link['platform'], $url))
 			{
-				$errors['social_'.$link['platform']] = 'Enter a full URL, or leave this empty to show "coming soon".';
+				$examples = array('linkedin' => 'https://www.linkedin.com/company/your-page', 'facebook' => 'https://www.facebook.com/your-page', 'instagram' => 'https://www.instagram.com/your-account/', 'whatsapp' => 'https://wa.me/91XXXXXXXXXX');
+				$errors['social_'.$link['platform']] = 'Enter the full https address of your '.$link['label'].' profile'.(isset($examples[$link['platform']]) ? ', for example '.$examples[$link['platform']] : '').', or leave it empty to hide the icon.';
 			}
 			$socials[$link['platform']] = $url;
 		}

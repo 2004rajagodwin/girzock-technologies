@@ -14,15 +14,14 @@ $gallery_css = $gallery_scripts OR ! empty($gallery_css);
     <?php $this->load->view('frontend/partials/seo', array('seo' => $seo)); ?>
     <?php if ($is_home): ?><link rel="preload" as="image" href="<?= asset('assets/images/bg/bg2.png') ?>"><?php endif; ?>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com/">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link rel="preload" href="<?= asset('assets/fonts/manrope-latin.woff2') ?>" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="<?= asset('assets/fonts/sora-latin.woff2') ?>" as="font" type="font/woff2" crossorigin>
 
     <?php $favicon = site_favicon(); ?>
     <link rel="icon" type="<?= e($favicon['type']) ?>" href="<?= e($favicon['url']) ?>">
     <link rel="apple-touch-icon" sizes="180x180" href="<?= asset('assets/logos/apple-touch-icon.png') ?>">
 
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="<?= asset('assets/fonts/girzock-fonts.css') ?>">
 
     <link rel="stylesheet" href="<?= asset('assets/css/font-awesome.min.css') ?>" media="print" onload="this.media='all'">
 
@@ -52,19 +51,21 @@ $gallery_css = $gallery_scripts OR ! empty($gallery_css);
 <?php $this->load->view($is_home ? 'frontend/partials/header_home' : 'frontend/partials/header_inner'); ?>
 
 <?php if ( ! empty($is_preview)): ?><div class="gz-preview-bar" role="status">Preview only. This page is not published, and visitors cannot see it.</div><?php endif; ?>
-<?php $this->load->view($content_view); ?>
+<?php $gz_content = $this->load->view($content_view, array(), TRUE); echo $gz_content; ?>
 
 <?php if ($is_home): ?>
 <?php $this->load->view('frontend/partials/footer_home'); ?>
 <?php else: ?>
-<?php $this->load->view('frontend/partials/footer_inner'); ?>
+<?php $this->load->view('frontend/partials/footer_inner', array('main_sec_open' => substr_count($gz_content, 'class="main-sec') > substr_count($gz_content, '<!-- End main-sec -->'))); ?>
 <?php endif; ?>
 
 <!-- Scroll Button -->
 <button id="scrollBtn" title="Go to top">
     <i class="fas fa-angle-up"></i>
 </button>
+<a id="gz-whatsapp" class="gz-whatsapp" href="https://wa.me/916379362330" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp" title="Chat on WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
 <?php if ($use_wrapper): ?></div><?php endif; ?>
+<?php $popup = get_instance()->popup_state(); if ($popup) { $this->load->view('frontend/partials/promo_popup', array('popup' => $popup)); } ?>
 
 <script>window.GIRZOCK_SITE=<?= json_encode(array('email' => setting('contact_email'), 'phone' => setting('phone'), 'searchUrl' => site_url('search')), JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_SLASHES) ?>;</script>
 <script src="<?= asset('assets/js/bootstrap.min.js') ?>" defer></script>

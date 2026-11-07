@@ -34,6 +34,72 @@ class Settings_model extends CI_Model {
 		return $this->settings;
 	}
 
+	/** Settings of the promotional popup, as first installed and as restored by Reset. */
+	public static function popup_defaults()
+	{
+		return array(
+			'popup_enabled' => '1',
+			'popup_title' => 'Send Us a Message',
+			'popup_description' => 'Fill out the form below and we\'ll get back to you as soon as possible.',
+			'popup_image_alt' => 'GIRZOCK Technologies Diwali offer: 20% off website, software and CRM tools',
+			'popup_delay' => '5',
+			'popup_reappear' => 'days',
+			'popup_dismiss_days' => '7',
+			'popup_submit_days' => '30',
+			'popup_visitor_version' => '1',
+			'popup_start_date' => '',
+			'popup_end_date' => '',
+			'popup_show_desktop' => '1',
+			'popup_show_mobile' => '1',
+			'popup_desktop_image' => 'assets/images/popup/diwalipopup-left-desktop.webp',
+			'popup_mobile_image' => 'assets/images/popup/diwalipopup-mobile.webp',
+		);
+	}
+
+	/**
+	 * What the popup needs on a public page, or NULL when it should not appear.
+	 * @param bool $preview an admin preview ignores the on/off switch and the dates
+	 */
+	public function popup($preview = FALSE)
+	{
+		$all = $this->all();
+		if ( ! array_key_exists('popup_enabled', $all))
+		{
+			return NULL;
+		}
+		if ( ! $preview)
+		{
+			$today = date('Y-m-d');
+			$start = $this->get('popup_start_date');
+			$end = $this->get('popup_end_date');
+			if ($all['popup_enabled'] !== '1' OR ($start !== '' && $today < $start) OR ($end !== '' && $today > $end))
+			{
+				return NULL;
+			}
+		}
+		$image = function ($key) {
+			$path = $this->get($key);
+			$file = FCPATH.ltrim($path, '/');
+			$info = ($path !== '' && strpos($path, '..') === FALSE && is_file($file)) ? @getimagesize($file) : FALSE;
+			return $info ? array('url' => base_url($path).'?v='.filemtime($file), 'width' => $info[0], 'height' => $info[1]) : array('url' => '', 'width' => 0, 'height' => 0);
+		};
+		return array(
+			'title' => $this->get('popup_title', 'Send Us a Message'),
+			'description' => $this->get('popup_description'),
+			'alt' => $this->get('popup_image_alt'),
+			'delay' => (int) $this->get('popup_delay', '5'),
+			'reappear' => $this->get('popup_reappear', 'days'),
+			'dismiss_days' => (int) $this->get('popup_dismiss_days', '7'),
+			'submit_days' => (int) $this->get('popup_submit_days', '30'),
+			'version' => $this->get('popup_visitor_version', '1'),
+			'show_desktop' => $this->get('popup_show_desktop') === '1',
+			'show_mobile' => $this->get('popup_show_mobile') === '1',
+			'desktop' => $image('popup_desktop_image'),
+			'mobile' => $image('popup_mobile_image'),
+			'preview' => (bool) $preview,
+		);
+	}
+
 	public function get($key, $default = '')
 	{
 		$all = $this->all();
@@ -63,9 +129,17 @@ class Settings_model extends CI_Model {
 		return $this->socials;
 	}
 
+	/** Only the profiles with a valid address, in display order. Used by the footer and the structured data. */
+	public function public_socials()
+	{
+		return array_values(array_filter($this->socials(), function ($link) {
+			return valid_social_url($link['platform'], $link['url']);
+		}));
+	}
+
 	public function social_url($platform)
 	{
-		foreach ($this->socials() as $link)
+		foreach ($this->public_socials() as $link)
 		{
 			if ($link['platform'] === $platform)
 			{

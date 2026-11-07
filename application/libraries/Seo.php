@@ -95,9 +95,9 @@ class Seo {
 	{
 		$s = $this->CI->settings_model;
 		$same_as = array();
-		foreach ($s->socials() as $link)
+		foreach ($s->public_socials() as $link)
 		{
-			if ($link['url'] && $link['platform'] !== 'whatsapp')
+			if ($link['platform'] !== 'whatsapp')
 			{
 				$same_as[] = $link['url'];
 			}

@@ -62,7 +62,12 @@ class Setup extends CI_Controller {
 	{
 		$this->load->model('enquiry_model');
 		$this->load->library('enquiry_mailer');
-		$rows = $this->db->where('entity_type', 'enquiry')->where_in('status', array('failed', 'skipped'))->where('attempts <', 10)->get('email_log', 100)->result_array();
+		// Emails are sent after the visitor's reply, so a send cut off part way (a host restart, for example)
+		// leaves its row at "pending". Those are retried too, once they are 10 minutes old.
+		$stale = date('Y-m-d H:i:s', time() - 600);
+		$rows = $this->db->where('entity_type', 'enquiry')->where('attempts <', 10)
+			->group_start()->where_in('status', array('failed', 'skipped'))->or_group_start()->where('status', 'pending')->where('created_at <', $stale)->group_end()->group_end()
+			->get('email_log', 100)->result_array();
 		$done = array();
 		foreach ($rows as $row)
 		{

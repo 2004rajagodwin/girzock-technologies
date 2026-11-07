@@ -6,7 +6,7 @@ $config['gz_modules'] = array(
 	'dashboard' => 'Dashboard', 'enquiries' => 'Enquiries', 'services' => 'Services', 'products' => 'Products',
 	'portfolio' => 'Portfolio', 'case_studies' => 'Case Studies', 'blog' => 'Blog', 'careers' => 'Careers',
 	'applications' => 'Job Applications', 'media' => 'Media Library', 'categories' => 'Categories', 'seo' => 'SEO',
-	'users' => 'Admin Users', 'settings' => 'Website Settings',
+	'users' => 'Admin Users', 'settings' => 'Website Settings', 'popup' => 'Promotional Popup',
 );
 
 $config['gz_enquiry_statuses'] = array('new', 'contacted', 'in_progress', 'follow_up', 'converted', 'closed');

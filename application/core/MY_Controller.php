@@ -27,6 +27,23 @@ class Public_Controller extends MY_Controller {
 		$this->output->set_header('X-Frame-Options: SAMEORIGIN');
 	}
 
+	/** The popup for this page, if any. ?gz_popup_preview shows it to a signed-in admin with access. */
+	public function popup_state()
+	{
+		$mode = $this->input->get('gz_popup_preview');
+		if ($mode === 'desktop' OR $mode === 'mobile')
+		{
+			$this->load->library('admin_auth', NULL, 'auth');
+			if ($this->auth->user() && $this->auth->can('popup'))
+			{
+				$this->output->set_header('Cache-Control: no-store');
+				$this->output->set_header('X-Robots-Tag: noindex, nofollow');
+				return $this->settings_model->popup(TRUE);
+			}
+		}
+		return $this->settings_model->popup();
+	}
+
 	/**
 	 * Lets a signed-in admin with access to the module see an unpublished record at ?preview=1.
 	 * Visitors never reach this: the session and auth libraries load only for a preview request.

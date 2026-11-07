@@ -35,7 +35,7 @@ class Contact extends Public_Controller {
 		$errors = $this->validate($input);
 		if ($errors)
 		{
-			return $this->respond($ajax, 422, array('ok' => FALSE, 'message' => 'Please check the highlighted fields.', 'errors' => $errors));
+			return $this->respond($ajax, 422, array('ok' => FALSE, 'message' => 'Please check the highlighted fields and try again.', 'errors' => $errors));
 		}
 
 		$this->load->model('enquiry_model');
@@ -58,10 +58,54 @@ class Contact extends Public_Controller {
 			return $this->respond($ajax, 500, array('ok' => FALSE, 'message' => 'Sorry, your enquiry could not be saved.'));
 		}
 
+		$payload = array('ok' => TRUE, 'reference' => $enquiry['reference_no'], 'message' => $this->success_message($enquiry['reference_no']));
 		$this->load->library('enquiry_mailer');
+		if ($ajax)
+		{
+			// The enquiry is saved, so the visitor can be told now. The emails follow in the same request
+			// after the reply has been sent; each result is recorded in email_log and failures are retried.
+			$this->reply_now($payload);
+			$this->enquiry_mailer->notify($enquiry);
+			exit;
+		}
 		$this->enquiry_mailer->notify($enquiry);
+		$this->respond($ajax, 200, $payload);
+	}
 
-		$this->respond($ajax, 200, array('ok' => TRUE, 'reference' => $enquiry['reference_no'], 'message' => $this->success_message($enquiry['reference_no'])));
+	/** Sends a JSON reply and closes the connection, so work after this does not keep the visitor waiting. */
+	private function reply_now(array $payload)
+	{
+		ignore_user_abort(TRUE);
+		@set_time_limit(120);
+		// Releases the session file, so the visitor's next page does not wait for the emails to finish.
+		if (session_status() === PHP_SESSION_ACTIVE)
+		{
+			session_write_close();
+		}
+		$body = json_encode($payload);
+		if (function_exists('apache_setenv'))
+		{
+			@apache_setenv('no-gzip', '1');
+		}
+		while (ob_get_level() > 0)
+		{
+			ob_end_clean();
+		}
+		if ( ! headers_sent())
+		{
+			http_response_code(200);
+			header('Content-Type: application/json; charset=utf-8');
+			header('Cache-Control: no-store');
+			header('X-Content-Type-Options: nosniff');
+			header('Content-Length: '.strlen($body));
+			header('Connection: close');
+		}
+		echo $body;
+		flush();
+		if (function_exists('fastcgi_finish_request'))
+		{
+			fastcgi_finish_request();
+		}
 	}
 
 	/** Maps the three forms onto the enquiry fields. Values are stored as typed and escaped on output. */
@@ -69,6 +113,7 @@ class Contact extends Public_Controller {
 	{
 		$post = function ($name) { return trim((string) $this->input->post($name)); };
 		$is_message_form = $post('form_type') === 'message';
+		$is_popup_form = $post('form_type') === 'popup';
 		$is_contact_form = $post('form_type') === 'contact';
 		return array(
 			'full_name' => clean_header_value($post('name')),
@@ -81,6 +126,7 @@ class Contact extends Public_Controller {
 			'_phone_required' => ! $is_message_form,
 			'_is_message_form' => $is_message_form,
 			'_message_key' => ($is_message_form OR $is_contact_form) ? 'message' : 'details',
+			'_message_optional' => $is_popup_form,
 		);
 	}
 
@@ -89,7 +135,8 @@ class Contact extends Public_Controller {
 		$is_message_form = $input['_is_message_form'];
 		$phone_required = $input['_phone_required'];
 		$message_key = $input['_message_key'];
-		unset($input['_is_message_form'], $input['_phone_required'], $input['_message_key']);
+		$message_optional = ! empty($input['_message_optional']);
+		unset($input['_is_message_form'], $input['_phone_required'], $input['_message_key'], $input['_message_optional']);
 
 		$errors = array();
 		if (mb_strlen($input['full_name']) < 2 OR mb_strlen($input['full_name']) > 120)
@@ -127,7 +174,11 @@ class Contact extends Public_Controller {
 				$errors['service'] = 'Please choose a service.';
 			}
 		}
-		if (mb_strlen($input['message']) < 10)
+		if ($message_optional && $input['message'] === '')
+		{
+			// The popup form may be sent without a message.
+		}
+		elseif (mb_strlen($input['message']) < 10)
 		{
 			$errors[$message_key] = 'Please tell us a little about your project.';
 		}
@@ -140,9 +191,7 @@ class Contact extends Public_Controller {
 
 	private function success_message($reference)
 	{
-		$message = 'Thank you. We have received your enquiry';
-		$message .= $reference !== '' ? ' (reference '.$reference.').' : '.';
-		return $message.' Our team will review your requirements and get in touch with you within 24 hours.';
+		return 'Thank you! Your enquiry has been submitted successfully.';
 	}
 
 	/** AJAX gets JSON. A browser with JavaScript disabled gets the contact page with the result. */
