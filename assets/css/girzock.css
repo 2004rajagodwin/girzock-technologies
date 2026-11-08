@@ -3980,3 +3980,16 @@ body:not(.girzock-home) .footer-style2 {
     height: 40px;
   }
 }
+
+/* Popup form spacing: less empty space above the heading, a little more room above the button.
+   Only from 1280px wide and 640px tall, where the two-column form has spare height beside the image. The form stays
+   centred; the deeper bottom padding moves it up, so the gaps above and below stay balanced at every height. */
+@media (min-width: 1280px) and (min-height: 640px) {
+  .gz-popup .girzock-enquiry,
+  .active-body .gz-popup .girzock-enquiry {
+    padding-bottom: 42px;
+  }
+  .gz-popup .girzock-enquiry-foot {
+    margin-top: 36px;
+  }
+}
