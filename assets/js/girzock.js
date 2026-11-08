@@ -426,9 +426,9 @@
       service: function (v) {
         return v ? "" : "Please choose a service.";
       },
-      details: function (v) {
-        if (!v && form.elements.details.getAttribute("data-optional") === "1") return "";
-        return v.length >= 10 ? "" : "Please tell us a little about your project.";
+      details: function () {
+        // Optional on every form; the length limit is set on the field itself.
+        return "";
       },
     };
     function validate(name) {
@@ -963,6 +963,8 @@
   document.querySelectorAll(".gz-alert-success, .gz-alert-error").forEach(function (alert) {
     var kind = alert.classList.contains("gz-alert-success") ? "success" : "error";
     Toast.show(kind, alert.textContent.trim());
+    // A success is shown once, as the toast; the inline copy stays only for browsers without JavaScript.
+    if (kind === "success") alert.hidden = true;
   });
 
 })();

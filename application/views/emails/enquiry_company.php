@@ -10,6 +10,6 @@
 <tr><td style="color:#667;">Service</td><td><?= e($enquiry['service_required']) ?></td></tr>
 </table>
 <p><strong>Project requirements</strong></p>
-<p style="white-space:pre-line;background:#f4f6fb;padding:12px;border-radius:6px;"><?= e($enquiry['message']) ?></p>
+<p style="white-space:pre-line;background:#f4f6fb;padding:12px;border-radius:6px;"><?= trim((string) $enquiry['message']) !== '' ? e($enquiry['message']) : 'No message provided.' ?></p>
 <p><a href="<?= site_url('admin/enquiries/view/'.(int) $enquiry['id']) ?>" style="color:#0b1f5c;">Open in the admin panel</a></p>
 <?php $this->load->view('emails/layout_bottom'); ?>

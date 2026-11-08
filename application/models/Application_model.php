@@ -65,6 +65,30 @@ class Application_model extends CI_Model {
 		return $data;
 	}
 
+	/** Any application, archived or not (used by delete). */
+	public function find_any($id)
+	{
+		$row = $this->db->get_where(self::TABLE, array('id' => (int) $id), 1)->row_array();
+		return $row ? $row : NULL;
+	}
+
+	/** Deletes the application and its email log rows together. Returns TRUE only if the application row was removed. */
+	public function delete_forever($id)
+	{
+		$this->db->trans_start();
+		$this->db->where(array('entity_type' => 'application', 'entity_id' => (int) $id))->delete('email_log');
+		$this->db->where('id', (int) $id)->delete(self::TABLE);
+		$deleted = $this->db->affected_rows() === 1;
+		$this->db->trans_complete();
+		return $deleted && $this->db->trans_status();
+	}
+
+	/** TRUE when another application still points to the same resume file, so it must not be removed. */
+	public function resume_shared($resume_path, $except_id)
+	{
+		return $this->db->where('resume_path', (string) $resume_path)->where('id !=', (int) $except_id)->count_all_results(self::TABLE) > 0;
+	}
+
 	public function update_by_id($id, array $data)
 	{
 		return $this->db->where('id', (int) $id)->update(self::TABLE, $data);

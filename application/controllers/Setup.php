@@ -60,28 +60,34 @@ class Setup extends CI_Controller {
 
 	public function retry_emails()
 	{
-		$this->load->model('enquiry_model');
-		$this->load->library('enquiry_mailer');
-		// Emails are sent after the visitor's reply, so a send cut off part way (a host restart, for example)
+		$this->load->model(array('enquiry_model', 'application_model'));
+		$this->load->library(array('enquiry_mailer', 'application_mailer'));
+		// Emails are sent after the record is saved, so a send cut off part way (a host restart, for example)
 		// leaves its row at "pending". Those are retried too, once they are 10 minutes old.
 		$stale = date('Y-m-d H:i:s', time() - 600);
-		$rows = $this->db->where('entity_type', 'enquiry')->where('attempts <', 10)
+		$rows = $this->db->where_in('entity_type', array('enquiry', 'application'))->where('attempts <', 10)
 			->group_start()->where_in('status', array('failed', 'skipped'))->or_group_start()->where('status', 'pending')->where('created_at <', $stale)->group_end()->group_end()
 			->get('email_log', 100)->result_array();
-		$done = array();
+		$done = array('enquiry' => array(), 'application' => array());
 		foreach ($rows as $row)
 		{
-			if (isset($done[$row['entity_id']]))
+			$type = $row['entity_type'];
+			if (isset($done[$type][$row['entity_id']]))
 			{
 				continue;
 			}
-			$done[$row['entity_id']] = TRUE;
-			$enquiry = $this->enquiry_model->find($row['entity_id']);
-			if ($enquiry)
+			$done[$type][$row['entity_id']] = TRUE;
+			if ($type === 'enquiry')
 			{
-				$this->enquiry_mailer->notify($enquiry);
+				$enquiry = $this->enquiry_model->find($row['entity_id']);
+				if ($enquiry) { $this->enquiry_mailer->notify($enquiry); }
+			}
+			else
+			{
+				$application = $this->application_model->find($row['entity_id']);
+				if ($application) { $this->application_mailer->notify($application); }
 			}
 		}
-		echo 'Retried '.count($done)." enquiries.\n";
+		echo 'Retried '.count($done['enquiry']).' enquiries and '.count($done['application'])." applications.\n";
 	}
 }

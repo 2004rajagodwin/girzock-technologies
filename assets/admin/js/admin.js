@@ -444,3 +444,97 @@
   [title, seoTitle, desc, slug, canon, excerpt].forEach(function (el) { if (el) el.addEventListener("input", update); });
   update();
 })();
+
+/* Job application delete: a dashboard-style confirmation dialog (no browser confirm), deletion in the background,
+   the list updated in place, and a toast. On the detail page the user returns to the list, which shows the toast. */
+(function () {
+  "use strict";
+  var dialog = document.getElementById("gz-app-delete-dialog");
+  var toastEl = document.getElementById("gz-app-toast");
+  var FAILED = "Unable to delete application. Please try again.";
+  var timer;
+  function toast(kind, message) {
+    if (!toastEl) return;
+    toastEl.textContent = message;
+    toastEl.className = "gz-toast gz-toast-" + kind;
+    toastEl.setAttribute("role", kind === "error" ? "alert" : "status");
+    toastEl.hidden = false;
+    clearTimeout(timer);
+    timer = setTimeout(function () { toastEl.hidden = true; }, 5000);
+  }
+  // a toast handed over from the detail page after a delete
+  try {
+    var handed = sessionStorage.getItem("gzAdminToast");
+    if (handed && toastEl) {
+      sessionStorage.removeItem("gzAdminToast");
+      var parsed = JSON.parse(handed);
+      toast(parsed.kind, parsed.message);
+      document.querySelectorAll(".gz-flash").forEach(function (f) { if (f.textContent.trim() === parsed.message) f.hidden = true; });
+    }
+  } catch (e) {}
+  if (!dialog || !dialog.showModal) return;
+  var pending = null;
+  var confirmButton = dialog.querySelector("[data-gz-app-delete-confirm]");
+  document.querySelectorAll("form[data-gz-app-delete]").forEach(function (form) {
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      pending = form;
+      dialog.querySelector("[data-gz-app-delete-text]").textContent =
+        "Application " + form.dataset.reference + " from " + form.dataset.name + " will be permanently deleted.";
+      dialog.showModal();
+      dialog.querySelector("[data-gz-app-delete-cancel]").focus();
+    });
+  });
+  dialog.querySelector("[data-gz-app-delete-cancel]").addEventListener("click", function () {
+    pending = null;
+    dialog.close();
+  });
+  dialog.addEventListener("close", function () { pending = null; });
+  confirmButton.addEventListener("click", function () {
+    if (!pending) return;
+    var form = pending;
+    confirmButton.disabled = true;
+    confirmButton.setAttribute("aria-busy", "true");
+    fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { Accept: "application/json", "X-Requested-With": "XMLHttpRequest" },
+      credentials: "same-origin",
+    })
+      .then(function (response) {
+        return response.json().then(function (reply) { return { ok: response.ok && reply.ok, reply: reply }; }, function () { return { ok: false, reply: {} }; });
+      })
+      .then(function (result) {
+        dialog.close();
+        if (!result.ok) {
+          toast("error", FAILED);
+          return;
+        }
+        if (form.dataset.redirect) {
+          try { sessionStorage.setItem("gzAdminToast", JSON.stringify({ kind: "success", message: result.reply.message })); } catch (e) {}
+          window.location.href = form.dataset.redirect;
+          return;
+        }
+        var row = form.closest("tr");
+        var body = row ? row.parentNode : null;
+        if (row) row.remove();
+        toast("success", result.reply.message);
+        var total = document.querySelector("[data-gz-app-total]");
+        if (total && typeof result.reply.total === "number") total.textContent = result.reply.total + (result.reply.total === 1 ? " application" : " applications");
+        if (body && !body.querySelector("tr")) {
+          var empty = document.createElement("tr");
+          empty.innerHTML = '<td colspan="7" class="gz-empty-row">No applications found.</td>';
+          body.appendChild(empty);
+        }
+      })
+      .catch(function () {
+        dialog.close();
+        toast("error", FAILED);
+      })
+      .then(function () {
+        confirmButton.disabled = false;
+        confirmButton.removeAttribute("aria-busy");
+      });
+  });
+})();

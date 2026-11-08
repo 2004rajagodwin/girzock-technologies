@@ -116,7 +116,7 @@ class Careers extends Public_Controller {
 		$duplicate = $this->application_model->find_duplicate($hash);
 		if ($duplicate)
 		{
-			return $this->detail($job['slug'], array('success' => 'We already have your application for this position (reference '.$duplicate['reference_no'].'). We will be in touch.'));
+			return $this->detail($job['slug'], array('success' => 'We already have your application for this position. We will contact you after reviewing your profile.'));
 		}
 
 		$this->load->library('media_manager');
@@ -138,10 +138,12 @@ class Careers extends Public_Controller {
 			return $this->detail($job['slug'], array('errors' => array('form' => 'Your application could not be saved. Please try again.'), 'old' => $old));
 		}
 
-		$this->load->library('mailer');
-		$this->mailer->send_once('application', $application['id'], 'company', setting('notification_email', setting('contact_email')),
-			'New job application '.$application['reference_no'], 'emails/application_company', array('application' => $application), $application['email']);
+		// Only after the application is saved: the company is notified and the candidate gets a confirmation
+		// with the reference. A failed email is logged in email_log and retried; the application is never lost.
+		$this->load->library('application_mailer');
+		$this->application_mailer->notify($application);
 
-		$this->detail($job['slug'], array('success' => 'Thank you. Your application has been received. Your reference number is '.$application['reference_no'].'.'));
+		// The reference is not shown on screen; it is in the confirmation email and the admin record.
+		$this->detail($job['slug'], array('success' => 'Thank you! Your application has been submitted successfully.'));
 	}
 }

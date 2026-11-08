@@ -15,7 +15,7 @@
         <option>Other</option>
     </select>
     <span class="girzock-field-error" id="gz-contact-service-error"></span>
-    <textarea name="message" rows="5" placeholder="Write your message..." aria-label="Message" required maxlength="5000"></textarea>
+    <textarea name="message" rows="5" placeholder="Write your message (optional)..." aria-label="Message (optional)" maxlength="5000"></textarea>
     <div class="girzock-hp" aria-hidden="true"><label>Leave this empty<input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
 
     <button type="submit" class="ibt-btn ibt-btn-outline">

@@ -126,7 +126,6 @@ class Contact extends Public_Controller {
 			'_phone_required' => ! $is_message_form,
 			'_is_message_form' => $is_message_form,
 			'_message_key' => ($is_message_form OR $is_contact_form) ? 'message' : 'details',
-			'_message_optional' => $is_popup_form,
 		);
 	}
 
@@ -135,8 +134,7 @@ class Contact extends Public_Controller {
 		$is_message_form = $input['_is_message_form'];
 		$phone_required = $input['_phone_required'];
 		$message_key = $input['_message_key'];
-		$message_optional = ! empty($input['_message_optional']);
-		unset($input['_is_message_form'], $input['_phone_required'], $input['_message_key'], $input['_message_optional']);
+		unset($input['_is_message_form'], $input['_phone_required'], $input['_message_key']);
 
 		$errors = array();
 		if (mb_strlen($input['full_name']) < 2 OR mb_strlen($input['full_name']) > 120)
@@ -174,15 +172,8 @@ class Contact extends Public_Controller {
 				$errors['service'] = 'Please choose a service.';
 			}
 		}
-		if ($message_optional && $input['message'] === '')
-		{
-			// The popup form may be sent without a message.
-		}
-		elseif (mb_strlen($input['message']) < 10)
-		{
-			$errors[$message_key] = 'Please tell us a little about your project.';
-		}
-		elseif (mb_strlen($input['message']) > 5000)
+		// The message is optional on every form; only its length is limited.
+		if (mb_strlen($input['message']) > 5000)
 		{
 			$errors[$message_key] = 'Please keep your message under 5000 characters.';
 		}

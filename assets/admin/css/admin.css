@@ -263,3 +263,38 @@ input[type="text"], input[type="search"], input[type="email"], input[type="passw
 .gz-seo-ok { color: var(--success); }
 .gz-badge-warn { background: #fff1d6; color: #8a5300; margin-left: 6px; }
 .gz-subhead { font-size: 15px; margin: 18px 0 8px; }
+
+/* Job application detail page */
+.gz-app { grid-template-columns: minmax(0, 1fr) 340px; }
+.gz-app-main, .gz-app-side { display: grid; gap: 18px; align-content: start; min-width: 0; }
+.gz-app-side { position: sticky; top: 76px; }
+.gz-app .gz-app-card { margin-bottom: 0; padding: 20px 22px; }
+.gz-app-card h2 { margin: 0 0 14px; font-size: 17px; }
+.gz-app-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--line); }
+.gz-app-head h2 { margin: 0; font-size: 20px; }
+.gz-app-sub { margin: 4px 0 0; font-size: 14px; }
+.gz-app-dl { grid-template-columns: 170px minmax(0, 1fr); gap: 0; }
+.gz-app-dl dt, .gz-app-dl dd { padding: 9px 0; border-bottom: 1px solid var(--line); }
+.gz-app-dl dt { font-size: 14px; }
+.gz-app-dl dd { font-weight: 600; }
+.gz-app-dl dt:last-of-type, .gz-app-dl dd:last-of-type { border-bottom: 0; }
+.gz-app-foot { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+.gz-app-letter { margin: 0; line-height: 1.6; }
+.gz-app-note { margin: 12px 0 0; }
+.gz-app-form label:first-of-type { margin-top: 0; }
+.gz-app-form .gz-btn-block { margin-top: 14px; }
+.gz-app-actions { display: grid; gap: 10px; }
+.gz-app-actions form { margin: 0; }
+.gz-app-actions .gz-btn { margin-top: 0; }
+@media (max-width: 1100px) {
+  .gz-app { grid-template-columns: minmax(0, 1fr); }
+  .gz-app-side { position: static; }
+}
+@media (max-width: 860px) {
+  .gz-app .gz-app-card { padding: 16px; }
+  .gz-app-dl { grid-template-columns: minmax(0, 1fr); }
+  .gz-app-dl dt { padding-bottom: 0; border-bottom: 0; }
+  .gz-app-dl dd { padding-top: 2px; }
+  .gz-app-head { flex-direction: column; }
+  .gz-app-foot .gz-btn { flex: 1 1 100%; }
+}

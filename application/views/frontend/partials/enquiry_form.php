@@ -38,8 +38,8 @@ $gz_source = uri_string() === '' ? 'home' : uri_string();
         <span class="girzock-field-error" id="<?= $gz_id ?>service-error"></span>
     </div>
     <div class="girzock-field girzock-field-wide girzock-field-details">
-        <label class="girzock-sr-only" id="<?= $gz_id ?>details-label" for="<?= $gz_id ?>details">Project Details<?= empty($gz_form['message_optional']) ? '' : ' (optional)' ?></label>
-        <textarea id="<?= $gz_id ?>details" name="details" rows="4" placeholder="<?= empty($gz_form['message_optional']) ? 'Tell us about your project requirements' : 'Tell us about your project requirements (optional)' ?>"<?= empty($gz_form['message_optional']) ? ' required' : ' data-optional="1"' ?> maxlength="5000" aria-describedby="<?= $gz_id ?>details-error" data-lenis-prevent></textarea>
+        <label class="girzock-sr-only" id="<?= $gz_id ?>details-label" for="<?= $gz_id ?>details">Project Details (optional)</label>
+        <textarea id="<?= $gz_id ?>details" name="details" rows="4" placeholder="Tell us about your project requirements (optional)" data-optional="1" maxlength="5000" aria-describedby="<?= $gz_id ?>details-error" data-lenis-prevent></textarea>
         <span class="girzock-field-error" id="<?= $gz_id ?>details-error"></span>
     </div>
     <div class="girzock-hp" aria-hidden="true"><label for="<?= $gz_id ?>website">Leave this empty</label><input id="<?= $gz_id ?>website" name="website" type="text" tabindex="-1" autocomplete="off"></div>

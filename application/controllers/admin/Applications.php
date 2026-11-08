@@ -29,6 +29,7 @@ class Applications extends Admin_Controller {
 			'rows' => $this->application_model->list_filtered($filters, $per_page, ($page - 1) * $per_page),
 			'total' => $total,
 			'pagination' => $this->pagination($total, $per_page, $page),
+			'can_delete' => $this->auth->can('applications', 'delete'),
 		));
 	}
 
@@ -52,6 +53,7 @@ class Applications extends Admin_Controller {
 		$this->render('admin/applications/view', array(
 			'page_title' => 'Application '.$row['reference_no'],
 			'application' => $row,
+			'emails' => $this->db->select('recipient_type, status, attempts, sent_at, updated_at')->where(array('entity_type' => 'application', 'entity_id' => (int) $row['id']))->get('email_log')->result_array(),
 			'statuses' => $this->config->item('gz_application_statuses'),
 			'can_edit' => $this->auth->can('applications', 'edit'),
 			'can_delete' => $this->auth->can('applications', 'delete'),
@@ -98,6 +100,47 @@ class Applications extends Admin_Controller {
 		header('X-Content-Type-Options: nosniff');
 		readfile($path);
 		exit;
+	}
+
+	/**
+	 * Permanently deletes an application, its email log and its resume file. The file is removed only after the
+	 * database row is gone, only if no other application uses it, and only from the private resumes folder.
+	 */
+	public function delete($id = 0)
+	{
+		$this->require_post();
+		$this->require_can('delete');
+		$ajax = $this->input->is_ajax_request();
+		$failed = 'Unable to delete application. Please try again.';
+		$row = $this->application_model->find_any($id);
+		if ( ! $row)
+		{
+			if ($ajax) { return $this->json(array('ok' => FALSE, 'message' => $failed), 404); }
+			show_404();
+		}
+		if ( ! $this->application_model->delete_forever($row['id']))
+		{
+			log_message('error', 'Application #'.$row['id'].' could not be deleted.');
+			if ($ajax) { return $this->json(array('ok' => FALSE, 'message' => $failed), 500); }
+			$this->flash_error($failed);
+			redirect('admin/job-applications/view/'.(int) $row['id']);
+		}
+		if ($row['resume_path'] !== NULL && $row['resume_path'] !== '' && ! $this->application_model->resume_shared($row['resume_path'], $row['id']))
+		{
+			$this->load->library('media_manager');
+			if ( ! $this->media_manager->delete_resume($row['resume_path']))
+			{
+				// The record is gone either way; a leftover file is only logged, never shown to visitors.
+				log_message('error', 'Resume file for deleted application #'.$row['id'].' was missing or could not be removed.');
+			}
+		}
+		$this->log_action('delete', $row['id'], $row['reference_no'].' deleted');
+		if ($ajax)
+		{
+			return $this->json(array('ok' => TRUE, 'message' => 'Application deleted successfully.', 'total' => $this->application_model->count_filtered(array())));
+		}
+		$this->flash_success('Application deleted successfully.');
+		redirect('admin/job-applications');
 	}
 
 	public function archive($id = 0)

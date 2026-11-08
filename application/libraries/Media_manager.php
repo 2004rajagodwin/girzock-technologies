@@ -439,4 +439,25 @@ class Media_manager {
 		$path = GIRZOCK_PRIVATE_DIR.'/resumes/'.$stored_name;
 		return is_file($path) ? $path : NULL;
 	}
+
+	/**
+	 * Deletes a stored resume. Only a bare random filename inside the private resumes folder is accepted, and the
+	 * resolved path is checked again, so nothing outside that folder can ever be removed. Returns TRUE if deleted.
+	 */
+	public function delete_resume($stored_name)
+	{
+		$path = $this->resume_path($stored_name);
+		if ( ! $path)
+		{
+			return FALSE;
+		}
+		$folder = realpath(GIRZOCK_PRIVATE_DIR.'/resumes');
+		$real = realpath($path);
+		if ( ! $folder OR ! $real OR dirname($real) !== $folder)
+		{
+			log_message('error', 'Media: refused to delete a resume outside the resumes folder');
+			return FALSE;
+		}
+		return @unlink($real);
+	}
 }
