@@ -13,7 +13,7 @@ class Services extends Public_Controller {
 	{
 		$this->render('frontend/services/index', array(
 			'gallery_css' => TRUE,
-			'seo' => $this->seo->build(array('entity' => array('page', 'services'), 'path' => 'services',
+			'seo' => $this->seo->build(array('entity' => array('page', 'services'), 'path' => 'services', 'webpage_type' => 'CollectionPage',
 				'breadcrumbs' => array('Home' => '', 'Services' => NULL))),
 			'card_services' => $this->service_model->public_by_layout('card'),
 			'feature_services' => $this->service_model->public_by_layout('feature'),

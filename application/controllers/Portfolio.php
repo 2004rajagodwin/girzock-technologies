@@ -14,7 +14,7 @@ class Portfolio extends Public_Controller {
 		$categories = $this->db->where('type', 'portfolio')->order_by('sort_order', 'ASC')->get('content_categories')->result_array();
 		$this->render('frontend/portfolio/index', array(
 			'gallery_scripts' => TRUE,
-			'seo' => $this->seo->build(array('entity' => array('page', 'portfolio'), 'path' => 'portfolio',
+			'seo' => $this->seo->build(array('entity' => array('page', 'portfolio'), 'path' => 'portfolio', 'webpage_type' => 'CollectionPage',
 				'breadcrumbs' => array('Home' => '', 'Portfolio' => NULL))),
 			'categories' => $categories,
 			'projects' => $this->portfolio_model->gallery(),

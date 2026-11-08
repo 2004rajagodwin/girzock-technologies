@@ -23,7 +23,15 @@ class Auth extends MY_Controller {
 		if ($this->input->method() === 'post')
 		{
 			$identifier = trim((string) $this->input->post('username'));
-			$result = $this->auth->attempt($identifier, (string) $this->input->post('password'));
+			$password = (string) $this->input->post('password');
+			if ($identifier === '' OR $password === '')
+			{
+				// Checked in the browser too; this covers requests that skip it. No sign-in attempt is made.
+				$this->output->set_status_header(422);
+				$this->load->view('admin/auth/login', array('error' => 'Enter your username or email and your password.', 'identifier' => $identifier, 'notice' => NULL));
+				return;
+			}
+			$result = $this->auth->attempt($identifier, $password);
 			if ($result === Admin_auth::OK)
 			{
 				redirect('admin/dashboard');

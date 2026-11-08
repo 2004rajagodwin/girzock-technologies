@@ -249,9 +249,10 @@
   /* ---------- media picker ---------- */
   var picker = document.getElementById("gz-picker");
   var pickHandler = null;
+  var pickBrand = false;
   function loadPicker(query) {
     var grid = picker.querySelector("[data-gz-picker-grid]");
-    getJSON(ADMIN + "/media/picker?q=" + encodeURIComponent(query || ""))
+    getJSON(ADMIN + "/media/picker?q=" + encodeURIComponent(query || "") + (pickBrand ? "&brand=1" : ""))
       .then(function (reply) {
         grid.innerHTML = "";
         if (!reply.items.length) {
@@ -277,9 +278,10 @@
         grid.innerHTML = '<p class="gz-muted">The media library is not available for your role.</p>';
       });
   }
-  function openPicker(handler) {
+  function openPicker(handler, brand) {
     if (!picker) return;
     pickHandler = handler;
+    pickBrand = !!brand;
     picker.showModal();
     loadPicker("");
   }
@@ -300,20 +302,25 @@
     var preview = field.querySelector(".gz-image-preview");
     var clear = field.querySelector("[data-gz-clear]");
     var file = field.querySelector('input[type="file"]');
-    field.querySelector("[data-gz-pick]").addEventListener("click", function () {
+    var label = field.querySelector("[data-gz-image-path]");
+    var pick = field.querySelector("[data-gz-pick]");
+    pick.addEventListener("click", function () {
       openPicker(function (item) {
         hidden.value = item.path;
         preview.src = item.url;
         preview.hidden = false;
         clear.hidden = false;
         file.value = "";
-      });
+        if (label) label.textContent = item.path;
+        if (field.hasAttribute("data-gz-brand")) pick.textContent = "Replace from library";
+      }, field.getAttribute("data-gz-brand") === "1");
     });
     clear.addEventListener("click", function () {
       hidden.value = "";
       preview.hidden = true;
       clear.hidden = true;
       file.value = "";
+      if (label) label.textContent = "No image chosen. The default sharing image from Website Settings is used.";
     });
     file.addEventListener("change", function () {
       if (file.files[0]) {
@@ -411,4 +418,29 @@
   }
   refresh();
   setInterval(refresh, 120000);
+})();
+
+/* Search result preview in the content editors. It updates as you type and only reads the form. */
+(function () {
+  "use strict";
+  var box = document.querySelector("[data-gz-serp]");
+  if (!box) return;
+  var $ = function (id) { return document.getElementById(id); };
+  var title = $("f-title"), seoTitle = $("f-seo_meta_title"), desc = $("f-seo_meta_description"), slug = $("f-slug"), canon = $("f-seo_canonical_url");
+  var excerpt = $("f-excerpt") || $("f-short_description") || $("f-summary");
+  var out = { url: box.querySelector("[data-gz-serp-url]"), title: box.querySelector("[data-gz-serp-title]"), desc: box.querySelector("[data-gz-serp-desc]"), count: box.querySelector("[data-gz-serp-count]") };
+  var company = box.getAttribute("data-company") || "";
+  function slugify(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }
+  function clip(s, n) { return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, "") + " …" : s; }
+  function update() {
+    var t = (seoTitle && seoTitle.value.trim()) || ((title && title.value.trim()) ? title.value.trim() + " | " + company : "Page title");
+    var d = (desc && desc.value.trim()) || (excerpt && excerpt.value.trim()) || "Search engines will choose text from the page.";
+    var s = (slug && slug.value.trim()) || (title ? slugify(title.value) : "");
+    out.url.textContent = (canon && canon.value.trim()) || (box.getAttribute("data-base") + s);
+    out.title.textContent = clip(t, 62);
+    out.desc.textContent = clip(d.replace(/\s+/g, " "), 162);
+    out.count.textContent = "Title " + t.length + " characters (about 60 or fewer shows in full). Description " + ((desc && desc.value.trim()) ? desc.value.trim().length + " characters (aim for 120 to 160)." : "not set.");
+  }
+  [title, seoTitle, desc, slug, canon, excerpt].forEach(function (el) { if (el) el.addEventListener("input", update); });
+  update();
 })();

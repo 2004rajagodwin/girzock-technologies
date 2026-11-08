@@ -51,6 +51,17 @@ class Media extends Admin_Controller {
 		$this->list_query($q);
 		$rows = $this->db->select('file_path, original_name, alt_text')->order_by('created_at', 'DESC')->get('media_library', 60)->result_array();
 		$items = array();
+		// Social image fields also offer the brand images kept at the site root (only those that exist)
+		if ($this->input->get('brand') === '1')
+		{
+			foreach (brand_root_images() as $path)
+			{
+				if (valid_social_image_path($path) && ($q === '' OR stripos($path, $q) !== FALSE))
+				{
+					$items[] = array('path' => $path, 'url' => media_url($path), 'name' => $path.' (brand image)', 'alt' => '');
+				}
+			}
+		}
 		foreach ($rows as $row)
 		{
 			$items[] = array('path' => $row['file_path'], 'url' => media_url($row['file_path']), 'name' => $row['original_name'], 'alt' => (string) $row['alt_text']);

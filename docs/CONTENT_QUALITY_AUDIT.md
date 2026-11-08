@@ -38,8 +38,8 @@ Each page was measured, not judged by eye. Four things were counted:
 | Rating | Pages |
 |---|---:|
 | Strong | 45 |
-| Good | 3 |
-| Needs work | 14 |
+| Good | 11 |
+| Needs work | 6 |
 | Thin | 0 |
 
 | Page type | Strong | Good | Needs work | Thin |
@@ -49,10 +49,10 @@ Each page was measured, not judged by eye. Four things were counted:
 | Listing | 6 | 0 | 0 | 0 |
 | Legal | 3 | 0 | 0 | 0 |
 | Service | 16 | 0 | 0 | 0 |
-| Product | 0 | 0 | 6 | 0 |
+| Product | 1 | 5 | 0 | 0 |
 | Case study | 0 | 1 | 2 | 0 |
-| Job opening | 0 | 0 | 6 | 0 |
-| Blog post | 10 | 1 | 0 | 0 |
+| Job opening | 0 | 2 | 4 | 0 |
+| Blog post | 9 | 2 | 0 | 0 |
 | Blog category | 6 | 0 | 0 | 0 |
 | Blog listing page | 1 | 0 | 0 | 0 |
 
@@ -60,21 +60,16 @@ Each page was measured, not judged by eye. Four things were counted:
 
 Add only facts you can stand behind. Do not add invented clients, figures or reviews. Every field named below already exists in the admin, so no code change is needed.
 
-**Job openings (6 pages, ~215 words, Needs work).**
-- **Problem:** about 60% of each page is the shared application form and benefits text, so each opening has only 19–27% text of its own.
-- **Fix:** in **Admin → Careers**, fill in Responsibilities, Qualifications and Experience required for each role, aiming for about 150 words of role-specific detail. Add a closing date if the role has one; this also adds `validThrough` to the job markup.
-- **First confirm the roles are real vacancies.** If one is not, set it to inactive rather than leaving it live.
+**Job openings (6 pages, 277 to 303 words: 2 Good, 4 Needs work).**
+- **Done in this pass:** each role now has a description and 4 to 5 responsibilities (migration 015).
+- **Still short:** the shared application form and benefits text make up about 40% of each page, so own text is 58 to 61%.
+- **To finish (you):** fill in Qualifications and Experience required in **Admin → Careers**, and a closing date for any role that has one. A closing date also adds `validThrough` to the job markup.
+- **First confirm the roles are real vacancies.** Turn off any role that is not.
 
-**Product pages (6 pages, ~220 words, Needs work).**
-- **Problem:** more than half of each page is shared template text.
-- **Fix:** in **Admin → Products**, add to Features and Description:
-  - who the product is for;
-  - what is included;
-  - how it is set up;
-  - how support works;
-  - how pricing is decided. A starting price is fine if you have one; do not publish a price you would not honour.
-
-  About 200 extra words each brings them to target.
+**Product pages (6 pages, 355 to 416 words: 1 Strong, 5 Good).**
+- **Done in this pass:** each now explains who it is for, what is included, how it is set up and related services, with internal links (migration 015).
+- **Own text:** 88 to 93%.
+- **To reach Strong:** add how pricing is decided, or a starting price you will honour **(you)**, and a short FAQ.
 - **Product rich results:** Google needs a real price, review or rating, so do not add markup for any of these unless the facts exist.
 
 **Case studies (3 pages, 248–317 words).**
@@ -87,41 +82,39 @@ Add only facts you can stand behind. Do not add invented clients, figures or rev
 - **Fix:** a 2–3 sentence description for each, in **Admin → Categories**, gives every category page its own introduction.
 
 **Pages rated Strong.**
-- These are the home page, all 16 services, 10 of 11 blog posts, the listings, About, Areas We Serve and the legal pages.
-- They meet their targets with 80–99% own text, and every service page names local places in its own text.
+- These are the home page, all 16 services, 9 of 11 blog posts, the listings, the legal pages, Areas We Serve, About and one product.
+- They meet their targets with 80% or more own text, and every service page names local places in its own text.
 - No action is needed beyond keeping them accurate.
 
-## Page-by-page plan for the weak pages
+## What is left on the weak pages
 
-Each plan builds on what the page already says. Items marked **(you)** are facts only you can confirm; leave them out rather than guess.
+Items marked **(you)** are facts only you can confirm; leave them out rather than guess.
 
-### Product pages
+### Product pages (done in this pass; owner facts left)
 
-Today each has a one-line summary, a description of 230 to 340 characters and five features. Add these sections in **Admin → Products → Description**, about 200 to 250 words each:
+Each product page now explains who it is for, what is included, how it is set up and related services.
 
-| Page | Who it is for | What to explain | Questions to answer on the page |
-|---|---|---|---|
-| `/products/business-website-platform` | Shops, clinics, schools, service firms that need a site they can edit | How staff edit pages; what the enquiry form does with each message (saved and emailed); what "search-ready" means in practice (titles, descriptions, sitemap) | How long does setup take **(you)**? Can I add a blog later? Who hosts it? |
-| `/products/online-store-platform` | Retailers selling to local and online customers | How the catalogue and categories are set up; checkout on phones; which payment gateways you connect **(you)**; how stock and delivery settings work | Which gateways? Delivery charges by area? Can I manage orders from my phone? |
-| `/products/business-management-software` | Businesses running on spreadsheets | Moving spreadsheet data in; customer records, jobs and invoices in one place; staff roles | Can it match my current process? Is my data exported if I leave **(you)**? |
-| `/products/customer-portal` | Firms that share documents or service history with clients | Secure logins; documents and request history; email notifications; staff admin screens | How are logins protected? Can customers raise requests? |
-| `/products/booking-enquiry-system` | Service businesses that take appointments | Booking and enquiry forms; staff calendar; status of each enquiry; reports | Can customers reschedule? Do reminders go out **(you)**? |
-| `/products/cloud-hosting-care-plan` | Owners who want someone to look after their site | What is updated and how often **(you)**; monitoring and alerts; backup schedule and restore **(you)**; what "small technical issues" covers | What response time do you offer **(you)**? Where are backups kept? |
+| Page | Still to answer **(you)** |
+|---|---|
+| `/products/business-website-platform` | Typical setup time; who hosts it |
+| `/products/online-store-platform` | Which payment gateways you connect; delivery charge options |
+| `/products/business-management-software` | Whether data can be exported if a client leaves |
+| `/products/customer-portal` | Whether customers can raise new requests themselves |
+| `/products/booking-enquiry-system` | Whether reminders are sent, and how |
+| `/products/cloud-hosting-care-plan` | Update and backup schedule; response time |
 
-For every product, add how pricing is decided, or a starting price if you are willing to honour it **(you)**, and link to one relevant service page and one blog post.
+For every product, also add how pricing is decided, or a starting price you will honour **(you)**.
 
-### Job openings
+### Job openings (descriptions and responsibilities done; owner items left)
 
-All six have only a short summary (98 to 168 characters). The **Description, Responsibilities, Qualifications and Experience required** fields are empty, and no closing date is set. Fill these in **Admin → Careers** for each role:
-
-| Page | Description (2 to 3 sentences) | Responsibilities (4 to 6 points) | Qualifications and experience **(you)** |
-|---|---|---|---|
-| `/careers/web-developer` | The kind of client websites and web applications built in Thisaiyanvilai | Build responsive pages; connect forms and databases; test on phones; fix issues found after launch | Languages and frameworks required; years of experience or fresher welcome |
-| `/careers/software-developer` | Custom business software such as CRM and billing systems | Gather requirements with the team; build and test features; write clear handover notes | Languages, database skills, experience level |
-| `/careers/wordpress-developer` | Business sites built on WordPress | Theme and plugin setup; page building; speed and security updates | WordPress, PHP and theme skills; portfolio expected or not |
-| `/careers/ui-ux-designer` | Screens for websites and apps, from wireframe to final design | Wireframes; visual design; working with developers; checking designs on real devices | Design tools used; portfolio required |
-| `/careers/cloud-engineer` | Hosting and cloud work for client systems | Server setup; backups; monitoring; cost and security checks | Cloud platforms and certifications, if any |
-| `/careers/internships` | What interns learn and work on | Areas open to interns; mentoring; length of the internship | Who can apply (year of study, courses); paid or unpaid; duration |
+| Page | Still to add **(you)** |
+|---|---|
+| `/careers/web-developer` | Languages and frameworks required; years of experience, or freshers welcome |
+| `/careers/software-developer` | Languages, database skills, experience level |
+| `/careers/wordpress-developer` | WordPress, PHP and theme skills; whether a portfolio is expected |
+| `/careers/ui-ux-designer` | Design tools used; portfolio required |
+| `/careers/cloud-engineer` | Cloud platforms and certifications, if any |
+| `/careers/internships` | Who can apply (year of study, courses); paid or unpaid; duration |
 
 Add a closing date to any role that has one. It also adds `validThrough` to the job markup. Turn off any role that is not a real vacancy.
 
@@ -166,29 +159,29 @@ These are factual checks, not SEO changes:
 | 27 | `/services/website-maintenance-support` | Service | 813 / 600 | 89% | 16% | Thisaiyanvilai 2, Tirunelveli 3, Thoothukudi 1, Kanyakumari 1, Sattankulam 1, Valliyur 1, Tamil Nadu 1 | 8 | 123 | Strong |
 | 28 | `/services/seo-services` | Service | 856 / 600 | 91% | 15% | Thisaiyanvilai 3, Tirunelveli 3, Thoothukudi 1, Nagercoil 1, Sattankulam 1, Tiruchendur 1, Tamil Nadu 1 | 8 | 123 | Strong |
 | 29 | `/services/digital-marketing-services` | Service | 1177 / 600 | 93% | 11% | Thisaiyanvilai 5, Tirunelveli 5, Thoothukudi 3, Kanyakumari 2, Nagercoil 4, Sattankulam 1, Tamil Nadu 2 | 8 | 124 | Strong |
-| 30 | `/products/business-website-platform` | Product | 249 / 400 | 82% | 52% | Thisaiyanvilai 1, Tirunelveli 1, Tamil Nadu 1 | 3 | 118 | Needs work |
-| 31 | `/products/online-store-platform` | Product | 225 / 400 | 87% | 58% | Thisaiyanvilai 1, Tirunelveli 1, Tamil Nadu 1 | 3 | 118 | Needs work |
-| 32 | `/products/business-management-software` | Product | 224 / 400 | 81% | 59% | Thisaiyanvilai 1, Tirunelveli 1, Tamil Nadu 1 | 3 | 118 | Needs work |
-| 33 | `/products/customer-portal` | Product | 216 / 400 | 83% | 61% | Thisaiyanvilai 1, Tirunelveli 1, Tamil Nadu 1 | 3 | 118 | Needs work |
-| 34 | `/products/booking-enquiry-system` | Product | 224 / 400 | 88% | 58% | Thisaiyanvilai 1, Tirunelveli 1, Tamil Nadu 1 | 3 | 118 | Needs work |
-| 35 | `/products/cloud-hosting-care-plan` | Product | 223 / 400 | 86% | 59% | Thisaiyanvilai 1, Tirunelveli 1, Tamil Nadu 1 | 3 | 118 | Needs work |
+| 30 | `/products/business-website-platform` | Product | 416 / 400 | 92% | 31% | Thisaiyanvilai 1, Tirunelveli 1, Tamil Nadu 1 | 7 | 121 | Strong |
+| 31 | `/products/online-store-platform` | Product | 385 / 400 | 93% | 34% | Thisaiyanvilai 1, Tirunelveli 1, Tamil Nadu 1 | 7 | 120 | Good |
+| 32 | `/products/business-management-software` | Product | 383 / 400 | 88% | 35% | Thisaiyanvilai 1, Tirunelveli 1, Tamil Nadu 1 | 7 | 121 | Good |
+| 33 | `/products/customer-portal` | Product | 355 / 400 | 92% | 37% | Thisaiyanvilai 1, Tirunelveli 1, Tamil Nadu 1 | 7 | 121 | Good |
+| 34 | `/products/booking-enquiry-system` | Product | 371 / 400 | 93% | 35% | Thisaiyanvilai 1, Tirunelveli 1, Tamil Nadu 1 | 7 | 120 | Good |
+| 35 | `/products/cloud-hosting-care-plan` | Product | 364 / 400 | 92% | 37% | Thisaiyanvilai 1, Tirunelveli 1, Tamil Nadu 1 | 7 | 122 | Good |
 | 36 | `/case-studies/taking-a-local-retailer-online` | Case study | 248 / 400 | 78% | 52% | Thisaiyanvilai 1, Tirunelveli 1, Tamil Nadu 1 | 3 | 119 | Needs work |
 | 37 | `/case-studies/replacing-spreadsheets-with-custom-software` | Case study | 317 / 400 | 86% | 42% | Thisaiyanvilai 1, Tirunelveli 1, Tamil Nadu 1 | 3 | 119 | Good |
 | 38 | `/case-studies/moving-a-business-application-to-aws` | Case study | 296 / 400 | 84% | 45% | Thisaiyanvilai 1, Tirunelveli 1, Tamil Nadu 1 | 3 | 119 | Needs work |
-| 39 | `/careers/web-developer` | Job opening | 218 / 300 | 19% | 60% | Thisaiyanvilai 2, Tirunelveli 2, Tamil Nadu 1 | 3 | 123 | Needs work |
-| 40 | `/careers/software-developer` | Job opening | 216 / 300 | 20% | 61% | Thisaiyanvilai 2, Tirunelveli 2, Tamil Nadu 1 | 3 | 123 | Needs work |
-| 41 | `/careers/wordpress-developer` | Job opening | 210 / 300 | 22% | 63% | Thisaiyanvilai 2, Tirunelveli 2, Tamil Nadu 1 | 3 | 123 | Needs work |
-| 42 | `/careers/ui-ux-designer` | Job opening | 215 / 300 | 24% | 61% | Thisaiyanvilai 2, Tirunelveli 2, Tamil Nadu 1 | 3 | 123 | Needs work |
-| 43 | `/careers/cloud-engineer` | Job opening | 212 / 300 | 23% | 62% | Thisaiyanvilai 2, Tirunelveli 2, Tamil Nadu 1 | 3 | 123 | Needs work |
-| 44 | `/careers/internships` | Job opening | 222 / 300 | 27% | 59% | Thisaiyanvilai 2, Tirunelveli 2, Tamil Nadu 1 | 3 | 123 | Needs work |
+| 39 | `/careers/web-developer` | Job opening | 303 / 300 | 59% | 43% | Thisaiyanvilai 3, Tirunelveli 3, Tamil Nadu 1 | 3 | 123 | Needs work |
+| 40 | `/careers/software-developer` | Job opening | 291 / 300 | 60% | 45% | Thisaiyanvilai 2, Tirunelveli 2, Tamil Nadu 1 | 3 | 123 | Needs work |
+| 41 | `/careers/wordpress-developer` | Job opening | 283 / 300 | 60% | 46% | Thisaiyanvilai 2, Tirunelveli 2, Tamil Nadu 1 | 3 | 123 | Good |
+| 42 | `/careers/ui-ux-designer` | Job opening | 288 / 300 | 61% | 45% | Thisaiyanvilai 2, Tirunelveli 2, Tamil Nadu 1 | 3 | 123 | Good |
+| 43 | `/careers/cloud-engineer` | Job opening | 277 / 300 | 59% | 47% | Thisaiyanvilai 2, Tirunelveli 2, Tamil Nadu 1 | 3 | 123 | Needs work |
+| 44 | `/careers/internships` | Job opening | 286 / 300 | 58% | 46% | Thisaiyanvilai 3, Tirunelveli 2, Tamil Nadu 1 | 3 | 123 | Needs work |
 | 45 | `/blog/why-small-businesses-in-tirunelveli-need-a-professional-website` | Blog post | 1261 / 700 | 87% | 10% | Thisaiyanvilai 2, Tirunelveli 6, Palayamkottai 1, Tamil Nadu 3 | 10 | 147 | Strong |
 | 46 | `/blog/how-to-choose-a-web-development-company-in-tirunelveli` | Blog post | 1205 / 700 | 86% | 11% | Thisaiyanvilai 3, Tirunelveli 8, Tamil Nadu 3 | 11 | 149 | Strong |
 | 47 | `/blog/website-development-cost-in-tamil-nadu-business-guide` | Blog post | 1198 / 700 | 87% | 11% | Thisaiyanvilai 1, Tirunelveli 4, Tamil Nadu 5 | 12 | 148 | Strong |
-| 48 | `/blog/ecommerce-website-development-for-growing-businesses-in-tamil-nadu` | Blog post | 1196 / 700 | 87% | 11% | Thisaiyanvilai 1, Tirunelveli 5, Tamil Nadu 7 | 12 | 149 | Strong |
+| 48 | `/blog/ecommerce-website-development-for-growing-businesses-in-tamil-nadu` | Blog post | 1196 / 700 | 86% | 11% | Thisaiyanvilai 1, Tirunelveli 5, Tamil Nadu 7 | 12 | 149 | Strong |
 | 49 | `/blog/website-maintenance-and-security-business-guide` | Blog post | 1154 / 700 | 88% | 11% | Thisaiyanvilai 1, Tirunelveli 4, Tamil Nadu 3 | 10 | 148 | Strong |
 | 50 | `/blog/how-to-plan-a-business-website-that-generates-enquiries` | Blog post | 949 / 700 | 83% | 14% | Thisaiyanvilai 1, Tirunelveli 3, Thoothukudi 1, Tamil Nadu 3 | 10 | 147 | Strong |
 | 51 | `/blog/custom-software-or-off-the-shelf-how-to-choose` | Blog post | 848 / 700 | 81% | 15% | Thisaiyanvilai 1, Tirunelveli 3, Tamil Nadu 3 | 9 | 147 | Strong |
-| 52 | `/blog/what-to-check-before-moving-your-business-to-the-cloud` | Blog post | 818 / 700 | 80% | 16% | Thisaiyanvilai 1, Tirunelveli 3, Tamil Nadu 3 | 10 | 148 | Strong |
+| 52 | `/blog/what-to-check-before-moving-your-business-to-the-cloud` | Blog post | 818 / 700 | 80% | 16% | Thisaiyanvilai 1, Tirunelveli 3, Tamil Nadu 3 | 10 | 148 | Good |
 | 53 | `/blog/ui-ux-basics-every-business-owner-should-know` | Blog post | 836 / 700 | 82% | 15% | Thisaiyanvilai 1, Tirunelveli 3, Tamil Nadu 3 | 8 | 147 | Strong |
 | 54 | `/blog/wordpress-or-a-custom-built-website-which-suits-you` | Blog post | 722 / 700 | 80% | 18% | Thisaiyanvilai 1, Tirunelveli 3, Tamil Nadu 3 | 8 | 149 | Good |
 | 55 | `/blog/a-practical-first-step-towards-digital-transformation` | Blog post | 776 / 700 | 80% | 16% | Thisaiyanvilai 1, Tirunelveli 3, Tamil Nadu 3 | 10 | 148 | Strong |

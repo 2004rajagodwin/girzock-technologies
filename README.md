@@ -99,12 +99,40 @@ Scheduled blog posts go live on their own at the chosen time, with no cron job.
 
 ## Going live
 
-1. Upload the project and create the database. Put `girzock-private` **above** the public web root, with its `.htaccess`, or set `GIRZOCK_PRIVATE_DIR`. If the project sits in a subfolder of `public_html`, the default location would be inside the web root, so `GIRZOCK_PRIVATE_DIR` is required. Afterwards, confirm that `https://girzock.com/girzock-private/.env` does not open.
-2. In `.env` set `APP_ENV=production`, `BASE_URL=https://girzock.com/`, `COOKIE_SECURE=1`, new keys and new database credentials. Production mode hides all error detail from visitors; errors go to `girzock-private/logs/`.
-3. Uncomment the HTTPS and `www` redirects at the top of `.htaccess`.
-4. Make `assets/uploads` and `girzock-private` (`resumes`, `sessions`, `logs`) writable by the web server.
-5. Optional: run `php index.php setup retry_emails` from cron every 15 minutes, to retry failed notifications automatically.
-6. Submit `https://girzock.com/sitemap.xml` in Google Search Console.
+**Nothing is deployed without the owner's approval.** Full background, test results and checklists are in `docs/project-report/GIRZOCK_Technologies_Complete_Project_Report.pdf` (the same content as the `.docx`).
+
+The deployment package lives in `deployment/` beside this folder, with `SHA256SUMS.txt`. It holds the site files without `.git`, `docs`, local tools or `.env`, plus `env.production.example`.
+
+1. **Back up the live site first:** download its files and export its database. This is the rollback.
+2. **Database:** create the database and a dedicated user with rights to it only. Export the local database (it holds the current content, at migration 16) and import it. Delete any test enquiries in the admin first if you do not want them live.
+3. **Private settings:** create `girzock-private/.env` **above** the web root, from `env.production.example`:
+   - `APP_ENV=production`;
+   - `BASE_URL=https://girzock.com/` and `PUBLIC_URL=https://girzock.com`;
+   - `COOKIE_SECURE=1`;
+   - the new database credentials;
+   - copy `ENCRYPTION_KEY` and `SECRET_BOX_KEY` **exactly** from the local `.env`. A different `SECRET_BOX_KEY` makes the stored SMTP password unreadable.
+
+   Copy `docs/private-dir.htaccess` to `girzock-private/.htaccess`. If the project sits inside `public_html`, set `GIRZOCK_PRIVATE_DIR`. Then confirm that `https://girzock.com/girzock-private/.env` does not open.
+4. **Files:** check `SHA256SUMS.txt`, then upload and unpack the package into the web root. Make `assets/uploads` and the private `logs`, `sessions` and `resumes` folders writable by the web server, and nothing else.
+5. **Protection:** `/.env`, `/application/config/database.php` and `/database/girzock_technologies.sql` must return 403, and `/admin` must redirect to the login.
+6. **HTTPS:** once the certificate works, uncomment the HTTPS and `www` redirects at the top of `.htaccess`. Then sign in to the admin again, because cookies are now Secure.
+7. **Email:** rotate the Gmail App Password, enter it in Website Settings, and use "Send test email". Then send one enquiry through the popup:
+   - the success message should appear in under a second;
+   - the enquiry's email log should show both emails sent.
+8. **Cron:** run `php index.php setup retry_emails` every 15 minutes. It retries failed or interrupted notification emails.
+9. **Compression:** confirm that CSS and JavaScript responses carry `Content-Encoding: gzip` or `br`. This is the largest speed gain.
+10. **Smoke test:**
+    - every URL in `/sitemap.xml` returns 200, with `https://girzock.com/` addresses;
+    - the admin modules open;
+    - the popup works;
+    - the four footer social icons open in a new tab. Open the Facebook link once to confirm it is the right page;
+    - the legal pages, favicon and fonts load.
+11. **Search engines:** the Search Console verification tag is already in the homepage head (Website Settings). Verify the property, submit `https://girzock.com/sitemap.xml`, and run the Rich Results Test.
+12. **Watch** `girzock-private/logs` for 48 hours.
+
+**Rollback:** restore the files and database downloaded in step 1, and keep the old `.env` until the new site is confirmed. Migrations do not revert content, so a database rollback always means restoring a backup.
+
+**Admin password recovery:** the login card no longer shows a "Forgot your password?" link. Recovery still works at `/admin/forgot-password`, so bookmark it.
 
 ## Search engines and analytics
 

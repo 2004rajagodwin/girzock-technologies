@@ -12,7 +12,7 @@ class Products extends Public_Controller {
 	public function index()
 	{
 		$this->render('frontend/products/index', array(
-			'seo' => $this->seo->build(array('entity' => array('page', 'products'), 'path' => 'products',
+			'seo' => $this->seo->build(array('entity' => array('page', 'products'), 'path' => 'products', 'webpage_type' => 'CollectionPage',
 				'breadcrumbs' => array('Home' => '', 'Products' => NULL))),
 			'products' => $this->product_model->published(),
 		));

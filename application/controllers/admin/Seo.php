@@ -54,13 +54,17 @@ class Seo extends Admin_Controller {
 				'meta_title' => trim((string) $this->input->post('meta_title')),
 				'meta_description' => trim((string) $this->input->post('meta_description')),
 				'focus_keyword' => trim((string) $this->input->post('focus_keyword')),
+				'secondary_keywords' => trim((string) $this->input->post('secondary_keywords')),
 				'og_title' => trim((string) $this->input->post('og_title')),
 				'og_description' => trim((string) $this->input->post('og_description')),
 				'canonical_url' => trim((string) $this->input->post('canonical_url')),
-				'og_image' => trim((string) $this->input->post('og_image')),
+				'og_image' => '',
 				'robots' => trim((string) $this->input->post('robots')),
 			);
-			if (mb_strlen($seo['meta_title']) > 255 OR mb_strlen($seo['meta_description']) > 500 OR mb_strlen($seo['focus_keyword']) > 120 OR mb_strlen($seo['og_title']) > 255 OR mb_strlen($seo['og_description']) > 500)
+			$image_error = NULL;
+			$image = $this->social_image_value('og_image', $image_error);
+			$seo['og_image'] = $image === NULL ? trim((string) $this->input->post('og_image')) : $image;
+			if (mb_strlen($seo['meta_title']) > 255 OR mb_strlen($seo['meta_description']) > 500 OR mb_strlen($seo['focus_keyword']) > 120 OR mb_strlen($seo['secondary_keywords']) > 255 OR mb_strlen($seo['og_title']) > 255 OR mb_strlen($seo['og_description']) > 500)
 			{
 				$error = 'The title or description is too long.';
 			}
@@ -68,9 +72,9 @@ class Seo extends Admin_Controller {
 			{
 				$error = 'The canonical URL must be a full URL.';
 			}
-			elseif ($seo['og_image'] !== '' && ! is_safe_asset_path($seo['og_image']))
+			elseif ($image_error !== NULL)
 			{
-				$error = 'Choose the social image from the media library.';
+				$error = $image_error;
 			}
 			elseif ( ! in_array($seo['robots'], array('', 'index, follow', 'noindex, follow', 'noindex, nofollow'), TRUE))
 			{

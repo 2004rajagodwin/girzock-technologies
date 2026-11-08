@@ -12,7 +12,7 @@ class Careers extends Public_Controller {
 	public function index()
 	{
 		$this->render('frontend/careers/index', array(
-			'seo' => $this->seo->build(array('entity' => array('page', 'careers'), 'path' => 'careers',
+			'seo' => $this->seo->build(array('entity' => array('page', 'careers'), 'path' => 'careers', 'webpage_type' => 'CollectionPage',
 				'breadcrumbs' => array('Home' => '', 'Careers' => NULL))),
 			'openings' => $this->career_model->active(),
 		));

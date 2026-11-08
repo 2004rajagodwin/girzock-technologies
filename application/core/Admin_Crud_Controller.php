@@ -113,7 +113,7 @@ abstract class Admin_Crud_Controller extends Admin_Controller {
 	{
 		$seo = $this->settings_model->seo($this->seo_type, $id);
 		$out = array();
-		foreach (array('meta_title', 'meta_description', 'focus_keyword', 'og_title', 'og_description', 'canonical_url', 'og_image', 'robots') as $key)
+		foreach (array('meta_title', 'meta_description', 'focus_keyword', 'secondary_keywords', 'og_title', 'og_description', 'canonical_url', 'og_image', 'robots') as $key)
 		{
 			$out['seo_'.$key] = isset($seo[$key]) ? $seo[$key] : '';
 		}
@@ -133,7 +133,123 @@ abstract class Admin_Crud_Controller extends Admin_Controller {
 			'has_seo' => (bool) $this->seo_type,
 			'has_slug' => (bool) $this->public_base,
 			'public_url' => ($id && $this->public_base && ! empty($values['slug'])) ? site_url($this->public_base.'/'.$values['slug']) : NULL,
+			'seo_warnings' => $this->seo_type ? $this->seo_warnings($id, $values) : array(),
+			'preview_base' => $this->public_base ? rtrim($this->seo_public_origin(), '/').'/'.$this->public_base.'/' : '',
+			'company_name' => setting('company_name'),
 		));
+	}
+
+	private function seo_public_origin()
+	{
+		$public = trim((string) girzock_env('PUBLIC_URL', ''));
+		return $public !== '' ? $public : site_url();
+	}
+
+	/**
+	 * Plain warnings for the editor. They describe what to check; they are not a score and promise nothing about rankings.
+	 */
+	protected function seo_warnings($id, array $values)
+	{
+		$w = array();
+		$get = function ($k) use ($values) { return isset($values[$k]) && is_string($values[$k]) ? trim($values[$k]) : ''; };
+		$title = $get('title');
+		$seo_title = $get('seo_meta_title') !== '' ? $get('seo_meta_title') : ($title !== '' ? $title.' | '.setting('company_name') : '');
+		$desc = $get('seo_meta_description');
+		$table = $this->model()->table_name();
+
+		if ($title === '')
+		{
+			$w[] = 'The page has no title, so it has no H1 heading.';
+		}
+		if ($get('seo_meta_title') === '')
+		{
+			$w[] = 'No SEO title is set. The page title plus the company name is used: "'.$seo_title.'".';
+		}
+		if (mb_strlen($seo_title) > 60)
+		{
+			$w[] = 'The SEO title is '.mb_strlen($seo_title).' characters. Google often shortens titles over about 60.';
+		}
+		if ($desc === '')
+		{
+			$w[] = 'No meta description is set. Search engines will pick text from the page themselves.';
+		}
+		elseif (mb_strlen($desc) < 120 OR mb_strlen($desc) > 160)
+		{
+			$w[] = 'The meta description is '.mb_strlen($desc).' characters. Aim for 120 to 160.';
+		}
+		// Duplicates across every page with saved SEO values, and across titles of the same content type
+		$self = array('entity_type' => $this->seo_type, 'entity_key' => (string) $id);
+		if ($get('seo_meta_title') !== '')
+		{
+			$n = $this->db->where('meta_title', $get('seo_meta_title'))->where('NOT (entity_type = '.$this->db->escape($self['entity_type']).' AND entity_key = '.$this->db->escape($self['entity_key']).')', NULL, FALSE)->count_all_results('seo_metadata');
+			if ($n) { $w[] = 'Another page already uses this SEO title. Each page should have its own.'; }
+		}
+		if ($desc !== '')
+		{
+			$n = $this->db->where('meta_description', $desc)->where('NOT (entity_type = '.$this->db->escape($self['entity_type']).' AND entity_key = '.$this->db->escape($self['entity_key']).')', NULL, FALSE)->count_all_results('seo_metadata');
+			if ($n) { $w[] = 'Another page already uses this meta description.'; }
+		}
+		if ($title !== '' && $this->db->field_exists('title', $table))
+		{
+			$q = $this->db->where('title', $title);
+			if ($id) { $q->where('id !=', (int) $id); }
+			if ($this->db->field_exists('deleted_at', $table)) { $q->where('deleted_at IS NULL', NULL, FALSE); }
+			if ($q->count_all_results($table)) { $w[] = 'Another '.strtolower($this->title_singular).' has the same title, so both pages would share an H1.'; }
+		}
+		// Images without a description
+		foreach (array('image' => 'image_alt', 'featured_image' => 'featured_image_alt', 'detail_image' => 'detail_image_alt') as $img => $alt)
+		{
+			if ($get($img) !== '' && array_key_exists($alt, $values) && $get($alt) === '')
+			{
+				$w[] = 'An image has no description (alt text). Describe what it shows, for screen readers and search engines.';
+				break;
+			}
+		}
+		if ($get('seo_canonical_url') !== '' && ! is_safe_http_url($get('seo_canonical_url')))
+		{
+			$w[] = 'The canonical URL is not a full http or https address.';
+		}
+		// Links inside the text that point to a page of this site which does not exist
+		$text = '';
+		foreach ($values as $k => $v)
+		{
+			if (is_string($v) && strpos($v, 'href=') !== FALSE) { $text .= ' '.$v; }
+		}
+		foreach ($this->broken_internal_links($text) as $path)
+		{
+			$w[] = 'A link in the text points to a page that does not exist: /'.$path;
+		}
+		return $w;
+	}
+
+	/** Checks links to this site's detail pages against the published records. Other links are not checked. */
+	private function broken_internal_links($html)
+	{
+		if ($html === '' OR ! preg_match_all('/href=["\']([^"\']+)["\']/i', $html, $m))
+		{
+			return array();
+		}
+		$origins = array_filter(array(rtrim(site_url(), '/'), rtrim(trim((string) girzock_env('PUBLIC_URL', '')), '/'), 'https://girzock.com', 'site:'));
+		$tables = array('services' => array('services', 'active'), 'products' => array('products', 'published'), 'portfolio' => array('portfolio_projects', 'published'), 'case-studies' => array('case_studies', 'published'), 'careers' => array('career_openings', 'active'), 'blog' => array('blog_posts', 'published'));
+		$broken = array();
+		foreach (array_unique($m[1]) as $href)
+		{
+			$path = NULL;
+			foreach ($origins as $origin)
+			{
+				if (stripos($href, $origin) === 0) { $path = substr($href, strlen($origin)); break; }
+			}
+			if ($path === NULL && strpos($href, '/') === 0 && strpos($href, '//') !== 0) { $path = $href; }
+			if ($path === NULL) { continue; }
+			$path = trim(preg_replace('/[?#].*$/', '', $path), '/');
+			$parts = explode('/', $path);
+			if (count($parts) !== 2 OR ! isset($tables[$parts[0]]) OR in_array($parts[1], array('category', 'tag', 'page'), TRUE)) { continue; }
+			list($t, $status) = $tables[$parts[0]];
+			$q = $this->db->where('slug', $parts[1]);
+			if ($this->db->field_exists('deleted_at', $t)) { $q->where('deleted_at IS NULL', NULL, FALSE); }
+			if ( ! $q->count_all_results($t)) { $broken[] = $path; }
+		}
+		return array_slice($broken, 0, 5);
 	}
 
 	public function save($id = 0)
@@ -165,7 +281,7 @@ abstract class Admin_Crud_Controller extends Admin_Controller {
 		$seo = array();
 		if ($this->seo_type)
 		{
-			foreach (array('meta_title' => 255, 'meta_description' => 500, 'focus_keyword' => 120, 'og_title' => 255, 'og_description' => 500, 'canonical_url' => 255, 'robots' => 40) as $key => $max)
+			foreach (array('meta_title' => 255, 'meta_description' => 500, 'focus_keyword' => 120, 'secondary_keywords' => 255, 'og_title' => 255, 'og_description' => 500, 'canonical_url' => 255, 'robots' => 40) as $key => $max)
 			{
 				$seo[$key] = trim((string) $this->input->post('seo_'.$key));
 				if (mb_strlen($seo[$key]) > $max)
@@ -181,7 +297,12 @@ abstract class Admin_Crud_Controller extends Admin_Controller {
 			{
 				$errors['seo_robots'] = 'Choose a value from the list.';
 			}
-			$seo['og_image'] = $this->image_value('seo_og_image', 'Social sharing image', $errors);
+			$image_error = NULL;
+			$seo['og_image'] = $this->social_image_value('seo_og_image', $image_error);
+			if ($image_error !== NULL)
+			{
+				$errors['seo_og_image'] = $image_error;
+			}
 		}
 
 		if ($errors)

@@ -3,12 +3,12 @@
 <?php if ($sent): ?>
 <div class="gz-flash gz-flash-success" role="status">If that account exists, a reset link has been sent to its email address. The link expires in one hour.</div>
 <?php else: ?>
-<form action="<?= site_url('admin/forgot-password') ?>" method="post" class="gz-form">
+<form action="<?= site_url('admin/forgot-password') ?>" method="post" class="gz-auth-form" data-gz-auth-form>
     <?= csrf_field() ?>
     <label for="email">Username or email</label>
     <input id="email" type="text" name="email" autocomplete="username" required autofocus>
-    <button class="gz-btn gz-btn-block" type="submit">Send reset link</button>
+    <button class="gz-auth-submit" type="submit" data-gz-submit><span class="gz-auth-spinner" aria-hidden="true"></span>Send reset link</button>
 </form>
 <?php endif; ?>
 <p class="gz-auth-link"><a href="<?= site_url('admin/login') ?>">Back to sign in</a></p>
-</main></body></html>
+<?php $this->load->view('admin/auth/shell_bottom'); ?>

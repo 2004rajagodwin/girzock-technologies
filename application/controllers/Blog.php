@@ -94,7 +94,7 @@ class Blog extends Public_Controller {
 		$page_url = function ($n) use ($base_path, $query) {
 			return $n === 1 ? $base_path.$query : $base_path.'/page/'.$n.$query;
 		};
-		$seo_options = array(
+		$seo_options = array('webpage_type' => 'CollectionPage', 
 			'title' => $meta['title'],
 			'description' => $meta['description'],
 			'path' => $page === 1 ? $base_path : $page_url($page),

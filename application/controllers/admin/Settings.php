@@ -10,7 +10,7 @@ class Settings extends Admin_Controller {
 		return array(
 			'general' => array('company_name' => 120, 'tagline' => 160, 'website_url' => 255, 'footer_description' => 500),
 			'contact' => array('contact_email' => 190, 'notification_email' => 190, 'phone' => 30, 'business_address' => 300, 'address_short' => 160, 'address_locality' => 80, 'address_region' => 80, 'address_country' => 2),
-			'seo' => array('default_meta_title' => 255, 'default_meta_description' => 500, 'google_analytics_id' => 30, 'gsc_verification' => 200),
+			'seo' => array('default_meta_title' => 255, 'default_meta_description' => 500, 'google_analytics_id' => 30, 'gsc_verification' => 200, 'home_meta_keywords' => 1000, 'home_twitter_title' => 120, 'home_twitter_description' => 300, 'home_og_image_alt' => 255),
 			'smtp' => array('smtp_host' => 190, 'smtp_port' => 6, 'smtp_user' => 190, 'smtp_crypto' => 3, 'smtp_from_email' => 190, 'smtp_from_name' => 120),
 			'page_text' => array('portfolio_intro' => 600, 'case_studies_intro' => 600),
 		);

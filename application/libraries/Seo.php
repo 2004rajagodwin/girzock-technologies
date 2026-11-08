@@ -74,20 +74,46 @@ class Seo {
 			}
 		}
 
+		$is_home = ($path === '' OR $path === '/');
+		$robots = empty($opts['is_preview']) ? $pick('robots', 'robots', 'index, follow') : 'noindex, nofollow';
+		$size = $this->image_size($image);
+		$image_alt = ! empty($opts['image_alt']) ? $opts['image_alt'] : ($is_home && $settings->get('home_og_image_alt') ? $settings->get('home_og_image_alt') : $og_title);
+
 		return array(
 			'title' => $title,
 			'description' => $description,
 			'og_title' => $og_title,
 			'og_description' => $og_description,
+			'twitter_title' => $is_home && $settings->get('home_twitter_title') ? $settings->get('home_twitter_title') : $og_title,
+			'twitter_description' => $is_home && $settings->get('home_twitter_description') ? $settings->get('home_twitter_description') : $og_description,
 			'canonical' => $canonical,
 			'image' => $this->absolute_media($image),
+			'image_alt' => $image_alt,
+			'image_width' => $size ? $size[0] : NULL,
+			'image_height' => $size ? $size[1] : NULL,
 			'og_type' => empty($opts['og_type']) ? 'website' : $opts['og_type'],
 			'twitter_card' => $image === $settings->get('default_og_image') ? 'summary' : 'summary_large_image',
-			'robots' => empty($opts['is_preview']) ? $pick('robots', 'robots', 'index, follow') : 'noindex, nofollow',
+			// Indexable pages also allow large image previews and full snippets in Google
+			'robots' => $robots === 'index, follow' ? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' : $robots,
+			'keywords' => $is_home ? (string) $settings->get('home_meta_keywords') : '',
+			'is_home' => $is_home,
 			'prev' => empty($opts['prev']) ? NULL : $opts['prev'],
 			'next' => empty($opts['next']) ? NULL : $opts['next'],
 			'schema' => $schema,
 		);
+	}
+
+	/** Width and height of a local sharing image, so social sites can lay out the preview before loading it. */
+	private function image_size($path)
+	{
+		$path = (string) $path;
+		if ($path === '' OR preg_match('#^https?://#i', $path) OR strpos($path, '..') !== FALSE)
+		{
+			return NULL;
+		}
+		$file = FCPATH.ltrim(preg_replace('/\?.*$/', '', $path), '/');
+		$info = is_file($file) ? @getimagesize($file) : FALSE;
+		return $info ? array($info[0], $info[1]) : NULL;
 	}
 
 	/** Organization plus LocalBusiness, using verified settings only. */
@@ -102,14 +128,18 @@ class Seo {
 				$same_as[] = $link['url'];
 			}
 		}
+		// The square-ish brand logo at the site root, kept at the same address as on the current live site
+		$logo = is_file(FCPATH.'girzock-logo.png') ? 'girzock-logo.png' : $s->get('default_og_image');
 		$org = array(
 			'@context' => 'https://schema.org',
 			'@type' => array('Organization', 'ProfessionalService'),
 			'name' => $s->get('company_name'),
 			'url' => $this->canonical(),
-			'logo' => $this->absolute_media($s->get('default_og_image')),
+			'logo' => $this->absolute_media($logo),
+			'image' => $this->absolute_media($logo),
+			'description' => 'GIRZOCK Technologies provides software development, website design, web application development, cloud computing and AWS cloud solutions.',
 			'email' => $s->get('contact_email'),
-			'telephone' => $s->get('phone'),
+			'telephone' => preg_replace('/[^\d+]/', '', (string) $s->get('phone')),
 			'slogan' => $s->get('tagline'),
 			'address' => array('@type' => 'PostalAddress', 'addressLocality' => $s->get('address_locality'), 'addressRegion' => $s->get('address_region'), 'addressCountry' => $s->get('address_country')),
 			'areaServed' => $this->area_served(),
@@ -124,12 +154,14 @@ class Seo {
 	/** Places served. The business has one location; these are service areas, not offices. */
 	public function area_served()
 	{
-		$areas = array();
-		foreach (array('Thisaiyanvilai', 'Tirunelveli', 'Thoothukudi', 'Nagercoil', 'Kanyakumari', 'Thiruvananthapuram') as $place)
+		// Thisaiyanvilai and Sattankulam are towns (Place); the rest are cities. Kerala's capital is a nearby service area.
+		$areas = array(array('@type' => 'Place', 'name' => 'Thisaiyanvilai'), array('@type' => 'City', 'name' => 'Tirunelveli'), array('@type' => 'Place', 'name' => 'Sattankulam'));
+		foreach (array('Thoothukudi', 'Nagercoil', 'Kanniyakumari', 'Thiruvananthapuram') as $place)
 		{
 			$areas[] = array('@type' => 'City', 'name' => $place);
 		}
 		$areas[] = array('@type' => 'State', 'name' => 'Tamil Nadu');
+		$areas[] = array('@type' => 'Country', 'name' => 'India');
 		return $areas;
 	}
 

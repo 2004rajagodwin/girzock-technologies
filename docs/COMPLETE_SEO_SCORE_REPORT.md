@@ -12,15 +12,15 @@
 | 1 | Crawlability and indexability | 99.9 | 15% | site-wide checks, 89 crawled URLs |
 | 2 | Titles and meta descriptions | 100.0 | 12% | 62 indexable pages |
 | 3 | Heading structure | 100.0 | 6% | 62 indexable pages |
-| 4 | Content depth and uniqueness | 88.2 | 15% | 62 indexable pages |
-| 5 | Internal linking | 89.1 | 10% | 62 indexable pages |
-| 6 | Structured data | 94.0 | 10% | 62 indexable pages |
+| 4 | Content depth and uniqueness | 93.7 | 15% | 62 indexable pages |
+| 5 | Internal linking | 90.0 | 10% | 62 indexable pages |
+| 6 | Structured data | 96.0 | 10% | 62 indexable pages |
 | 7 | Images and alt text | 100.0 | 5% | 923 images on 62 indexable pages |
 | 8 | Social sharing and mobile tags | 100.0 | 5% | 62 indexable pages |
-| 9 | Page speed (Lighthouse mobile) | 57.1 | 12% | 11 Lighthouse runs |
+| 9 | Page speed (Lighthouse mobile) | 56.6 | 12% | 11 Lighthouse runs |
 | 10 | Local SEO | 66.9 | 10% | site-wide checks |
-| | **Overall (equal weight)** | **89.5** | | |
-| | **Combined (weighted)** | **88.1** | 100% | |
+| | **Overall (equal weight)** | **90.3** | | |
+| | **Combined (weighted)** | **89.1** | 100% | |
 
 **How the totals are worked out:**
 - **Overall** is the plain average of the 10 category scores.
@@ -68,15 +68,15 @@ Each page-level category is scored on all 62 indexable pages, and the category i
 
 **Method:** Exactly one H1 = 50, two or more H2 = 30 (one = 15), H1 not used on another page = 20.
 
-### Content depth and uniqueness — 88.2
+### Content depth and uniqueness — 93.7
 
 **Method:** 70 points scaled by visible words against the minimum for the page type, 30 points scaled by the share of the page's own text not found on any other page (80% or more = full). Template text found on a quarter of all pages (forms, call-to-action blocks) is set aside before comparing.
 
-### Internal linking — 89.1
+### Internal linking — 90.0
 
 **Method:** Number of other crawled pages linking to the page: 5 or more = 100, 3-4 = 80, 2 = 50, 1 = 25, none = 0. Broken internal links are covered by category 1.
 
-### Structured data — 94.0
+### Structured data — 96.0
 
 **Method:** Valid JSON-LD = 25, Organization = 15, BreadcrumbList on inner pages = 20, the type that fits the page = 40 (Service, BlogPosting, JobPosting, ContactPage, WebSite on home, WebPage on others). Listings with plain WebPage get 30 (CollectionPage would fit better). Product pages get 20 of 40: Product markup has no offers, review or rating, which Google needs for product results. Case studies get 0 of 40: no Article markup.
 
@@ -88,23 +88,23 @@ Each page-level category is scored on all 62 indexable pages, and the category i
 
 **Method:** Seven tags, equal points: og:title, og:description, og:image, og:type, twitter:card, viewport, html lang.
 
-### Page speed (Lighthouse mobile) — 57.1
+### Page speed (Lighthouse mobile) — 56.6
 
 **Method:** Average Lighthouse performance score, mobile settings (simulated slow 4G, 4x CPU slowdown), on the local XAMPP server, which does not compress text. Production numbers will differ.
 
 | Page | Performance | SEO | Accessibility | Best practices | FCP | LCP | CLS | TBT | Page weight |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `/about` | 59 | 100 | 96 | 96 | 6.31 s | 17.26 s | 0.003 | 86 ms | 3.2 MB |
-| `/areas-we-serve` | 60 | 100 | 100 | 100 | 6.16 s | 16.21 s | 0 | 63 ms | 2.92 MB |
-| `/blog` | 60 | 100 | 100 | 100 | 6.16 s | 17.41 s | 0 | 17 ms | 3.24 MB |
-| `/careers/web-developer` | 57 | 100 | 96 | 100 | 7.81 s | 16.21 s | 0 | 32 ms | 2.92 MB |
-| `/contact` | 57 | 100 | 100 | 100 | 7.81 s | 16.89 s | 0.003 | 62 ms | 3.82 MB |
-| `/` | 42 | 100 | 97 | 93 | 6.91 s | 17.71 s | 0 | 680 ms | 3.58 MB |
-| `/blog/how-to-plan-a-business-website-that-generates-enquiries` | 60 | 100 | 100 | 100 | 6.16 s | 16.66 s | 0 | 12 ms | 2.99 MB |
-| `/privacy-policy` | 57 | 100 | 100 | 100 | 7.81 s | 15.46 s | 0 | 0 ms | 2.5 MB |
-| `/products/customer-portal` | 57 | 100 | 100 | 96 | 7.81 s | 16.36 s | 0 | 2 ms | 2.93 MB |
-| `/services/website-development` | 60 | 100 | 100 | 100 | 6.16 s | 16.51 s | 0 | 63 ms | 2.99 MB |
-| `/services` | 59 | 100 | 95 | 100 | 6.31 s | 17.34 s | 0 | 92 ms | 3.3 MB |
+| `/about` | 59 | 100 | 96 | 96 | 6.31 s | 17.19 s | 0.003 | 79 ms | 3.2 MB |
+| `/areas-we-serve` | 57 | 100 | 100 | 100 | 7.81 s | 16.21 s | 0 | 27 ms | 2.92 MB |
+| `/blog` | 57 | 100 | 100 | 100 | 7.81 s | 17.41 s | 0 | 27 ms | 3.24 MB |
+| `/careers/web-developer` | 57 | 100 | 96 | 100 | 7.81 s | 16.21 s | 0 | 22 ms | 2.92 MB |
+| `/contact` | 57 | 100 | 100 | 100 | 7.81 s | 16.89 s | 0.003 | 78 ms | 3.82 MB |
+| `/` | 50 | 100 | 97 | 93 | 8.56 s | 17.64 s | 0 | 301 ms | 3.58 MB |
+| `/blog/how-to-plan-a-business-website-that-generates-enquiries` | 57 | 100 | 100 | 100 | 7.96 s | 16.81 s | 0 | 0 ms | 2.99 MB |
+| `/privacy-policy` | 56 | 100 | 100 | 100 | 9.01 s | 15.61 s | 0 | 0 ms | 2.5 MB |
+| `/products/customer-portal` | 56 | 100 | 100 | 96 | 8.86 s | 16.36 s | 0 | 23 ms | 2.93 MB |
+| `/services/website-development` | 58 | 100 | 100 | 100 | 7.36 s | 16.66 s | 0 | 74 ms | 2.99 MB |
+| `/services` | 59 | 100 | 95 | 100 | 6.31 s | 17.71 s | 0 | 84 ms | 3.3 MB |
 
 ### Local SEO — 66.9
 
@@ -128,21 +128,21 @@ Each page-level category is scored on all 62 indexable pages, and the category i
 
 | URL | Metadata points | Content points |
 |---|---:|---:|
-| `/careers/wordpress-developer` | 100 | 57.3 |
-| `/careers/web-developer` | 100 | 57.9 |
-| `/careers/software-developer` | 100 | 58 |
-| `/careers/cloud-engineer` | 100 | 58 |
-| `/careers/ui-ux-designer` | 100 | 59.3 |
-| `/careers/internships` | 100 | 61.9 |
-| `/products/customer-portal` | 100 | 67.8 |
-| `/products/cloud-hosting-care-plan` | 100 | 69 |
-| `/products/business-management-software` | 100 | 69.2 |
-| `/products/booking-enquiry-system` | 100 | 69.2 |
-| `/products/online-store-platform` | 100 | 69.4 |
 | `/blog/category/wordpress` | 100 | 71.1 |
 | `/blog` | 100 | 71.5 |
 | `/blog/category/web-development` | 100 | 71.7 |
 | `/case-studies/taking-a-local-retailer-online` | 100 | 72.6 |
+| `/blog/page/2` | 100 | 72.7 |
+| `/blog/category/custom-software` | 100 | 73.8 |
+| `/blog/category/ui-ux-design` | 100 | 74.6 |
+| `/blog/category/digital-transformation` | 100 | 75 |
+| `/blog/category/cloud-and-aws` | 100 | 75.4 |
+| `/case-studies/moving-a-business-application-to-aws` | 100 | 81.8 |
+| `/case-studies/replacing-spreadsheets-with-custom-software` | 100 | 85.5 |
+| `/careers/cloud-engineer` | 100 | 86.8 |
+| `/careers/internships` | 100 | 88.4 |
+| `/careers/wordpress-developer` | 100 | 88.6 |
+| `/careers/ui-ux-designer` | 100 | 90 |
 
 The job openings and product pages are the weakest because they are short and share most of their text with similar pages. The content audit gives the fix for each.
 
@@ -150,7 +150,11 @@ The job openings and product pages are the weakest because they are short and sh
 
 **Settings:** mobile (simulated slow 4G, 4× CPU slowdown), on the local XAMPP server, which has no text compression.
 
-**About page outlier:** the first run scored performance 20, with a layout shift of 0.618. Lighthouse attributed it to the icon fonts (Font Awesome, fontello) arriving late. Two repeat runs both scored 59, with a layout shift of 0.003. The table uses the middle result, 59. All three runs are kept in the test files.
+**Repeat runs:** the homepage and About were each measured three times, and the table uses the middle result.
+- Homepage: 31, 50 and 54 (median 50). The first run had a 1.7 s blocking time that did not recur.
+- About: 60, 56 and 59 (median 59).
+
+All runs are kept with the test files. Other pages were measured once.
 
 **Why LCP is 15 to 18 s everywhere:** the local server sends CSS and JavaScript uncompressed, and the theme's main stylesheet alone is 608 KB. Lighthouse expects the live server, with compression on, to be much faster. Re-measure there before judging speed.
 

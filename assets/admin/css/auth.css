@@ -1,0 +1,148 @@
+/* GIRZOCK admin sign in, forgot password and reset password. Loaded only on those three screens. */
+.gz-auth {
+  --ga-navy: #0a1a3f;
+  --ga-navy-2: #0e2a6b;
+  --ga-blue: #1769ff;
+  --ga-cyan: #19d5e5;
+  --ga-ink: #0f1b3d;
+  --ga-muted: #5b6380;
+  --ga-line: #d9e2f2;
+  --ga-error: #c4312f;
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 32px 16px;
+  overflow-x: hidden;
+  background: radial-gradient(120% 90% at 50% 0%, #10306f 0%, var(--ga-navy) 55%, #060f29 100%);
+  font-family: "Manrope", "Segoe UI", Arial, sans-serif;
+  color: var(--ga-ink);
+}
+.gz-auth-bg { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+.gz-auth-glow { position: absolute; border-radius: 50%; filter: blur(80px); opacity: .55; }
+.gz-auth-glow-1 { width: 520px; height: 520px; top: -160px; left: -120px; background: radial-gradient(circle, rgba(23,105,255,.75), transparent 70%); }
+.gz-auth-glow-2 { width: 460px; height: 460px; right: -120px; bottom: -160px; background: radial-gradient(circle, rgba(25,213,229,.55), transparent 70%); }
+.gz-auth-grid {
+  position: absolute; inset: 0; opacity: .14;
+  background-image: linear-gradient(rgba(255,255,255,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.35) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(70% 60% at 50% 40%, #000 30%, transparent 75%);
+  mask-image: radial-gradient(70% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+
+.gz-auth-card {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  width: 100%; max-width: 940px; padding: 0;
+  border-radius: 24px; overflow: hidden;
+  background: #fff;
+  box-shadow: 0 30px 80px rgba(2, 8, 30, .55), 0 0 0 1px rgba(255,255,255,.06);
+}
+
+/* Brand panel */
+.gz-auth-brand {
+  position: relative; display: flex; flex-direction: column; gap: 22px;
+  padding: 48px 44px; color: #fff;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(25,213,229,.35), transparent 45%),
+    radial-gradient(circle at 10% 95%, rgba(23,105,255,.45), transparent 55%),
+    linear-gradient(155deg, #0e2a6b 0%, #0a1a3f 70%);
+}
+.gz-auth-brand::after {
+  content: ""; position: absolute; left: 44px; right: 44px; bottom: 0; height: 3px; border-radius: 3px;
+  background: linear-gradient(90deg, var(--ga-blue), var(--ga-cyan));
+}
+.gz-auth-brand-logo { display: block; width: min(230px, 100%); height: auto; }
+.gz-auth-tagline { margin: -10px 0 0; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: #9fdff0; }
+.gz-auth-brand-copy { margin-top: auto; }
+.gz-auth-eyebrow { margin: 0 0 8px; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ga-cyan); }
+.gz-auth-lead { margin: 0; font-family: "Sora", "Manrope", Arial, sans-serif; font-size: 22px; line-height: 1.35; font-weight: 600; color: #fff; }
+.gz-auth-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 14px; color: #c9d6f2; }
+.gz-auth-points li { display: flex; align-items: center; gap: 10px; }
+.gz-auth-dot { width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, var(--ga-blue), var(--ga-cyan)); box-shadow: 0 0 10px rgba(25,213,229,.8); }
+
+/* Form panel */
+.gz-auth-panel { display: flex; flex-direction: column; justify-content: center; padding: 48px 44px 30px; }
+.gz-auth-logo { display: none; width: 170px; height: auto; margin: 0 auto 18px; }
+.gz-auth-panel h1 { margin: 0 0 6px; font-family: "Sora", "Manrope", Arial, sans-serif; font-size: 26px; line-height: 1.25; font-weight: 700; text-align: left; color: var(--ga-ink); }
+.gz-auth-sub { margin: 0 0 22px; font-size: 14.5px; color: var(--ga-muted); }
+.gz-auth .gz-flash { margin: 0 0 18px; border-radius: 12px; font-size: 14px; }
+
+.gz-auth-form { display: grid; gap: 18px; margin: 0; }
+.gz-auth-field label, .gz-auth-form > label { display: block; margin: 0 0 7px; font-size: 13.5px; font-weight: 700; color: var(--ga-ink); }
+.gz-auth-input { position: relative; display: flex; align-items: center; }
+.gz-auth-icon { position: absolute; left: 14px; width: 18px; height: 18px; fill: #7c89a8; pointer-events: none; }
+.gz-auth-form input[type="text"], .gz-auth-form input[type="password"], .gz-auth-form input[type="email"] {
+  width: 100%; height: 50px; margin: 0; padding: 0 48px 0 44px;
+  border: 1.5px solid var(--ga-line); border-radius: 12px; background: #f7f9fd;
+  font: inherit; font-size: 15px; color: var(--ga-ink);
+  transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+.gz-auth-input-plain input[type="password"], .gz-auth-input-plain input[type="text"] { padding-left: 14px; }
+.gz-auth-form > input { padding-left: 14px !important; }
+.gz-auth-form input::placeholder { color: #8a94ad; }
+.gz-auth-form input:hover { border-color: #b9c8e6; }
+.gz-auth-form input:focus { outline: none; border-color: var(--ga-blue); background: #fff; box-shadow: 0 0 0 4px rgba(23,105,255,.15); }
+.gz-auth-form input[aria-invalid="true"] { border-color: var(--ga-error); background: #fff8f8; }
+.gz-auth-form input[aria-invalid="true"]:focus { box-shadow: 0 0 0 4px rgba(196,49,47,.14); }
+.gz-auth-error { margin: 6px 0 0; font-size: 13px; color: var(--ga-error); }
+.gz-auth .gz-help { margin: -10px 0 0; font-size: 13px; color: var(--ga-muted); }
+
+.gz-auth-reveal {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; padding: 0; border: 0; border-radius: 10px;
+  background: transparent; color: #5b6a8c; cursor: pointer;
+}
+.gz-auth-reveal:hover { color: var(--ga-blue); background: rgba(23,105,255,.08); }
+.gz-auth-reveal:focus-visible { outline: 3px solid rgba(23,105,255,.45); outline-offset: 1px; }
+.gz-auth-reveal svg { width: 20px; height: 20px; fill: currentColor; }
+.gz-auth-reveal .gz-eye-off { display: none; }
+.gz-auth-reveal[aria-pressed="true"] .gz-eye { display: none; }
+.gz-auth-reveal[aria-pressed="true"] .gz-eye-off { display: block; }
+
+.gz-auth-submit {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; height: 52px; margin-top: 4px; padding: 0 20px;
+  border: 0; border-radius: 12px; cursor: pointer;
+  background: linear-gradient(95deg, #12c6ea 0%, #1769ff 55%, #0b2aa8 100%);
+  font: inherit; font-size: 15.5px; font-weight: 700; letter-spacing: .01em; color: #fff;
+  box-shadow: 0 12px 26px rgba(23,105,255,.35);
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+.gz-auth-submit:hover { filter: brightness(1.06); box-shadow: 0 14px 30px rgba(23,105,255,.45); }
+.gz-auth-submit:active { transform: translateY(1px); }
+.gz-auth-submit:focus-visible { outline: 3px solid rgba(25,213,229,.7); outline-offset: 2px; }
+.gz-auth-submit[aria-busy="true"] { cursor: progress; filter: saturate(.85); }
+.gz-auth-spinner { display: none; width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: gz-auth-spin .8s linear infinite; }
+.gz-auth-submit[aria-busy="true"] .gz-auth-spinner { display: inline-block; }
+@keyframes gz-auth-spin { to { transform: rotate(360deg); } }
+
+.gz-auth .gz-auth-link { margin: 18px 0 0; text-align: center; font-size: 14px; }
+.gz-auth .gz-auth-link a { color: var(--ga-blue); font-weight: 600; text-decoration: none; }
+.gz-auth .gz-auth-link a:hover { text-decoration: underline; }
+.gz-auth-foot { margin: 28px 0 0; font-size: 12.5px; color: #8a94ad; text-align: center; }
+
+/* Tablet and phone: one column, the brand panel becomes a compact header */
+@media (max-width: 900px) {
+  .gz-auth-card { grid-template-columns: minmax(0, 1fr); max-width: 460px; }
+  .gz-auth-brand { gap: 10px; padding: 26px 28px 24px; align-items: center; text-align: center; }
+  .gz-auth-brand-logo { width: 180px; }
+  .gz-auth-tagline { margin: 0; font-size: 11.5px; }
+  .gz-auth-brand-copy, .gz-auth-points { display: none; }
+  .gz-auth-brand::after { left: 28px; right: 28px; }
+  .gz-auth-panel { padding: 30px 28px 24px; }
+  .gz-auth-panel h1 { font-size: 23px; }
+}
+@media (max-width: 380px) {
+  .gz-auth { padding: 16px 10px; }
+  .gz-auth-panel { padding: 26px 18px 20px; }
+  .gz-auth-brand { padding: 22px 18px 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gz-auth-spinner { animation-duration: 2s; }
+  .gz-auth-submit, .gz-auth-form input { transition: none; }
+}

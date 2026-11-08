@@ -3968,3 +3968,15 @@ body:not(.girzock-home) .footer-style2 {
     max-height: 84px;
   }
 }
+
+/* Four social icons on one row on the narrowest phones (under 360 px); wider screens are unchanged */
+@media (max-width: 359px) {
+  footer .social-icon {
+    gap: 8px;
+  }
+  footer .social-icon li a.girzock-social,
+  body.girzock-home footer .social-icon li a.girzock-social {
+    width: 40px;
+    height: 40px;
+  }
+}

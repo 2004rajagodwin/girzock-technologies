@@ -218,6 +218,40 @@ function is_safe_asset_path($path)
 	return strpos($path, '..') === FALSE && (bool) preg_match('#^assets/[A-Za-z0-9_\-./]+$#', $path);
 }
 
+/** Brand images kept at the site root so their public addresses (used by social sites) never change. */
+function brand_root_images()
+{
+	return array('girzock-hero.png', 'girzock-logo.png');
+}
+
+/**
+ * A social sharing image must be a real JPG, PNG, WebP or GIF that exists on this site: either under assets/
+ * (media library uploads and site images) or one of the named brand images at the root. Nothing else is accepted.
+ */
+function valid_social_image_path($path)
+{
+	$path = trim((string) $path);
+	if ($path === '' OR strpos($path, '..') !== FALSE)
+	{
+		return FALSE;
+	}
+	if ( ! is_safe_asset_path($path) && ! in_array($path, brand_root_images(), TRUE))
+	{
+		return FALSE;
+	}
+	if ( ! preg_match('/\.(jpe?g|png|webp|gif)$/i', $path))
+	{
+		return FALSE;
+	}
+	$file = FCPATH.$path;
+	if ( ! is_file($file))
+	{
+		return FALSE;
+	}
+	$info = @getimagesize($file);
+	return $info && in_array($info['mime'], array('image/jpeg', 'image/png', 'image/webp', 'image/gif'), TRUE);
+}
+
 function is_safe_http_url($url)
 {
 	return (bool) filter_var($url, FILTER_VALIDATE_URL) && (bool) preg_match('#^https?://#i', (string) $url);

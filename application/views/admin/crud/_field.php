@@ -55,7 +55,7 @@ $describe = $error ? ' aria-invalid="true" aria-describedby="'.$id.'-error"' : '
         </select>
         <?php break;
         case 'image': ?>
-        <div class="gz-image-field" data-gz-image>
+        <div class="gz-image-field" data-gz-image<?= empty($field['brand']) ? '' : ' data-gz-brand="1"' ?>>
             <img class="gz-image-preview" src="<?= e($value ? media_url($value) : '') ?>" alt=""<?= $value ? '' : ' hidden' ?>>
             <input type="hidden" id="<?= $id ?>" name="<?= e($name) ?>" value="<?= e($value) ?>">
             <input type="file" name="<?= e($name) ?>" accept=".jpg,.jpeg,.png,.webp,.gif" aria-label="Upload <?= e($field['label']) ?>">

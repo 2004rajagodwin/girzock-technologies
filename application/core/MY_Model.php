@@ -22,6 +22,12 @@ class MY_Model extends CI_Model {
 		return $this->db;
 	}
 
+	/** The database table behind this model. */
+	public function table_name()
+	{
+		return $this->table;
+	}
+
 	public function find($id)
 	{
 		$this->base()->where($this->table.'.id', (int) $id);

@@ -29,16 +29,32 @@ $field_view = function ($field) use ($values, $errors) {
             <?php endif; ?>
             <?php if ($has_seo): ?>
             <details class="gz-card gz-details"<?= array_filter(array_keys($errors), function ($k) { return strpos($k, 'seo_') === 0; }) ? ' open' : '' ?>>
-                <summary>SEO</summary>
+                <summary>SEO<?= $seo_warnings ? ' <span class="gz-badge gz-badge-warn">'.count($seo_warnings).' to check</span>' : '' ?></summary>
+                <div class="gz-serp" data-gz-serp data-base="<?= e($preview_base) ?>" data-company="<?= e($company_name) ?>" aria-label="Search result preview">
+                    <p class="gz-serp-label">Search result preview</p>
+                    <p class="gz-serp-url" data-gz-serp-url></p>
+                    <p class="gz-serp-title" data-gz-serp-title></p>
+                    <p class="gz-serp-desc" data-gz-serp-desc></p>
+                    <p class="gz-help" data-gz-serp-count></p>
+                </div>
+                <?php if ($seo_warnings): ?>
+                <div class="gz-seo-warnings" role="note">
+                    <p><strong>Worth checking before you publish</strong> (based on the saved version):</p>
+                    <ul><?php foreach ($seo_warnings as $warning): ?><li><?= e($warning) ?></li><?php endforeach; ?></ul>
+                </div>
+                <?php elseif ($id): ?>
+                <p class="gz-help gz-seo-ok">No SEO issues found in the saved version. This is a checklist, not a ranking promise.</p>
+                <?php endif; ?>
                 <?php
                 $field_view(array('name' => 'seo_meta_title', 'label' => 'SEO title', 'type' => 'text', 'max' => 255, 'help' => 'Left blank, a title is built from the page name.'));
                 $field_view(array('name' => 'seo_meta_description', 'label' => 'Meta description', 'type' => 'textarea', 'help' => 'Aim for 120 to 160 characters.'));
                 $field_view(array('name' => 'seo_focus_keyword', 'label' => 'Focus keyword', 'type' => 'text', 'max' => 120, 'help' => 'For your own planning. It is not published on the page.'));
+                $field_view(array('name' => 'seo_secondary_keywords', 'label' => 'Secondary keywords', 'type' => 'text', 'max' => 255, 'help' => 'Related phrases, separated by commas. For planning; not published.'));
                 $field_view(array('name' => 'seo_og_title', 'label' => 'Open Graph title', 'type' => 'text', 'max' => 255, 'help' => 'Shown when the page is shared. Left blank, the SEO title is used.'));
                 $field_view(array('name' => 'seo_og_description', 'label' => 'Open Graph description', 'type' => 'textarea', 'help' => 'Left blank, the meta description is used.'));
                 $field_view(array('name' => 'seo_canonical_url', 'label' => 'Canonical URL', 'type' => 'url', 'help' => 'Only needed when the main copy of this content is at a different address.'));
                 $field_view(array('name' => 'seo_robots', 'label' => 'Search engine indexing', 'type' => 'select', 'options' => array('' => 'Default (index, follow)', 'index, follow' => 'index, follow', 'noindex, follow' => 'noindex, follow', 'noindex, nofollow' => 'noindex, nofollow')));
-                $field_view(array('name' => 'seo_og_image', 'label' => 'Social sharing image', 'type' => 'image'));
+                $field_view(array('name' => 'seo_og_image', 'label' => 'Social sharing image', 'type' => 'image', 'brand' => TRUE, 'help' => 'JPG, PNG, WebP or GIF. About 1200 x 630 px suits Facebook, LinkedIn and X. Leave unchanged to keep the current image.'));
                 ?>
             </details>
             <?php endif; ?>

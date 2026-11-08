@@ -206,15 +206,15 @@ class Settings_model extends CI_Model {
 
 	public function save_seo($entity_type, $entity_key, array $data)
 	{
-		$sql = 'INSERT INTO seo_metadata (entity_type, entity_key, meta_title, meta_description, focus_keyword, og_title, og_description, canonical_url, og_image, robots)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		$sql = 'INSERT INTO seo_metadata (entity_type, entity_key, meta_title, meta_description, focus_keyword, secondary_keywords, og_title, og_description, canonical_url, og_image, robots)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 			ON DUPLICATE KEY UPDATE meta_title = VALUES(meta_title), meta_description = VALUES(meta_description),
-			focus_keyword = VALUES(focus_keyword), og_title = VALUES(og_title), og_description = VALUES(og_description),
+			focus_keyword = VALUES(focus_keyword), secondary_keywords = VALUES(secondary_keywords), og_title = VALUES(og_title), og_description = VALUES(og_description),
 			canonical_url = VALUES(canonical_url), og_image = VALUES(og_image), robots = VALUES(robots)';
 		return $this->db->query($sql, array(
 			$entity_type, (string) $entity_key,
 			$this->nullable($data, 'meta_title'), $this->nullable($data, 'meta_description'),
-			$this->nullable($data, 'focus_keyword'), $this->nullable($data, 'og_title'), $this->nullable($data, 'og_description'),
+			$this->nullable($data, 'focus_keyword'), $this->nullable($data, 'secondary_keywords'), $this->nullable($data, 'og_title'), $this->nullable($data, 'og_description'),
 			$this->nullable($data, 'canonical_url'), $this->nullable($data, 'og_image'), $this->nullable($data, 'robots'),
 		));
 	}

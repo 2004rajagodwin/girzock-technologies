@@ -14,7 +14,7 @@ class CaseStudies extends Public_Controller {
 		$studies = $this->case_study_model->published();
 		$samples = array_filter($studies, function ($study) { return stripos((string) $study['card_label'], 'sample') !== FALSE; });
 		$this->render('frontend/case-studies/index', array(
-			'seo' => $this->seo->build(array('entity' => array('page', 'case-studies'), 'path' => 'case-studies',
+			'seo' => $this->seo->build(array('entity' => array('page', 'case-studies'), 'path' => 'case-studies', 'webpage_type' => 'CollectionPage',
 				'breadcrumbs' => array('Home' => '', 'Case Studies' => NULL))),
 			'studies' => $studies,
 			'sample_count' => count($samples),
@@ -50,6 +50,8 @@ class CaseStudies extends Public_Controller {
 				'image' => $study['image'],
 				'og_type' => 'article',
 				'breadcrumbs' => array('Home' => '', 'Case Studies' => 'case-studies', $study['title'] => NULL),
+				// Article markup, with only facts held for the record: no ratings, results or client names are added
+				'schema' => $is_preview ? array() : array(array_filter(array('@context' => 'https://schema.org', '@type' => 'Article', 'headline' => $study['title'], 'description' => $study['summary'] ? $study['summary'] : plain_excerpt($study['challenge']), 'image' => $study['image'] ? $this->seo->absolute_media($study['image']) : NULL, 'datePublished' => date('c', strtotime($study['created_at'])), 'dateModified' => date('c', strtotime($study['updated_at'])), 'author' => $this->seo->provider(), 'publisher' => $this->seo->provider(), 'mainEntityOfPage' => $this->seo->canonical('case-studies/'.$study['slug'])))),
 			)),
 		));
 	}

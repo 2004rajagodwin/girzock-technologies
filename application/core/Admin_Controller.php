@@ -134,4 +134,33 @@ class Admin_Controller extends MY_Controller {
 		}
 		return $html.'</nav>';
 	}
+	/**
+	 * The social sharing image from an SEO form: a new upload (stored in the media library as WebP), or the path of
+	 * an existing image chosen in the picker. Empty means "no image". Returns NULL and sets $error when invalid.
+	 */
+	protected function social_image_value($name, &$error)
+	{
+		$this->load->library('media_manager');
+		if ( ! empty($_FILES[$name]) && ! is_array($_FILES[$name]['name']) && $_FILES[$name]['error'] !== UPLOAD_ERR_NO_FILE)
+		{
+			$stored = $this->media_manager->store_image($_FILES[$name], $this->user['id']);
+			if ( ! $stored)
+			{
+				$error = 'Social sharing image: '.$this->media_manager->error;
+				return NULL;
+			}
+			return $stored['file_path'];
+		}
+		$path = trim((string) $this->input->post($name));
+		if ($path === '')
+		{
+			return '';
+		}
+		if ( ! valid_social_image_path($path))
+		{
+			$error = 'Social sharing image: choose an existing JPG, PNG, WebP or GIF from the media library, or upload one.';
+			return NULL;
+		}
+		return $path;
+	}
 }

@@ -46,6 +46,9 @@ $image = function ($key, $label) use ($values, $err) {
         <div class="gz-card">
             <h2>SEO defaults</h2>
             <?php $text('default_meta_title', 'Default title'); $area('default_meta_description', 'Default meta description'); $image('default_og_image', 'Default social image'); $text('google_analytics_id', 'Google Analytics ID', 'For example G-XXXXXXXXXX. Leave empty to load no analytics.'); $text('gsc_verification', 'Google Search Console verification code'); ?>
+            <h3 class="gz-subhead">Homepage only</h3>
+            <?php $area('home_meta_keywords', 'Homepage keywords (meta keywords)', 'Comma separated. Google does not use this tag for ranking; it is kept for other tools.'); $text('home_twitter_title', 'Homepage title on X (Twitter)'); $area('home_twitter_description', 'Homepage description on X (Twitter)'); $text('home_og_image_alt', 'Homepage sharing image description (alt text)'); ?>
+            <p class="gz-help">The homepage title, description and sharing image are edited in SEO Management &gt; Homepage.</p>
         </div>
         <div class="gz-card" id="smtp">
             <h2>Email (SMTP)</h2>

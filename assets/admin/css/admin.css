@@ -248,3 +248,18 @@ input[type="text"], input[type="search"], input[type="email"], input[type="passw
 .gz-toast { position: fixed; right: 16px; bottom: 16px; max-width: min(420px, calc(100vw - 32px)); padding: 12px 16px; border-radius: 8px; font-size: 14px; box-shadow: 0 10px 28px rgba(11,31,92,.2); z-index: 60; }
 .gz-toast-success { background: #dcf3e6; color: #0f6b40; }
 .gz-toast-error { background: #fbe3e2; color: #8e201e; }
+
+/* SEO preview and warnings in the content editors */
+.gz-serp { margin: 4px 0 16px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: #fff; font-family: Arial, sans-serif; }
+.gz-serp p { margin: 0; }
+.gz-serp-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px !important; }
+.gz-serp-url { font-size: 13px; color: #1f6b3a; overflow-wrap: anywhere; }
+.gz-serp-title { font-size: 19px; line-height: 1.3; color: #1a0dab; margin: 2px 0 3px !important; }
+.gz-serp-desc { font-size: 13.5px; line-height: 1.5; color: #4d5156; }
+.gz-serp .gz-help { margin-top: 8px !important; }
+.gz-seo-warnings { margin: 0 0 16px; padding: 12px 16px; border-left: 4px solid #b26a00; border-radius: 8px; background: #fff7e8; font-size: 14px; }
+.gz-seo-warnings p { margin: 0 0 6px; }
+.gz-seo-warnings ul { margin: 0; padding-left: 20px; }
+.gz-seo-ok { color: var(--success); }
+.gz-badge-warn { background: #fff1d6; color: #8a5300; margin-left: 6px; }
+.gz-subhead { font-size: 15px; margin: 18px 0 8px; }
