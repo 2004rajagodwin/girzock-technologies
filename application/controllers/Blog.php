@@ -41,8 +41,9 @@ class Blog extends Public_Controller {
 			'description' => $category['description'] ? $category['description'] : 'Articles about '.$category['name'].' from '.setting('company_name').'.',
 			'active_category' => $category['slug'],
 			'entity' => array('blog_category', $category['id']),
-			// A category with no published articles stays reachable but out of search results.
-			'robots' => $this->blog_model->count_public(array('category_id' => $category['id'])) > 0 ? NULL : 'noindex, follow',
+			// A category with fewer than two published articles mostly repeats one article, so it stays reachable
+			// but out of search results. An explicit "index, follow" saved in the admin still wins.
+			'robots' => $this->blog_model->count_public(array('category_id' => $category['id'])) >= 2 ? NULL : 'noindex, follow',
 		));
 	}
 
@@ -159,6 +160,11 @@ class Blog extends Public_Controller {
 		$related = $this->blog_model->related($post, 3);
 		$exclude = array_merge(array($post['id']), array_column($related, 'id'));
 		$path = 'blog/'.$post['slug'];
+		// One canonical for the link tag, og:url, sharing links and the BlogPosting markup: the post's own slug URL,
+		// or a valid manual override saved in the admin.
+		$stored = $this->settings_model->seo('blog', $post['id']);
+		$noindex = $is_preview OR (isset($stored['robots']) && stripos((string) $stored['robots'], 'noindex') === 0);
+		$canonical = $this->seo->resolve_canonical($path, isset($stored['canonical_url']) ? $stored['canonical_url'] : '', $noindex);
 		$description = $post['excerpt'] ? $post['excerpt'] : plain_excerpt($post['content']);
 		$image = $this->seo->absolute_media($post['featured_image']);
 		$this->render('frontend/blog/detail', array(
@@ -169,7 +175,7 @@ class Blog extends Public_Controller {
 			'categories' => $this->blog_model->categories(),
 			'previous' => $this->blog_model->neighbour($post, 'previous'),
 			'next' => $this->blog_model->neighbour($post, 'next'),
-			'share_url' => $this->seo->canonical($path),
+			'share_url' => $canonical,
 			'seo' => $this->seo->build(array(
 				'entity' => array('blog', $post['id']),
 				'is_preview' => $is_preview,
@@ -182,7 +188,7 @@ class Blog extends Public_Controller {
 				'schema' => array(array('@context' => 'https://schema.org', '@type' => 'BlogPosting', 'headline' => $post['title'], 'description' => $description, 'image' => $image,
 					'datePublished' => date('c', strtotime($post['published_at'])), 'dateModified' => date('c', strtotime($post['updated_at'])),
 					'author' => array('@type' => 'Organization', 'name' => $post['author_name']), 'publisher' => $this->seo->provider(),
-					'mainEntityOfPage' => $this->seo->canonical($path))),
+					'url' => $canonical, 'mainEntityOfPage' => $canonical)),
 			)),
 		));
 	}

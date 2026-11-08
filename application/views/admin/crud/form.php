@@ -52,7 +52,10 @@ $field_view = function ($field) use ($values, $errors) {
                 $field_view(array('name' => 'seo_secondary_keywords', 'label' => 'Secondary keywords', 'type' => 'text', 'max' => 255, 'help' => 'Related phrases, separated by commas. For planning; not published.'));
                 $field_view(array('name' => 'seo_og_title', 'label' => 'Open Graph title', 'type' => 'text', 'max' => 255, 'help' => 'Shown when the page is shared. Left blank, the SEO title is used.'));
                 $field_view(array('name' => 'seo_og_description', 'label' => 'Open Graph description', 'type' => 'textarea', 'help' => 'Left blank, the meta description is used.'));
-                $field_view(array('name' => 'seo_canonical_url', 'label' => 'Canonical URL', 'type' => 'url', 'help' => 'Only needed when the main copy of this content is at a different address.'));
+                $field_view(array('name' => 'seo_canonical_url', 'label' => 'Canonical URL', 'type' => 'url', 'help' => 'Leave empty to use the address of this page. Only needed when the main copy of this content is at another address on this website. Noindex pages always use their own address.'));
+                if ($preview_base !== ''): ?>
+                <p class="gz-help" data-gz-canonical-auto>Automatic canonical: <strong data-gz-canonical-auto-url><?= e($preview_base.(isset($values['slug']) ? $values['slug'] : '')) ?></strong></p>
+                <?php endif;
                 $field_view(array('name' => 'seo_robots', 'label' => 'Search engine indexing', 'type' => 'select', 'options' => array('' => 'Default (index, follow)', 'index, follow' => 'index, follow', 'noindex, follow' => 'noindex, follow', 'noindex, nofollow' => 'noindex, nofollow')));
                 $field_view(array('name' => 'seo_og_image', 'label' => 'Social sharing image', 'type' => 'image', 'brand' => TRUE, 'help' => 'JPG, PNG, WebP or GIF. About 1200 x 630 px suits Facebook, LinkedIn and X. Leave unchanged to keep the current image.'));
                 ?>

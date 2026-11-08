@@ -49,9 +49,12 @@ class CaseStudies extends Public_Controller {
 				'path' => 'case-studies/'.$study['slug'],
 				'image' => $study['image'],
 				'og_type' => 'article',
+				// Sample concepts are thin and not client work, so they default to noindex. An explicit
+				// "index, follow" saved in the admin still wins.
+				'robots' => Case_study_model::is_sample($study) ? 'noindex, follow' : NULL,
 				'breadcrumbs' => array('Home' => '', 'Case Studies' => 'case-studies', $study['title'] => NULL),
 				// Article markup, with only facts held for the record: no ratings, results or client names are added
-				'schema' => $is_preview ? array() : array(array_filter(array('@context' => 'https://schema.org', '@type' => 'Article', 'headline' => $study['title'], 'description' => $study['summary'] ? $study['summary'] : plain_excerpt($study['challenge']), 'image' => $study['image'] ? $this->seo->absolute_media($study['image']) : NULL, 'datePublished' => date('c', strtotime($study['created_at'])), 'dateModified' => date('c', strtotime($study['updated_at'])), 'author' => $this->seo->provider(), 'publisher' => $this->seo->provider(), 'mainEntityOfPage' => $this->seo->canonical('case-studies/'.$study['slug'])))),
+				'schema' => $is_preview ? array() : array(array_filter(array('@context' => 'https://schema.org', '@type' => 'Article', 'headline' => $study['title'], 'description' => $study['summary'] ? $study['summary'] : plain_excerpt($study['challenge']), 'image' => $study['image'] ? $this->seo->absolute_media($study['image']) : NULL, 'datePublished' => date('c', strtotime($study['created_at'])), 'dateModified' => date('c', strtotime($study['updated_at'])), 'author' => $this->seo->provider(), 'publisher' => $this->seo->provider(), 'mainEntityOfPage' => $this->seo->canonical_for('case-studies/'.$study['slug'])))),
 			)),
 		));
 	}

@@ -18,3 +18,10 @@ $config['gz_login_max_ip_failures'] = 20;   // per IP
 $config['gz_login_window'] = 900;           // seconds
 $config['gz_admin_per_page'] = 15;
 $config['gz_blog_per_page'] = 6;
+
+/*
+ * The official public address. Used when PUBLIC_URL is not set in .env, for admin previews of production URLs
+ * and as the only host a manual canonical URL may point at. Canonical URLs on a local copy still use the local
+ * address unless PUBLIC_URL is set.
+ */
+$config['gz_production_url'] = 'https://girzock.com';

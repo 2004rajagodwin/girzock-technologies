@@ -13,6 +13,12 @@ class Case_study_model extends MY_Model {
 		return $this->db->get($this->table)->result_array();
 	}
 
+	/** A sample concept, not a client project: labelled "Sample" on its card or status. These stay out of search by default. */
+	public static function is_sample(array $study)
+	{
+		return stripos((string) (isset($study['card_label']) ? $study['card_label'] : ''), 'sample') !== FALSE OR stripos((string) (isset($study['status_label']) ? $study['status_label'] : ''), 'sample') !== FALSE;
+	}
+
 	public function find_public($slug)
 	{
 		$this->base()->where(array('slug' => $slug, 'status' => 'published'));

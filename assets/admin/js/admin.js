@@ -430,13 +430,18 @@
   var excerpt = $("f-excerpt") || $("f-short_description") || $("f-summary");
   var out = { url: box.querySelector("[data-gz-serp-url]"), title: box.querySelector("[data-gz-serp-title]"), desc: box.querySelector("[data-gz-serp-desc]"), count: box.querySelector("[data-gz-serp-count]") };
   var company = box.getAttribute("data-company") || "";
+  var autoUrl = document.querySelector("[data-gz-canonical-auto-url]");
   function slugify(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }
   function clip(s, n) { return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, "") + " …" : s; }
   function update() {
     var t = (seoTitle && seoTitle.value.trim()) || ((title && title.value.trim()) ? title.value.trim() + " | " + company : "Page title");
     var d = (desc && desc.value.trim()) || (excerpt && excerpt.value.trim()) || "Search engines will choose text from the page.";
     var s = (slug && slug.value.trim()) || (title ? slugify(title.value) : "");
-    out.url.textContent = (canon && canon.value.trim()) || (box.getAttribute("data-base") + s);
+    var auto = box.getAttribute("data-base") + s;
+    out.url.textContent = (canon && canon.value.trim()) || auto;
+    // The automatic canonical follows the slug (or the title, before a slug is set) as you type.
+    if (canon) canon.placeholder = auto;
+    if (autoUrl) autoUrl.textContent = auto;
     out.title.textContent = clip(t, 62);
     out.desc.textContent = clip(d.replace(/\s+/g, " "), 162);
     out.count.textContent = "Title " + t.length + " characters (about 60 or fewer shows in full). Description " + ((desc && desc.value.trim()) ? desc.value.trim().length + " characters (aim for 120 to 160)." : "not set.");

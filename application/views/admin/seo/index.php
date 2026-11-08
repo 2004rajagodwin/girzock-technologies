@@ -2,13 +2,14 @@
 <div class="gz-card gz-table-wrap">
     <h2>Main pages</h2>
     <table class="gz-table">
-        <thead><tr><th scope="col">Page</th><th scope="col">SEO title</th><th scope="col">Meta description</th><th></th></tr></thead>
+        <thead><tr><th scope="col">Page</th><th scope="col">SEO title</th><th scope="col">Meta description</th><th scope="col">Live URL (canonical)</th><th></th></tr></thead>
         <tbody>
         <?php foreach ($pages as $key => $page): ?>
         <tr>
             <td data-label="Page"><?= e($page['label']) ?></td>
             <td data-label="SEO title"><?= e(isset($page['seo']['meta_title']) ? $page['seo']['meta_title'] : '') ?></td>
             <td data-label="Description"><?= e(isset($page['seo']['meta_description']) ? plain_excerpt($page['seo']['meta_description'], 90) : '') ?></td>
+            <td data-label="Live URL" class="gz-break"><?= e($page['live']) ?><?= $page['noindex'] ? ' <span class="gz-badge gz-badge-warn">noindex</span>' : '' ?></td>
             <td class="gz-right"><?php if ($can_edit): ?><a class="gz-btn gz-btn-ghost gz-btn-sm" href="<?= site_url('admin/seo/page/'.$key) ?>">Edit</a><?php endif; ?></td>
         </tr>
         <?php endforeach; ?>
@@ -21,13 +22,14 @@
     <summary><?= e($group['label']) ?> (<?= count($group['rows']) ?>)</summary>
     <div class="gz-table-wrap">
         <table class="gz-table">
-            <thead><tr><th scope="col">Item</th><th scope="col">Custom SEO title</th><th scope="col">Custom description</th><th></th></tr></thead>
+            <thead><tr><th scope="col">Item</th><th scope="col">Custom SEO title</th><th scope="col">Custom description</th><th scope="col">Live URL (canonical)</th><th></th></tr></thead>
             <tbody>
             <?php foreach ($group['rows'] as $row): ?>
             <tr>
                 <td data-label="Item"><?= e($row['title']) ?></td>
                 <td data-label="SEO title"><?= $row['meta_title'] ? e($row['meta_title']) : '<span class="gz-muted">Automatic</span>' ?></td>
                 <td data-label="Description"><?= $row['meta_description'] ? e(plain_excerpt($row['meta_description'], 70)) : '<span class="gz-muted">Automatic</span>' ?></td>
+                <td data-label="Live URL" class="gz-break"><?= e($row['live']) ?><?= $row['noindex'] ? ' <span class="gz-badge gz-badge-warn">noindex</span>' : '' ?></td>
                 <td class="gz-right"><a class="gz-btn gz-btn-ghost gz-btn-sm" href="<?= site_url('admin/'.$group['route'].'/edit/'.(int) $row['id']) ?>">Edit</a></td>
             </tr>
             <?php endforeach; ?>

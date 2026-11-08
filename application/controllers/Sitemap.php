@@ -6,19 +6,52 @@ class Sitemap extends MY_Controller {
 	public function index()
 	{
 		$this->load->library('seo');
-		$this->load->model('blog_model');
+		$this->load->model(array('blog_model', 'case_study_model'));
 		$urls = array();
-		$add = function ($path, $modified = NULL) use (&$urls) {
-			$urls[] = array('loc' => $this->seo->canonical($path), 'lastmod' => $modified ? date('Y-m-d', strtotime($modified)) : NULL);
+		$seen = array();
+		$add = function ($path, $modified = NULL) use (&$urls, &$seen) {
+			$loc = $this->seo->canonical_for($path);
+			if (isset($seen[$loc]))
+			{
+				return;
+			}
+			$seen[$loc] = TRUE;
+			$urls[] = array('loc' => $loc, 'lastmod' => $modified ? date('Y-m-d', strtotime($modified)) : NULL);
 		};
+		// Left out: pages set to noindex, and pages whose canonical URL points at another address (that address is listed itself).
 		$noindex = array();
-		foreach ($this->db->select('entity_type, entity_key')->like('robots', 'noindex', 'after')->get('seo_metadata')->result_array() as $row)
+		$forced_index = array();   // "index, follow" chosen explicitly in the admin overrides the sample/thin defaults below
+		foreach ($this->db->select('entity_type, entity_key, robots, canonical_url')->group_start()->like('robots', 'noindex', 'after')->or_like('robots', 'index', 'after')->or_where('canonical_url IS NOT NULL', NULL, FALSE)->group_end()->get('seo_metadata')->result_array() as $row)
 		{
-			$noindex[$row['entity_type'].':'.$row['entity_key']] = TRUE;
+			if (stripos((string) $row['robots'], 'index') === 0)
+			{
+				$forced_index[$row['entity_type'].':'.$row['entity_key']] = TRUE;
+			}
+			if (stripos((string) $row['robots'], 'noindex') === 0)
+			{
+				$noindex[$row['entity_type'].':'.$row['entity_key']] = TRUE;
+			}
+			elseif (trim((string) $row['canonical_url']) !== '')
+			{
+				$noindex[$row['entity_type'].':'.$row['entity_key']] = $row['canonical_url'];
+			}
 		}
+		$skip = function ($key, $path) use (&$noindex) {
+			if ( ! isset($noindex[$key]))
+			{
+				return FALSE;
+			}
+			if ($noindex[$key] === TRUE)
+			{
+				return TRUE;
+			}
+			// Compared by path, so the live-domain value saved for the homepage also matches on a local copy.
+			$target = rtrim((string) parse_url($this->seo->resolve_canonical($path, $noindex[$key]), PHP_URL_PATH), '/');
+			return $path === '' ? ! seo_is_home_url($this->seo->resolve_canonical($path, $noindex[$key])) : substr($target, -strlen('/'.$path)) !== '/'.$path;
+		};
 		foreach (array('home' => '', 'about' => 'about', 'services' => 'services', 'products' => 'products', 'portfolio' => 'portfolio', 'case-studies' => 'case-studies', 'blog' => 'blog', 'careers' => 'careers', 'contact' => 'contact', 'areas-we-serve' => 'areas-we-serve', 'privacy-policy' => 'privacy-policy', 'terms' => 'terms', 'cookie-policy' => 'cookie-policy') as $key => $path)
 		{
-			if ( ! isset($noindex['page:'.$key]))
+			if ( ! $skip('page:'.$key, $path))
 			{
 				$add($path);
 			}
@@ -32,10 +65,12 @@ class Sitemap extends MY_Controller {
 		);
 		foreach ($tables as $source)
 		{
-			$rows = $this->db->select('id, slug, updated_at')->where('status', $source[2])->where('deleted_at IS NULL', NULL, FALSE)->get($source[0])->result_array();
+			$rows = $this->db->select($source[0] === 'case_studies' ? 'id, slug, updated_at, card_label, status_label' : 'id, slug, updated_at')->where('status', $source[2])->where('deleted_at IS NULL', NULL, FALSE)->get($source[0])->result_array();
 			foreach ($rows as $row)
 			{
-				if ( ! isset($noindex[$source[3].':'.$row['id']]))
+				// Sample case studies are noindex by default, the same rule the page itself uses.
+				$sample = $source[0] === 'case_studies' && Case_study_model::is_sample($row) && ! isset($forced_index['case_study:'.$row['id']]);
+				if ( ! $sample && ! $skip($source[3].':'.$row['id'], $source[1].'/'.$row['slug']))
 				{
 					$add($source[1].'/'.$row['slug'], $row['updated_at']);
 				}
@@ -43,14 +78,16 @@ class Sitemap extends MY_Controller {
 		}
 		foreach ($this->blog_model->list_public(array(), 5000) as $post)
 		{
-			if ( ! isset($noindex['blog:'.$post['id']]))
+			if ( ! $skip('blog:'.$post['id'], 'blog/'.$post['slug']))
 			{
 				$add('blog/'.$post['slug'], $post['updated_at']);
 			}
 		}
 		foreach ($this->blog_model->categories() as $category)
 		{
-			if ($this->blog_model->count_public(array('category_id' => $category['id'])) > 0)
+			// Categories with fewer than two articles are noindex by default, the same rule the page itself uses.
+			$articles = $this->blog_model->count_public(array('category_id' => $category['id']));
+			if (($articles >= 2 OR ($articles > 0 && isset($forced_index['blog_category:'.$category['id']]))) && ! $skip('blog_category:'.$category['id'], 'blog/category/'.$category['slug']))
 			{
 				$add('blog/category/'.$category['slug']);
 			}

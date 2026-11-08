@@ -33,7 +33,7 @@ class Home extends Public_Controller {
 		$this->render('frontend/legal/page', array(
 			'legal_page' => $page,
 			'legal_title' => $item[0],
-			'seo' => $this->seo->build(array('title' => $item[0].' | '.setting('company_name'), 'description' => $item[2], 'path' => $item[1],
+			'seo' => $this->seo->build(array('entity' => array('page', $item[1]), 'title' => $item[0].' | '.setting('company_name'), 'description' => $item[2], 'path' => $item[1],
 				'breadcrumbs' => array('Home' => '', $item[0] => NULL))),
 		));
 	}

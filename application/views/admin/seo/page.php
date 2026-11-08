@@ -20,7 +20,8 @@ $robots = isset($seo['robots']) ? $seo['robots'] : '';
     <label for="og_description">Open Graph description (optional)</label>
     <textarea id="og_description" name="og_description" rows="3" maxlength="500"><?= $v('og_description') ?></textarea>
     <label for="canonical_url">Canonical URL (optional)</label>
-    <input id="canonical_url" type="url" name="canonical_url" value="<?= $v('canonical_url') ?>" placeholder="https://">
+    <input id="canonical_url" type="url" name="canonical_url" value="<?= $v('canonical_url') ?>" placeholder="<?= e(seo_production_url($key === 'home' ? '' : $key)) ?>" aria-describedby="canonical_help">
+    <p class="gz-help" id="canonical_help">Leave empty to use this page's own address, <?= e(seo_production_url($key === 'home' ? '' : $key)) ?>. A noindex page always uses its own address.</p>
     <?php $image = isset($seo['og_image']) ? (string) $seo['og_image'] : ''; ?>
     <label for="og_image">Social sharing image (optional)</label>
     <div class="gz-image-field" data-gz-image data-gz-brand="1">

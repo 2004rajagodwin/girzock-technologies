@@ -5,14 +5,15 @@ class Seo extends Admin_Controller {
 
 	protected $module = 'seo';
 
-	const PAGES = array('home' => 'Homepage', 'about' => 'About', 'services' => 'Services', 'products' => 'Products', 'portfolio' => 'Portfolio', 'case-studies' => 'Case Studies', 'blog' => 'Blog', 'careers' => 'Careers', 'contact' => 'Contact', 'areas-we-serve' => 'Areas We Serve');
+	const PAGES = array('home' => 'Homepage', 'about' => 'About', 'services' => 'Services', 'products' => 'Products', 'portfolio' => 'Portfolio', 'case-studies' => 'Case Studies', 'blog' => 'Blog', 'careers' => 'Careers', 'contact' => 'Contact', 'areas-we-serve' => 'Areas We Serve', 'privacy-policy' => 'Privacy Policy', 'terms' => 'Terms and Conditions', 'cookie-policy' => 'Cookie Policy');
 
 	public function index()
 	{
 		$pages = array();
 		foreach (self::PAGES as $key => $label)
 		{
-			$pages[$key] = array('label' => $label, 'seo' => $this->settings_model->seo('page', $key));
+			$seo = $this->settings_model->seo('page', $key);
+			$pages[$key] = array('label' => $label, 'seo' => $seo, 'live' => $this->live_url($key === 'home' ? '' : $key, $seo), 'noindex' => isset($seo['robots']) && stripos((string) $seo['robots'], 'noindex') === 0);
 		}
 		$types = array(
 			array('Services', 'services', 'service', 'services'),
@@ -25,9 +26,16 @@ class Seo extends Admin_Controller {
 		$content = array();
 		foreach ($types as $type)
 		{
-			$rows = $this->db->select($type[1].'.id, '.$type[1].'.title, '.$type[1].'.slug, seo_metadata.meta_title, seo_metadata.meta_description')
+			$rows = $this->db->select($type[1].'.id, '.$type[1].'.title, '.$type[1].'.slug, '.$type[1].'.status, seo_metadata.meta_title, seo_metadata.meta_description, seo_metadata.robots, seo_metadata.canonical_url'.($type[1] === 'case_studies' ? ', case_studies.card_label, case_studies.status_label' : ''))
 				->join('seo_metadata', "seo_metadata.entity_type = ".$this->db->escape($type[2])." AND seo_metadata.entity_key = ".$type[1].".id", 'left', FALSE)
 				->where($type[1].'.deleted_at IS NULL', NULL, FALSE)->order_by($type[1].'.title', 'ASC')->get($type[1])->result_array();
+			foreach ($rows as &$row)
+			{
+				$row['live'] = $this->live_url($type[3].'/'.$row['slug'], $row);
+				$explicit = (string) $row['robots'];
+				$row['noindex'] = stripos($explicit, 'noindex') === 0 || ($explicit === '' && $type[1] === 'case_studies' && $this->is_sample_study($row));
+			}
+			unset($row);
 			$content[] = array('label' => $type[0], 'route' => $type[3], 'rows' => $rows);
 		}
 		$this->render('admin/seo/index', array(
@@ -37,6 +45,24 @@ class Seo extends Admin_Controller {
 			'redirects' => $this->db->order_by('id', 'DESC')->get('url_redirects', 100)->result_array(),
 			'can_edit' => $this->auth->can('seo', 'edit'),
 		));
+	}
+
+	/** The address this page has on the live site: a valid override, otherwise its own production URL. */
+	private function live_url($path, $seo)
+	{
+		$stored = isset($seo['canonical_url']) ? trim((string) $seo['canonical_url']) : '';
+		$noindex = isset($seo['robots']) && stripos((string) $seo['robots'], 'noindex') === 0;
+		if ($stored !== '' && ! $noindex && seo_canonical_error($stored, $path === '') === NULL)
+		{
+			return seo_is_home_url($stored) ? rtrim(seo_normalize_url($stored), '/').'/' : seo_normalize_url($stored);
+		}
+		return seo_production_url($path);
+	}
+
+	private function is_sample_study(array $row)
+	{
+		$this->load->model('case_study_model');
+		return Case_study_model::is_sample($row);
 	}
 
 	public function page($key = '')
@@ -68,9 +94,9 @@ class Seo extends Admin_Controller {
 			{
 				$error = 'The title or description is too long.';
 			}
-			elseif ($seo['canonical_url'] !== '' && ! is_safe_http_url($seo['canonical_url']))
+			elseif (($canonical_error = seo_canonical_error($seo['canonical_url'], $key === 'home')) !== NULL)
 			{
-				$error = 'The canonical URL must be a full URL.';
+				$error = $canonical_error;
 			}
 			elseif ($image_error !== NULL)
 			{

@@ -298,3 +298,8 @@ input[type="text"], input[type="search"], input[type="email"], input[type="passw
   .gz-app-head { flex-direction: column; }
   .gz-app-foot .gz-btn { flex: 1 1 100%; }
 }
+
+/* Long URLs in tables wrap instead of widening the page */
+.gz-break { overflow-wrap: anywhere; font-size: 13px; }
+.gz-table td.gz-right .gz-btn { white-space: nowrap; }
+.gz-help[data-gz-canonical-auto] { margin-bottom: 14px; overflow-wrap: anywhere; }

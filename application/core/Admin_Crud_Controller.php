@@ -141,8 +141,8 @@ abstract class Admin_Crud_Controller extends Admin_Controller {
 
 	private function seo_public_origin()
 	{
-		$public = trim((string) girzock_env('PUBLIC_URL', ''));
-		return $public !== '' ? $public : site_url();
+		// The search preview shows the live address (https://girzock.com), also on a local copy.
+		return seo_production_origin().'/';
 	}
 
 	/**
@@ -289,9 +289,10 @@ abstract class Admin_Crud_Controller extends Admin_Controller {
 					$errors['seo_'.$key] = 'This is too long.';
 				}
 			}
-			if ($seo['canonical_url'] !== '' && ! is_safe_http_url($seo['canonical_url']))
+			$canonical_error = seo_canonical_error($seo['canonical_url'], FALSE);
+			if ($canonical_error !== NULL)
 			{
-				$errors['seo_canonical_url'] = 'Enter a full URL starting with http:// or https://.';
+				$errors['seo_canonical_url'] = $canonical_error;
 			}
 			if ( ! in_array($seo['robots'], array('', 'index, follow', 'noindex, follow', 'noindex, nofollow'), TRUE))
 			{

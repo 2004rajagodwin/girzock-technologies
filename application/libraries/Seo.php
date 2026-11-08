@@ -17,16 +17,32 @@ class Seo {
 	/** The public origin used for canonical URLs; PUBLIC_URL in .env or the base URL. */
 	public function canonical($path = '')
 	{
-		$public = trim((string) girzock_env('PUBLIC_URL', ''));
-		$path = ltrim($path, '/');
-		return $public !== '' ? rtrim($public, '/').'/'.$path : site_url($path);
+		return seo_public_url($path);
+	}
+
+	/** The clean, indexable address for a path. See seo_canonical_for() in the girzock helper. */
+	public function canonical_for($path)
+	{
+		return seo_canonical_for($path);
+	}
+
+	public function canonical_error($url, $is_home = FALSE)
+	{
+		return seo_canonical_error($url, $is_home);
+	}
+
+	public function resolve_canonical($path, $stored_url = '', $noindex = FALSE)
+	{
+		return seo_resolve_canonical($path, $stored_url, $noindex);
 	}
 
 	public function absolute_media($path)
 	{
 		if (preg_match('#^https?://#i', (string) $path))
 		{
-			return $path;
+			// A saved address on this website (local, http, www) is rewritten to the public origin; other sites are kept.
+			$own = seo_first_party_path($path);
+			return $own === NULL ? $path : $this->canonical($own);
 		}
 		return $this->canonical(ltrim((string) $path, '/'));
 	}
@@ -48,8 +64,10 @@ class Seo {
 			return empty($opts[$opt_key]) ? $default : $opts[$opt_key];
 		};
 
-		$path = isset($opts['path']) ? $opts['path'] : uri_string();
-		$canonical = ! empty($stored['canonical_url']) ? $stored['canonical_url'] : $this->canonical($path);
+		$path = trim(preg_replace('/[?#].*$/s', '', isset($opts['path']) ? (string) $opts['path'] : uri_string()), '/');
+		$robots_value = empty($opts['is_preview']) ? $pick('robots', 'robots', 'index, follow') : 'noindex, nofollow';
+		$indexable = stripos($robots_value, 'noindex') === FALSE;
+		$canonical = $this->resolve_canonical($path, isset($stored['canonical_url']) ? $stored['canonical_url'] : '', ! $indexable);
 		$image = $pick('og_image', 'image', $settings->get('default_og_image'));
 		$title = $pick('meta_title', 'title', $settings->get('default_meta_title'));
 		$description = $pick('meta_description', 'description', $settings->get('default_meta_description'));
@@ -75,7 +93,7 @@ class Seo {
 		}
 
 		$is_home = ($path === '' OR $path === '/');
-		$robots = empty($opts['is_preview']) ? $pick('robots', 'robots', 'index, follow') : 'noindex, nofollow';
+		$robots = $robots_value;
 		$size = $this->image_size($image);
 		$image_alt = ! empty($opts['image_alt']) ? $opts['image_alt'] : ($is_home && $settings->get('home_og_image_alt') ? $settings->get('home_og_image_alt') : $og_title);
 
@@ -87,6 +105,8 @@ class Seo {
 			'twitter_title' => $is_home && $settings->get('home_twitter_title') ? $settings->get('home_twitter_title') : $og_title,
 			'twitter_description' => $is_home && $settings->get('home_twitter_description') ? $settings->get('home_twitter_description') : $og_description,
 			'canonical' => $canonical,
+			// Only indexable pages print a canonical link; a noindex page with a canonical sends mixed signals.
+			'indexable' => $indexable,
 			'image' => $this->absolute_media($image),
 			'image_alt' => $image_alt,
 			'image_width' => $size ? $size[0] : NULL,

@@ -3,12 +3,12 @@
     <meta name="description" content="<?= e($seo['description']) ?>">
     <?php if ( ! empty($seo['keywords'])): ?><meta name="keywords" content="<?= e($seo['keywords']) ?>"><?php endif; ?>
     <meta name="author" content="<?= e(setting('company_name')) ?>">
-    <link rel="canonical" href="<?= e($seo['canonical']) ?>">
+    <?php if ( ! isset($seo['indexable']) OR $seo['indexable']): ?><link rel="canonical" href="<?= e($seo['canonical']) ?>"><?php endif; ?>
     <?php if ( ! empty($seo['prev'])): ?><link rel="prev" href="<?= e($seo['prev']) ?>"><?php endif; ?>
     <?php if ( ! empty($seo['next'])): ?><link rel="next" href="<?= e($seo['next']) ?>"><?php endif; ?>
     <meta name="robots" content="<?= e($seo['robots']) ?>">
     <?php if ( ! empty($seo['is_home'])): ?>
-    <meta name="googlebot" content="index, follow">
+    <?php if ( ! isset($seo['indexable']) OR $seo['indexable']): ?><meta name="googlebot" content="index, follow"><?php endif; ?>
     <meta name="language" content="English">
     <meta name="contact" content="<?= e(setting('contact_email')) ?>">
     <meta name="telephone" content="<?= e(preg_replace('/[^\d+]/', '', (string) setting('phone'))) ?>">

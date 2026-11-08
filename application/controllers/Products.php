@@ -45,7 +45,7 @@ class Products extends Public_Controller {
 				'image' => $product['image'],
 				'breadcrumbs' => array('Home' => '', 'Products' => 'products', $product['title'] => NULL),
 				'schema' => array(array('@context' => 'https://schema.org', '@type' => 'Product', 'name' => $product['title'], 'description' => $description,
-					'image' => $this->seo->absolute_media($product['image']), 'url' => $this->seo->canonical($path), 'brand' => array('@type' => 'Brand', 'name' => setting('company_name')))),
+					'image' => $this->seo->absolute_media($product['image']), 'url' => $this->seo->canonical_for($path), 'brand' => array('@type' => 'Brand', 'name' => setting('company_name')))),
 			)),
 		));
 	}

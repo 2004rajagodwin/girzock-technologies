@@ -350,3 +350,173 @@ function admin_date($datetime, $format = 'd M Y, H:i')
 {
 	return $datetime ? date($format, strtotime($datetime)) : '-';
 }
+
+/* -------------------------------------------------------------------------
+ * Canonical URLs (shared by the public pages, the sitemap and the admin forms)
+ * ---------------------------------------------------------------------- */
+
+/**
+ * The public origin plus a path, used for canonical, Open Graph, Twitter, sitemap and structured-data URLs.
+ * PUBLIC_URL in .env wins (cleaned to https and no www); without it the base URL is used, so a local copy keeps
+ * working on its own address.
+ */
+function seo_public_url($path = '')
+{
+	$public = trim((string) girzock_env('PUBLIC_URL', ''));
+	$path = ltrim((string) $path, '/');
+	if ($public !== '' && ($origin = seo_normalize_url($public)) !== '')
+	{
+		return rtrim($origin, '/').'/'.$path;
+	}
+	return site_url($path);
+}
+
+/** The production origin (https://girzock.com): PUBLIC_URL, else BASE_URL in production, else the configured address. */
+function seo_production_origin()
+{
+	$public = trim((string) girzock_env('PUBLIC_URL', ''));
+	if ($public === '' && girzock_env('APP_ENV', '') === 'production')
+	{
+		$public = trim((string) girzock_env('BASE_URL', ''));
+	}
+	if ($public === '')
+	{
+		$CI =& get_instance();
+		$CI->config->load('girzock', FALSE, TRUE);
+		$public = (string) $CI->config->item('gz_production_url');
+	}
+	return rtrim(seo_normalize_url($public), '/');
+}
+
+/** The address a path will have on the live site, for admin previews. */
+function seo_production_url($path = '')
+{
+	$path = trim(preg_replace('/[?#].*$/s', '', (string) $path), '/');
+	return seo_production_origin().'/'.$path;
+}
+
+/** Lower-case scheme and host, https and no "www." for a real domain, no query, fragment or trailing slash. */
+function seo_normalize_url($url)
+{
+	$parts = parse_url(trim((string) $url));
+	if ( ! $parts OR empty($parts['host']))
+	{
+		return '';
+	}
+	$host = strtolower($parts['host']);
+	$local = in_array($host, array('localhost', '127.0.0.1', '::1'), TRUE) || filter_var($host, FILTER_VALIDATE_IP) !== FALSE;
+	$scheme = $local ? strtolower(isset($parts['scheme']) ? $parts['scheme'] : 'http') : 'https';
+	if ( ! $local && strpos($host, 'www.') === 0)
+	{
+		$host = substr($host, 4);
+	}
+	$port = isset($parts['port']) ? ':'.$parts['port'] : '';
+	$path = isset($parts['path']) ? rtrim($parts['path'], '/') : '';
+	return $scheme.'://'.$host.$port.($path === '' ? '/' : $path);
+}
+
+/**
+ * The one address search engines should index for a path: no query string, no fragment, no trailing
+ * slash except on the homepage, always the configured public origin.
+ */
+function seo_canonical_for($path)
+{
+	$path = trim(preg_replace('/[?#].*$/s', '', (string) $path), '/');
+	$url = seo_normalize_url(seo_public_url($path));
+	return $path === '' ? rtrim($url, '/').'/' : $url;
+}
+
+/** TRUE when a URL is the homepage of this site (or the bare live domain). */
+function seo_is_home_url($url)
+{
+	$path = rtrim((string) parse_url(seo_normalize_url($url), PHP_URL_PATH), '/');
+	$home = rtrim((string) parse_url(seo_canonical_for(''), PHP_URL_PATH), '/');
+	return $path === '' OR $path === $home;
+}
+
+/**
+ * Why a manually entered canonical URL cannot be used, or NULL when it can. It must be a full address on this
+ * website, without a query string or fragment, and only the homepage may point at the homepage.
+ */
+function seo_canonical_error($url, $is_home = FALSE)
+{
+	$url = trim((string) $url);
+	if ($url === '')
+	{
+		return NULL;
+	}
+	$parts = parse_url($url);
+	if ( ! is_safe_http_url($url) OR ! $parts OR empty($parts['host']))
+	{
+		return 'Enter a full URL, for example '.seo_production_url('services').'.';
+	}
+	if (isset($parts['query']) OR isset($parts['fragment']) OR isset($parts['user']))
+	{
+		return 'Remove the ? or # part. A canonical URL has no query string, tracking code or fragment.';
+	}
+	$host = preg_replace('/^www\./', '', strtolower($parts['host']));
+	if (in_array($host, array('localhost', '127.0.0.1', '::1', '[::1]'), TRUE) OR filter_var(trim($host, '[]'), FILTER_VALIDATE_IP) !== FALSE)
+	{
+		return 'A local address cannot be a canonical URL. Use the live address, for example '.seo_production_url('services').', or leave the field empty.';
+	}
+	$site = strtolower((string) parse_url(seo_production_origin(), PHP_URL_HOST));
+	if ($host !== $site)
+	{
+		return 'The canonical URL must be an address on '.$site.'.';
+	}
+	if ( ! $is_home && seo_is_home_url($url))
+	{
+		return 'Only the homepage may use the homepage as its canonical URL. Leave the field empty to use this page\'s own address.';
+	}
+	return NULL;
+}
+
+/**
+ * The canonical URL for a page: the stored override when it is valid, otherwise the page's own address.
+ * A noindex page always uses its own address, so robots and canonical never send mixed signals.
+ */
+function seo_resolve_canonical($path, $stored_url = '', $noindex = FALSE)
+{
+	$path = trim(preg_replace('/[?#].*$/s', '', (string) $path), '/');
+	if ($noindex OR trim((string) $stored_url) === '' OR seo_canonical_error($stored_url, $path === '') !== NULL)
+	{
+		return seo_canonical_for($path);
+	}
+	$url = seo_normalize_url($stored_url);
+	return seo_is_home_url($url) ? rtrim($url, '/').'/' : $url;
+}
+
+/**
+ * A full URL pointing at this website (a local copy, http://, www., or the live domain) as a site-relative path,
+ * for example "assets/images/x.webp"; NULL for any other website. Lets saved image addresses follow the domain.
+ */
+function seo_first_party_path($url)
+{
+	$parts = parse_url(trim((string) $url));
+	if ( ! $parts OR empty($parts['host']))
+	{
+		return NULL;
+	}
+	$host = preg_replace('/^www\./', '', strtolower($parts['host']));
+	$local = in_array($host, array('localhost', '127.0.0.1', '::1'), TRUE) || filter_var($host, FILTER_VALIDATE_IP) !== FALSE;
+	$own = array_filter(array('girzock.com', parse_url(seo_production_origin(), PHP_URL_HOST), parse_url(seo_public_url(), PHP_URL_HOST)));
+	if ( ! $local && ! in_array($host, array_map(function ($h) { return preg_replace('/^www\./', '', strtolower($h)); }, $own), TRUE))
+	{
+		return NULL;
+	}
+	$path = isset($parts['path']) ? ltrim($parts['path'], '/') : '';
+	if ($local)
+	{
+		// A local copy usually runs in a sub-folder (girzock-website/); keep the part from the site's own folders on.
+		$base = trim((string) parse_url(site_url(), PHP_URL_PATH), '/');
+		if ($base !== '' && strpos($path, $base.'/') === 0)
+		{
+			$path = substr($path, strlen($base) + 1);
+		}
+		elseif (strpos($path, 'girzock-website/') === 0)
+		{
+			$path = substr($path, strlen('girzock-website/'));
+		}
+	}
+	return $path;
+}
